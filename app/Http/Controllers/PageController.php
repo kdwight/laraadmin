@@ -29,17 +29,6 @@ class PageController extends Controller
         return view('admin.pages.create');
     }
 
-    public function tinymce()
-    {
-        $src = request('file');
-        $filename = uniqid();
-        $filepath = "/uploads/pages/$filename." . $src->getClientOriginalExtension();
-        $image = \Image::make(file_get_contents($src))
-            ->save(public_path($filepath));
-
-        return response()->json(['location' => $filepath]);
-    }
-
     public function store()
     {
         $this->validate(request(), [

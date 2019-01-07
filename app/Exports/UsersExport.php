@@ -7,10 +7,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize, WithColumnFormatting
+class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     use Exportable;
 
@@ -23,21 +21,13 @@ class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize, WithC
     {
         return [
             '#',
-            'name',
+            'username',
             'role',
             'status',
             'created by',
             'updated by',
             'created at',
             'updated at',
-        ];
-    }
-
-    public function columnFormats() : array
-    {
-        return [
-            'G' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'H' => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
 

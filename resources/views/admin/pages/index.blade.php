@@ -25,9 +25,9 @@
                                 <form action="/pages/{{$page->id}}/status" method="POST">
                                     {{ csrf_field() }}
                                     {{ method_field('PATCH') }}
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input" name="status" {{$page->status ? 'checked' : ''}} onChange="this.form.submit()">
+                                    <div class="">
+                                        <label class="">
+                                            <input type="checkbox" class="" name="status" {{$page->status ? 'checked' : ''}} onChange="this.form.submit()">
                                             {{$page->status ? 'active' : 'not active'}}
                                         </label>
                                     </div>

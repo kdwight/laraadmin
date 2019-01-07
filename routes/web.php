@@ -11,8 +11,6 @@ Route::get('/admin_logout', 'AdminSessionController@destroy');
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::post('/tinymce', 'PageController@tinymce');
-
     Route::patch('/pages/{page}/status', 'PageController@status');
     Route::resource('pages', 'PageController');
 
