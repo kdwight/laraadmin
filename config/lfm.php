@@ -73,7 +73,6 @@ return [
                 'image/png',
                 'image/gif',
                 'image/svg+xml',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             ],
         ],
         'image' => [
