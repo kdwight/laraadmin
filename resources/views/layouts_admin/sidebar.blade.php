@@ -16,7 +16,16 @@
             </div>
         </li>
 
-        @if (in_array("pages", json_decode(auth()->user()->hasAccess()->access)))
+        @for ($i = 0; $i < count($sidebar); $i++)
+            <li class="nav-item {{ (request()->is($sidebar[$i] . '*')) ? 'active' : '' }}">
+                <a class="nav-link" href="/{{ $sidebar[$i] }}">
+                    <i class="menu-icon fa  {{ (request()->is($sidebar[$i] . '*')) ? 'fa-circle' : 'fa-circle-o' }}"></i>
+                    <span class="menu-title">{{ ucwords(str_replace('_', ' ', $sidebar[$i])) }}</span>
+                </a>
+            </li>
+        @endfor
+
+        {{-- @if (in_array("pages", json_decode(auth()->user()->hasAccess()->access)))
         <li class="nav-item {{ (request()->is('pages*')) ? 'active' : '' }}">
             <a class="nav-link" href="/pages">
                 <i class="menu-icon fa fa-files-o"></i>
@@ -31,6 +40,6 @@
                 <span class="menu-title">Users</span>
             </a>
         </li>
-        @endif
+        @endif --}}
     </ul>
 </nav>
