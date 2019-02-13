@@ -132,8 +132,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
-        return view('admin.users.create', compact('roles'));
+        return view('admin.users.create');
     }
 
     public function store()
@@ -147,8 +146,7 @@ class UserController extends Controller
         User::create([
             'username' => request('username'),
             'type' => request('type'),
-            'password' => bcrypt(request('password')),
-            'created_by' => auth()->id()
+            'password' => bcrypt(request('password'))
         ]);
 
         return redirect('/users')->with('success', 'User created');
@@ -156,9 +154,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::all();
         if ($user->id != 1) {
-            return view('admin.users.edit', compact('user', 'roles'));
+            return view('admin.users.edit', compact('user'));
         }
         return back();
     }
@@ -173,8 +170,7 @@ class UserController extends Controller
         $user->update([
             'username' => request('username'),
             'type' => request('type'),
-            'password' => bcrypt(request('password')),
-            'updated_by' => auth()->id()
+            'password' => bcrypt(request('password'))
         ]);
 
         return redirect('/users')->with('success', 'User updated');
@@ -183,8 +179,7 @@ class UserController extends Controller
     public function status(User $user)
     {
         $user->update([
-            'status' => request()->has('status'),
-            'updated_by' => auth()->id()
+            'status' => request()->has('status')
         ]);
         return back()->with('success', 'Status has been updated');
     }

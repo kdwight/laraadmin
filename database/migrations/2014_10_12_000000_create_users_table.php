@@ -23,6 +23,9 @@ class CreateUsersTable extends Migration
             $table->bigInteger('created_by');
             $table->bigInteger('updated_by')->nullable();
             $table->rememberToken();
+            $table->datetime('last_login_at')->nullable();
+            $table->string('last_login_ip')->nullable();
+            $table->string('last_user_agent')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

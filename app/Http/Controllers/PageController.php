@@ -31,18 +31,13 @@ class PageController extends Controller
 
     public function store()
     {
-        $this->validate(request(), [
+        $attr = $this->validate(request(), [
             'title' => 'required',
             'slug' => 'required|unique:pages,slug',
             'description' => 'required',
         ]);
 
-        Page::create([
-            'title' => request('title'),
-            'slug' => request('slug'),
-            'description' => request('description'),
-            'created_by' => auth()->id()
-        ]);
+        Page::create($attr);
 
         return redirect('/pages')->with('success', 'Page created');
     }
@@ -54,18 +49,13 @@ class PageController extends Controller
 
     public function update(Page $page)
     {
-        $this->validate(request(), [
+        $attr = $this->validate(request(), [
             'title' => 'required',
             'slug' => ['required', Rule::unique('pages')->ignore($page->id)],
             'description' => 'required',
         ]);
 
-        $page->update([
-            'title' => request('title'),
-            'slug' => request('slug'),
-            'description' => request('description'),
-            'updated_by' => auth()->user()->id
-        ]);
+        $page->update($attr);
 
         return redirect('/pages')->with('success', 'Page updated');
     }
@@ -88,8 +78,7 @@ class PageController extends Controller
     public function status(Page $page)
     {
         $page->update([
-            'status' => request()->has('status'),
-            'updated_by' => auth()->id()
+            'status' => request()->has('status')
         ]);
         return back()->with('success', 'Status has been updated');
     }
