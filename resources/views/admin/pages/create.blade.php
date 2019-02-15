@@ -2,11 +2,12 @@
 
 @section('content')
 
-<div class="col-md-12 grid-margin stretch-card">
+<page-form></page-form>
+
+{{-- <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Add a page</h4>
-            <div id="app2">
             <form class="forms-sample" action="/pages" method="post">
                 {{ csrf_field() }}
 
@@ -37,9 +38,8 @@
                 <button type="submit" class="btn btn-success mr-2">Submit</button>
                 <a href="/pages" class="btn btn-light">Cancel</a>
             </form>
-</div>
         </div>
     </div>
-</div>
+</div> --}}
 
 @endsection

@@ -29,7 +29,7 @@ if (title_field) {
 // turns textarea into wysiwyg with laravel file manager
 const editor_config = {
     path_absolute: "/",
-    selector: "#description",
+    selector: ".description",
     height: 400,
     plugins: [
         "link image hr anchor pagebreak",

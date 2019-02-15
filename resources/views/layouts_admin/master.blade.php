@@ -36,6 +36,7 @@
                     <div class="content-wrapper">
                         <!-- content -->
                         @yield('content')
+                        <flash message="{{ session('success') }}"></flash>
                     </div>
 
                     @include('layouts_admin.footer')

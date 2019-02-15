@@ -39,7 +39,9 @@ class PageController extends Controller
 
         Page::create($attr);
 
-        return redirect('/pages')->with('success', 'Page created');
+        return response()->json('success! Page created', 200);
+
+        // return redirect('/pages')->with('success', 'Page created');
     }
 
     public function edit(Page $page)

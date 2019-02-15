@@ -50,6 +50,4 @@
     </div>
 </div>
 
-<flash message="{{ session('success') }}"></flash>
-
 @endsection

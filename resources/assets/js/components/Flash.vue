@@ -1,13 +1,13 @@
 <template>
-    <div id="success" class="alert alert-success alert-flash" role="alert" v-show="show">
-        <strong>Success!</strong> {{ body }}
-    </div>
+  <div id="success" class="alert alert-success alert-flash" role="alert" v-show="show">
+    <strong>Success!</strong>
+    {{ body }}
+  </div>
 </template>
 
 <script>
 export default {
   props: ["message"],
-
   data() {
     return {
       body: "",
@@ -20,21 +20,17 @@ export default {
       this.flash(this.message);
     }
 
-    // window.events.$on("flash", message => this.flash(message));
+    window.events.$on("flash", message => {
+      this.flash(message);
+    });
   },
-
-  mounted() {
-            console.log('flash mounted.')
-        },
 
   methods: {
     flash(message) {
       this.body = message;
       this.show = true;
-
       this.hide();
     },
-
     hide() {
       setTimeout(() => {
         this.show = false;

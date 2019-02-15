@@ -29,7 +29,7 @@
 
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea id="description" name="description">{!! $page->description !!}</textarea>
+                    <textarea class="description" name="description">{!! $page->description !!}</textarea>
                     @if ( $errors->has('description'))
                         <p class="text-danger">{{ $errors->first('description') }}</p>
                     @endif

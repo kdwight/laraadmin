@@ -24,22 +24,5 @@
                 </a>
             </li>
         @endfor
-
-        {{-- @if (in_array("pages", json_decode(auth()->user()->hasAccess()->access)))
-        <li class="nav-item {{ (request()->is('pages*')) ? 'active' : '' }}">
-            <a class="nav-link" href="/pages">
-                <i class="menu-icon fa fa-files-o"></i>
-                <span class="menu-title">Pages</span>
-            </a>
-        </li>
-        @endif
-        @if ( Auth::user()->type == 'admin' )
-        <li class="nav-item {{ (request()->is('users*')) ? 'active' : '' }}">
-            <a class="nav-link" href="/users">
-                <i class="menu-icon fa fa-users"></i>
-                <span class="menu-title">Users</span>
-            </a>
-        </li>
-        @endif --}}
     </ul>
 </nav>
