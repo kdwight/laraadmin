@@ -20,14 +20,14 @@ class UserTableSeeder extends Seeder
 
         $admin = new \App\Role();
         $admin->name = 'admin';
-        $admin->access = '["pages","bookings","inquiries","articles","services", "users"]';
+        $admin->access = '["pages","articles","users"]';
         $admin->description = 'Administrator';
         $admin->save();
 
         $editor = new \App\Role();
-        $editor->name = 'editor';
-        $editor->access = '["pages","articles"]';
-        $editor->description = 'Content Editor';
+        $editor->name = 'bonak';
+        $editor->access = '["articles"]';
+        $editor->description = 'ka-bonakan';
         $editor->save();
 
         $users = factory(App\User::class, 10)->create();

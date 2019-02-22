@@ -20,7 +20,23 @@ class PageController extends Controller
     //admin side
     public function index()
     {
-        $pages = Page::latest()->get();
+        $pages = Page::all();
+
+        /*  $response = [
+            'pagination' => [
+                'total' => $pages->total(),
+                'per_page' => $pages->perPage(),
+                'current_page' => $pages->currentPage(),
+                'last_page' => $pages->lastPage(),
+                'from' => $pages->firstItem(),
+                'to' => $pages->lastItem()
+            ],
+            'pages' => $pages
+        ]; */
+
+        if (request()->ajax()) {
+            return response($pages);
+        }
         return view('admin.pages.index', compact('pages'));
     }
 
@@ -39,7 +55,7 @@ class PageController extends Controller
 
         Page::create($attr);
 
-        return response()->json('success! Page created', 200);
+        return response()->json('Page created', 200);
 
         // return redirect('/pages')->with('success', 'Page created');
     }
@@ -59,7 +75,8 @@ class PageController extends Controller
 
         $page->update($attr);
 
-        return redirect('/pages')->with('success', 'Page updated');
+        return response()->json('Page updated', 200);
+        // return redirect('/pages')->with('success', 'Page updated');
     }
 
     public function destroy(Page $page)
@@ -70,18 +87,27 @@ class PageController extends Controller
 
         foreach ($images as $tag) {
             $file = $tag->getAttribute('src');
-            unlink(public_path($file));
+            @unlink(public_path($file));
         }
 
         $page->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json('Page deleted', 200);
+        }
+
         return redirect('/pages')->with('success', 'Page deleted');
     }
 
     public function status(Page $page)
     {
         $page->update([
-            'status' => request()->has('status')
+            'status' => request('status')
         ]);
+
+        if (request()->expectsJson()) {
+            return response()->json('status updated', 200);
+        }
         return back()->with('success', 'Status has been updated');
     }
 }

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{env('APP_NAME')}}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
 
     {{-- staradmin template --}}
     <link rel="stylesheet" href="{{ asset('staradmin/vendors/iconfonts/font-awesome/css/font-awesome.css') }}">
@@ -53,7 +54,7 @@
     <script src="{{ asset('staradmin/js/misc.js') }}"></script>
     {{-- staradmin template --}}
 
-    <script src="{{ asset('datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('datatables/datatables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('datatables/jquery-ui.js') }}" ></script>
     <script type="text/javascript" src='{{asset('tinymce/tinymce.min.js')}}'></script>
 

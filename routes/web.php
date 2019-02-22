@@ -11,6 +11,7 @@ Route::get('/admin_logout', 'AdminSessionController@destroy');
 
 Route::group(['middleware' => ['auth']], function () {
 
+    Route::get('/vue/pages', 'PageController@index');
     Route::patch('/pages/{page}/status', 'PageController@status');
     Route::resource('pages', 'PageController');
 
@@ -28,4 +29,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('users/sort', 'UserController@updateOrder');
     Route::patch('/users/{user}/status', 'UserController@status');
     Route::resource('users', 'UserController');
+});
+
+//it fallsback here when a route doesn't exist.
+Route::fallback(function () {
+    return '안녕 bye';
 });

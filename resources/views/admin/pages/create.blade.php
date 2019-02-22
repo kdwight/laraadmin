@@ -2,7 +2,55 @@
 
 @section('content')
 
-<page-form></page-form>
+<page-form inline-template>
+
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body" @keyup="enable">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              name="title"
+              class="form-control"
+              placeholder="Title"
+              v-model="title"
+              @keyup="slugify"
+            >
+            <p class="text-danger" v-if="errors.title" v-text="errors.title[0]"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="slug">Slug</label>
+            <input type="text" name="slug" placeholder="Slug" class="form-control" v-model="slug">
+            <p class="text-danger" v-if="errors.slug" v-text="errors.slug[0]"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <p class="text-danger" v-if="errors.description" v-text="errors.description[0]"></p>
+            <editor
+              :plugins="plugins"
+              :toolbar="toolbars"
+              :init="{ file_browser_callback }"
+              ref="tinymce"
+              v-model="description"
+              rows="10"
+              @onKeyUp="enable"
+            ></editor>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-success mr-2"
+            @click="createPage"
+            :disabled="disabled"
+          >Submit</button>
+          <a href="/pages" class="btn btn-light">Cancel</a>
+        </div>
+      </div>
+    </div>
+
+</page-form>
 
 {{-- <div class="col-md-12 grid-margin stretch-card">
     <div class="card">

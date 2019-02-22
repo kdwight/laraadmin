@@ -1,10 +1,12 @@
 @extends('layouts_admin.master')
 
 @section('content')
+
 <a href="/pages/create" class="btn btn-primary">Add Page</a>
 <br><br>
 
-<div class="col-lg-12 grid-margin stretch-card">
+<page></page>
+{{-- <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">List of Pages</h4>
@@ -48,6 +50,5 @@
             </div>
         </div>
     </div>
-</div>
-
+</div> --}}
 @endsection
