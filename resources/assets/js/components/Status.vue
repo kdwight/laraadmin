@@ -1,7 +1,7 @@
 <template>
-  <button :class="classes" @click="toggle">
-    <i :class="icon"></i>
-  </button>
+  <v-btn color="primary" :outline="classes" fab small dark @click="toggle">
+    <v-icon>{{ icon }}</v-icon>
+  </v-btn>
 </template>
 
 <script>
@@ -15,14 +15,11 @@ export default {
 
   computed: {
     classes() {
-      return [
-        "btn btn-icons btn-rounded",
-        this.active ? "btn-primary" : " btn-outline-primary"
-      ];
+      return this.active ? false : true;
     },
 
     icon() {
-      return ["fa", this.active ? "fa-check" : "fa-times"];
+      return this.active ? "check" : "close";
     }
   },
 
@@ -39,7 +36,7 @@ export default {
         .then(({ data }) => {
           this.active = false;
 
-          flash(data);
+          flash("yay");
         });
     },
 

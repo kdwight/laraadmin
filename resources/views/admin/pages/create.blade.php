@@ -1,8 +1,8 @@
 @extends('layouts_admin.master')
 
 @section('content')
-
-<page-form inline-template>
+<page-form></page-form>
+{{-- <page-form inline-template>
 
     <div class="col-md-12 grid-margin stretch-card">
       <div class="card">
@@ -50,7 +50,7 @@
       </div>
     </div>
 
-</page-form>
+</page-form> --}}
 
 {{-- <div class="col-md-12 grid-margin stretch-card">
     <div class="card">

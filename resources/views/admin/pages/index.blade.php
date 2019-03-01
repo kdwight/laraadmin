@@ -2,8 +2,8 @@
 
 @section('content')
 
-<a href="/pages/create" class="btn btn-primary">Add Page</a>
-<br><br>
+{{-- <a href="/pages/create" class="btn btn-primary">Add Page</a>
+<br><br> --}}
 
 <page></page>
 {{-- <div class="col-lg-12 grid-margin stretch-card">

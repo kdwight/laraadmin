@@ -50,7 +50,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-success mr-2">Submit</button>
-                <a href="/users" class="btn btn-light">Cancel</a>
+                <a href="{{ url()->previous() }}" class="btn btn-light">Cancel</a>
             </form>
 
         </div>

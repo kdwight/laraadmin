@@ -19,32 +19,45 @@
     <link rel="shortcut icon" href="{{ asset('staradmin/images/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('datatables/datatables.min.css') }}">
     @stack('styles')
+
+    <script>
+        window.App = {!!
+                json_encode([
+                    'user' => auth()->user(),
+                    'signedIn' => auth()->check(),
+                    'sidebar' => $sidebar
+                ])
+            !!}
+    </script>
 </head>
 
 <body>
     <div id="app">
-        <div class="container-scroller">
+        <v-app>
 
-            @include('layouts_admin.navbar')
-            <!-- partial:layouts_admin/navbar -->
+            <topbar></topbar>
+            <sidebar></sidebar>
+            <flash message="{{ session('success') }}"></flash>
 
-            <div class="container-fluid page-body-wrapper">
+            {{-- <div class="container-scroller">
 
-                @include('layouts_admin.sidebar')
-                <!-- partial:layouts_admin/sidebar -->
+                @include('layouts_admin.navbar')
 
-                <div class="main-panel">
-                    <div class="content-wrapper">
-                        <!-- content -->
-                        @yield('content')
-                        <flash message="{{ session('success') }}"></flash>
+                <div class="container-fluid page-body-wrapper">
+
+                    @include('layouts_admin.sidebar')
+
+                    <div class="main-panel">
+                        <div class="content-wrapper"> --}}
+                            @yield('content')
+                            {{-- <flash message="{{ session('success') }}"></flash>
+                        </div>
+
+                        @include('layouts_admin.footer')
                     </div>
-
-                    @include('layouts_admin.footer')
-                    <!-- partial:layouts_admin/footer -->
                 </div>
-            </div>
-        </div>
+        </div> --}}
+        </v-app>
     </div>
 
     {{-- staradmin template --}}

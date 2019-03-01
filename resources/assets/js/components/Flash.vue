@@ -1,8 +1,8 @@
 <template>
-  <div id="success" class="alert alert-success alert-flash" role="alert" v-show="show">
+  <v-alert :value="true" type="success" class="alert-flash" v-show="show">
     <strong>Success!</strong>
     {{ body }}
-  </div>
+  </v-alert>
 </template>
 
 <script>
@@ -44,6 +44,6 @@ export default {
 .alert-flash {
   position: fixed;
   right: 25px;
-  bottom: 25px;
+  bottom: 50px;
 }
 </style>

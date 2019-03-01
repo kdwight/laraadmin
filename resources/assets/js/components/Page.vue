@@ -1,32 +1,42 @@
 <template>
-  <div data-app>
-    <v-card>
-      <v-card-title>Pages
-        <v-spacer></v-spacer>
-        <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
-      </v-card-title>
+  <v-content>
+    <v-container fluid>
+      <v-layout align-center justify-center>
+        <v-flex xs10>
+          <v-card>
+            <v-card-title>Pages
+              <v-btn href="/pages/create" color="primary">New Page</v-btn>
+              <v-spacer></v-spacer>
+              <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
+            </v-card-title>
 
-      <v-data-table :headers="headers" :items="pages" :search="search">
-        <template slot="items" slot-scope="props" class="table">
-          <td width="35%">{{ props.item.title }}</td>
-          <td width="35%">{{ props.item.slug }}</td>
-          <td width="30%">
-            <status :attributes="props.item" :endpoint="`/pages/${props.item.id}/status`"></status>
+            <v-data-table :headers="headers" :items="pages" :search="search">
+              <template slot="items" slot-scope="props">
+                <td width="70%">{{ props.item.title }}</td>
+                <td width="30%">
+                  <status :attributes="props.item" :endpoint="`/pages/${props.item.id}/status`"></status>
 
-            <a :href="`/pages/${props.item.id}/edit`">
-              <button class="btn btn-icons btn-success btn-rounded">
-                <i class="fa fa-pencil"></i>
-              </button>
-            </a>
-            
-            <button class="btn btn-icons btn-danger btn-rounded" @click="delPage(page.id)">
-              <i class="fa fa-trash"></i>
-            </button>
-          </td>
-        </template>
-      </v-data-table>
-    </v-card>
-  </div>
+                  <v-btn :href="`/pages/${props.item.id}/edit`" color="success" fab small dark>
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+
+                  <v-btn @click="delPage(props.item)" color="error" fab small dark>
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </td>
+              </template>
+            </v-data-table>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -39,10 +49,8 @@ export default {
     return {
       search: "",
       pages: [],
-      filters: "",
       headers: [
         { text: "Title", value: "title" },
-        { text: "Slug", value: "slug" },
         {
           text: "Action",
           align: "left",
@@ -65,20 +73,14 @@ export default {
   },
 
   methods: {
-    filterPages() {
-      const foo = this.pages.filter(page => {
-        return page.title == this.filters;
-      });
+    delPage(item) {
+      const index = this.pages.indexOf(item);
+      confirm("Are you sure you want to delete this item?") &&
+        axios.delete(`/pages/${item.id}`).then(({ data }) => {
+          this.pages.splice(index, 1);
 
-      this.pages = foo;
-    },
-
-    delPage(index) {
-      axios.delete(`/pages/${index}`).then(({ data }) => {
-        $(`#index-${index}`).fadeOut(300, () => {});
-
-        flash(data);
-      });
+          flash(data);
+        });
     }
   }
 };

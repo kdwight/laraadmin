@@ -1,3 +1,45 @@
+<template>
+  <v-content>
+    <v-container fluid>
+      <v-layout align-center justify-center>
+        <v-flex xs10>
+          <v-card>
+            <v-card-title>Pages</v-card-title>
+
+            <v-form>
+              <v-container>
+                <v-flex>
+                  <v-text-field label="First name" required></v-text-field>
+                </v-flex>
+
+                <v-flex>
+                  <v-text-field label="Last name" required></v-text-field>
+                </v-flex>
+
+                <v-flex>
+                  <label>Description</label>
+                  <editor
+                    :plugins="plugins"
+                    :toolbar="toolbars"
+                    :init="{ file_browser_callback }"
+                    ref="tinymce"
+                    v-model="description"
+                    rows="10"
+                    @onKeyUp="enable"
+                  ></editor>
+                </v-flex>
+              </v-container>
+              <v-btn color="primary">Submit</v-btn>
+              <v-btn color="error">Cancel</v-btn>
+            </v-form>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-content>
+</template>
+
+
 <script>
 import Editor from "@tinymce/tinymce-vue";
 import Wysiwyg from "../mixins/Wysiwyg.js";
