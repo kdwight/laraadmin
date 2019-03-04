@@ -1,5 +1,7 @@
 <?php
 
+Route::match(['get', 'post'], '/botman', 'BotManController@handle');
+
 Route::get('/', 'PageController@welcome');
 
 // -- -- -- CMS  -- -- --

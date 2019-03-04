@@ -66,7 +66,7 @@
     </head>
     <body>
         <!-- Load Facebook SDK for JavaScript -->
-        <div id="fb-root"></div>
+        {{-- <div id="fb-root"></div>
         <script>
         window.fbAsyncInit = function() {
             FB.init({
@@ -88,7 +88,7 @@
         attribution=setup_tool
         page_id="242788566667703"
         theme_color="#67b868">
-        </div>
+        </div> --}}
 
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
@@ -117,5 +117,6 @@
             </div>
         </div>
 
+        <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
     </body>
 </html>
