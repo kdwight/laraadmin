@@ -18,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer('*', function ($view) {
-            $view->with('sidebar', json_decode(auth()->user()->hasAccess()->access));
+            if (auth()->check()) {
+                $view->with('sidebar', json_decode(auth()->user()->hasAccess()->access));
+            }
         });
     }
 

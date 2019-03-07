@@ -9,7 +9,8 @@ Route::get('/admin', 'AdminSessionController@create')->name('login');
 Route::post('/admin_login', 'AdminSessionController@store');
 Route::get('/admin_logout', 'AdminSessionController@destroy');
 
-Route::group(['middleware' => ['auth']], function () {
+// Route::prefix('admin')->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     Route::patch('/pages/{page}/status', 'PageController@status');
     Route::resource('pages', 'PageController');
@@ -29,3 +30,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('/users/{user}/status', 'UserController@status');
     Route::resource('users', 'UserController');
 });
+// });
