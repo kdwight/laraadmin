@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ asset('staradmin/css/style.css') }}">
     <link rel="shortcut icon" href="{{ asset('staradmin/images/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('datatables/datatables.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('styles')
 
     <script>
@@ -36,7 +38,7 @@
         <v-app>
 
             <topbar></topbar>
-            <sidebar></sidebar>
+            {{-- <sidebar></sidebar> --}}
             <flash message="{{ session('success') }}"></flash>
 
             {{-- <div class="container-scroller">

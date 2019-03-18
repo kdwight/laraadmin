@@ -87,12 +87,11 @@
             order:order,
             _token: '{{csrf_token()}}'
             },
-            success: function(response) {
-                if (response.status == "success") {
-                console.log(response);
-                } else {
-                console.log(response);
-                }
+            success: (response) => {
+                return console.log(response);
+            },
+            error: (error) => {
+                return console.log('error');
             }
         });
 

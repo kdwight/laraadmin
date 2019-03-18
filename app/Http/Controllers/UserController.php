@@ -127,7 +127,7 @@ class UserController extends Controller
             }
         }
 
-        return response('Update Successfully.', 200);
+        return response()->json('Update Successfully.', 200);
     }
 
     public function create()
