@@ -38,7 +38,7 @@
         <v-app>
 
             <topbar></topbar>
-            {{-- <sidebar></sidebar> --}}
+            <sidebar></sidebar>
             <flash message="{{ session('success') }}"></flash>
 
             {{-- <div class="container-scroller">
