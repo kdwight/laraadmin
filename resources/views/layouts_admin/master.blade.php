@@ -27,7 +27,8 @@
                 json_encode([
                     'user' => auth()->user(),
                     'signedIn' => auth()->check(),
-                    'sidebar' => $sidebar
+                    'sidebar' => $sidebar,
+                    'previousURL' => url()->previous()
                 ])
             !!}
     </script>

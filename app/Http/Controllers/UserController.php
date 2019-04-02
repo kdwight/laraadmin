@@ -30,20 +30,20 @@ class UserController extends Controller
 
     public function update_password(User $user)
     {
-        $this->validate(request(), [
+        request()->validate([
             'old_password' => 'required',
             'password' => 'required | confirmed'
         ]);
 
         if (!(Hash::check(request('old_password'), $user->password))) {
-            return back()->with("error", "Your current password does not matches with the password you provided. Please try again.");
+            return response(["not_match" => "Your current password does not matches with the password you provided. Please try again."], 422);
         }
 
         $user->update([
             'password' => bcrypt(request('password'))
         ]);
 
-        return redirect('users')->with('success', 'Password updated');
+        return response('Password updated', 200);
     }
 
     public function export_users()

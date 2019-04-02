@@ -2,59 +2,44 @@
 
 @section('content')
 
-<div class="col-md-7 offset-2 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">New Password</h4>
+<change-password inline-template v-cloak>
+    <v-content>
+        <v-container fluid>
+            <v-layout align-center justify-center>
+                <v-flex xs8>
+                    <v-card @keyup="enable">
+                        <v-card-title>New Password</v-card-title>
 
-            <form class="forms-sample" action="/users/{{$user->id}}/change-password" method="post">
-                {{ csrf_field() }}
-                {{ method_field('PATCH') }}
+                        <v-form>
+                            <v-container>
+                                <v-flex>
+                                    <v-text-field name="old_password" label="Old Password" v-model="oldPassword" required></v-text-field>
+                                    <p class="text-danger" v-if="errors.old_password" v-text="errors.old_password[0]"></p>
+                                    <p class="text-danger" v-if="errors.not_match" v-text="errors.not_match"></p>
+                                </v-flex>
 
-                <div class="form-group">
-                    <label for="old_password">Old Password</label>
-                    <input type="password"
-                        name="old_password"
-                        class="form-control {{ $errors->has('old_password') ? 'is-invalid' : '' }}"
-                        value="{{ old('old_password')}}"
-                        placeholder="Unit type"
-                    >
-                    @if ( $errors->has('old_password'))
-                        <p class="text-danger">{{ $errors->first('old_password') }}</p>
-                    @endif
+                                <v-flex>
+                                    <v-text-field name="password" label="New Password" v-model="password" required></v-text-field>
+                                    <p class="text-danger" v-if="errors.password" v-text="errors.password[0]"></p>
+                                </v-flex>
 
-                    @if ($message = session('error'))
-                        <p class="text-danger">{{ $message }}</p>
-                    @endif
-                </div>
+                                <v-flex>
+                                    <v-text-field name="password_confirmation" label="Confirm Password" v-model="confirmPassword" required></v-text-field>
+                                </v-flex>
+                            </v-container>
 
-                <div class="form-group">
-                    <label for="password">New Password</label>
-                    <input type="password"
-                        name="password"
-                        class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                        placeholder="Unit type"
-                    >
-                    @if ( $errors->has('password'))
-                        <p class="text-danger">{{ $errors->first('password') }}</p>
-                    @endif
-                </div>
+                            <v-btn
+                                color="primary"
+                                @click="changePassword"
+                                :disabled="disabled">Submit</v-btn>
+                            <v-btn href="{{ url()->previous() }}" color="error">Cancel</v-btn>
+                        </v-form>
 
-                <div class="form-group">
-                    <label for="password_confirmation">Confirm Password</label>
-                    <input type="password"
-                        name="password_confirmation"
-                        class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}"
-                        placeholder="Confirm Password"
-                    >
-                </div>
-
-                <button type="submit" class="btn btn-success mr-2">Submit</button>
-                <a href="{{ url()->previous() }}" class="btn btn-light">Cancel</a>
-            </form>
-
-        </div>
-    </div>
-</div>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
+  </v-content>
+</change-password>
 
 @endsection

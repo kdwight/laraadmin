@@ -17,6 +17,7 @@ Vue.component('sidebar', require('./layouts/Sidebar.vue').default);
 Vue.component('flash', require('./components/Flash.vue').default);
 Vue.component('page-form', require('./components/PageForm.vue').default);
 Vue.component('page', require('./components/Page.vue').default);
+Vue.component('change-password', require('./components/ChangePassword.vue').default);
 
 const app = new Vue({
     el: '#app'
