@@ -5,8 +5,9 @@
         <v-flex xs10>
           <v-card>
             <v-card-title>
-              Pages
-              <v-btn href="/pages/create" color="primary">New Page</v-btn>
+              Users
+              <v-btn href="/users/create" color="primary">Add User</v-btn>
+
               <v-spacer></v-spacer>
               <v-text-field
                 v-model="search"
@@ -17,16 +18,14 @@
               ></v-text-field>
             </v-card-title>
 
-            <v-data-table :headers="headers" :items="pages" :search="search">
+            <v-data-table :headers="headers" :items="roles" :search="search">
               <template slot="items" slot-scope="props">
-                <td width="70%">{{ props.item.title }}</td>
-                <td width="30%">
-                  <status :attributes="props.item" :endpoint="`/pages/${props.item.id}/status`"></status>
-
+                <td width="70%">{{ props.item.description }}</td>
+                <td width="30%" v-show="props.item.id != 1">
                   <v-tooltip top>
                     <template v-slot:activator="{ on }">
                       <v-btn
-                        :href="`/pages/${props.item.id}/edit`"
+                        :href="`/users/${props.item.id}/edit`"
                         color="success"
                         v-on="on"
                         fab
@@ -58,17 +57,13 @@
 </template>
 
 <script>
-import Status from "./Status";
-
 export default {
-  components: { Status },
-
   data() {
     return {
       search: "",
-      pages: [],
+      roles: [],
       headers: [
-        { text: "Title", value: "title" },
+        { text: "Roles", value: "description" },
         {
           text: "Action",
           align: "left",
@@ -79,23 +74,23 @@ export default {
   },
 
   computed: {
-    async getPages() {
-      await axios.get(`/vue/pages`).then(({ data }) => {
-        this.pages = data;
+    async getRoles() {
+      await axios.get(`/vue/users/roles`).then(({ data }) => {
+        this.roles = data;
       });
     }
   },
 
   created() {
-    this.getPages;
+    this.getRoles;
   },
 
   methods: {
     delPage(item) {
-      const index = this.pages.indexOf(item);
+      const index = this.roles.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        axios.delete(`/pages/${item.id}`).then(({ data }) => {
-          this.pages.splice(index, 1);
+        axios.delete(`/users/${item.id}/delete-role`).then(({ data }) => {
+          this.roles.splice(index, 1);
 
           flash(data);
         });

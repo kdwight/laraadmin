@@ -5,8 +5,11 @@
         <v-flex xs10>
           <v-card>
             <v-card-title>
-              Pages
-              <v-btn href="/pages/create" color="primary">New Page</v-btn>
+              Users
+              <v-btn href="/users/create" color="primary">Add User</v-btn>
+              <v-btn href="/users/roles" color="error">Roles</v-btn>
+              <v-btn href="/users/export" color="success">CSV</v-btn>
+
               <v-spacer></v-spacer>
               <v-text-field
                 v-model="search"
@@ -17,16 +20,16 @@
               ></v-text-field>
             </v-card-title>
 
-            <v-data-table :headers="headers" :items="pages" :search="search">
+            <v-data-table :headers="headers" :items="users" :search="search">
               <template slot="items" slot-scope="props">
-                <td width="70%">{{ props.item.title }}</td>
-                <td width="30%">
-                  <status :attributes="props.item" :endpoint="`/pages/${props.item.id}/status`"></status>
+                <td width="70%">{{ props.item.username }}</td>
+                <td width="30%" v-show="props.item.id != 1">
+                  <status :attributes="props.item" :endpoint="`/users/${props.item.id}/status`"></status>
 
                   <v-tooltip top>
                     <template v-slot:activator="{ on }">
                       <v-btn
-                        :href="`/pages/${props.item.id}/edit`"
+                        :href="`/users/${props.item.id}/edit`"
                         color="success"
                         v-on="on"
                         fab
@@ -66,9 +69,9 @@ export default {
   data() {
     return {
       search: "",
-      pages: [],
+      users: [],
       headers: [
-        { text: "Title", value: "title" },
+        { text: "Username", value: "username" },
         {
           text: "Action",
           align: "left",
@@ -79,23 +82,23 @@ export default {
   },
 
   computed: {
-    async getPages() {
-      await axios.get(`/vue/pages`).then(({ data }) => {
-        this.pages = data;
+    async getUsers() {
+      await axios.get(`/vue/users`).then(({ data }) => {
+        this.users = data;
       });
     }
   },
 
   created() {
-    this.getPages;
+    this.getUsers;
   },
 
   methods: {
     delPage(item) {
-      const index = this.pages.indexOf(item);
+      const index = this.users.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        axios.delete(`/pages/${item.id}`).then(({ data }) => {
-          this.pages.splice(index, 1);
+        axios.delete(`/users/${item.id}`).then(({ data }) => {
+          this.users.splice(index, 1);
 
           flash(data);
         });

@@ -1,12 +1,9 @@
 @extends('layouts_admin.master')
 
 @section('content')
-<div class="offset-11">
-    <a href="/users" class="btn btn-dark">Back</a>
-</div>
-<br>
-<div class="row">
-    <div class="col-md-6 grid-margin stretch-card">
+    <user-roles></user-roles>
+
+    <div class="col-md-6 offset-4 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Add Role</h4>
@@ -62,7 +59,7 @@
         </div>
     </div>
 
-    <div class="col-md-6 grid-margin stretch-card">
+    <div class="col-md-6 offset-4 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">List of Roles</h4>
@@ -98,7 +95,5 @@
             </div>
         </div>
     </div>
-</div>
-<flash message="{{ session('success') }}"></flash>
 
 @endsection

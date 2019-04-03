@@ -2,67 +2,49 @@
 
 @section('content')
 
-<div class="col-md-7 offset-2 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Edit User</h4>
+<user-form :attributes="{{ $user }}" inline-template v-cloak>
+    <v-content>
+    <v-container fluid>
+      <v-layout align-center justify-center>
+        <v-flex xs8>
+          <v-card @keyup="enable">
+            <v-card-title>New User</v-card-title>
 
-            <form class="forms-sample" action="/users/{{ $user->id }}" method="post">
-                {{ csrf_field() }}
-                {{ method_field('PATCH') }}
+            <v-form>
+              <v-container>
 
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username"
-                        name="username" class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}"
-                        value="{{ null !== old('username') ? old('username') : $user->username }}"
-                        placeholder="Username"
-                    >
-                    @if ( $errors->has('username'))
-                        <p class="text-danger">{{ $errors->first('username') }}</p>
-                    @endif
-                </div>
+                <v-flex>
+                    <v-text-field name="username" label="Username" v-model="username" required></v-text-field>
+                    <p class="text-danger" v-if="errors.username" v-text="errors.username[0]"></p>
+                </v-flex>
 
-                <div class="form-group">
-                    <label for="type">Type</label>
-                    <select name="type" id="select" class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}">
-                        <option value="">Please select</option>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->name }}" {{ $user->type == $role->name ? 'selected' : '' }}>{{ $role->description }}</option>
-                        @endforeach
-                    </select>
-                    @if ( $errors->has('type'))
-                        <p class="text-danger">{{ $errors->first('type') }}</p>
-                    @endif
-                </div>
+                <v-flex>
+                  <v-select :items="items" item-text="description" item-value="name" name="type" label="Type" v-model="type" @change="enable"></v-select>
+                   <p class="text-danger" v-if="errors.type" v-text="errors.type[0]"></p>
+                </v-flex>
 
-                <div class="form-group">
-                    <label for="password">New Password</label>
-                    <input type="password"
-                        name="password"
-                        class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                        placeholder="Password"
-                    >
-                    @if ( $errors->has('password'))
-                        <p class="text-danger">{{ $errors->first('password') }}</p>
-                    @endif
-                </div>
+                <v-flex>
+                  <v-text-field name="password" label="Password" v-model="password" type="password" required></v-text-field>
+                   <p class="text-danger" v-if="errors.password" v-text="errors.password[0]"></p>
+                </v-flex>
 
-                <div class="form-group">
-                    <label for="password_confirmation">Confirm Password</label>
-                    <input type="password"
-                        name="password_confirmation"
-                        class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}"
-                        placeholder="Confirm Password"
-                    >
-                </div>
+                <v-flex>
+                  <v-text-field name="password_confirmation" label="Confirm Password" type="password" v-model="confirmPassword" required></v-text-field>
+                </v-flex>
 
-                <button type="submit" class="btn btn-success mr-2">Submit</button>
-                <a href="/users" class="btn btn-light">Cancel</a>
-            </form>
-
-        </div>
-    </div>
-</div>
+              </v-container>
+              <v-btn
+                type="submit"
+                color="primary"
+                @click="updateUser"
+                :disabled="disabled">Submit</v-btn>
+              <v-btn href="/users" color="error">Cancel</v-btn>
+            </v-form>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-content>
+</user-form>
 
 @endsection

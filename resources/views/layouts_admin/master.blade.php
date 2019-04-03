@@ -31,6 +31,14 @@
                     'previousURL' => url()->previous()
                 ])
             !!}
+
+        @if ( request()->segment(2) == 'create' || request()->segment(3) == 'edit')
+            window.Roles = {!!
+                json_encode([
+                    'roles' => $roles
+                ])
+            !!}
+        @endif
     </script>
 </head>
 

@@ -78,7 +78,7 @@ export default {
         .patch(`/pages/${this.attributes.id}`, data)
         .then(response => {
           flash(response.data);
-          setTimeout(function() {
+          setTimeout(() => {
             window.location.replace("/pages");
           }, 1500);
         })

@@ -13,14 +13,15 @@ Route::get('/admin_logout', 'AdminSessionController@destroy');
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/vue/pages', 'PageController@index');
     Route::patch('/pages/{page}/status', 'PageController@status');
+    Route::resource('vue/pages', 'PageController');
     Route::resource('pages', 'PageController');
 
     /* USER MANAGEMENT */
     Route::get('users/{user}/change-password', 'UserController@edit_password');
     Route::patch('users/{user}/change-password', 'UserController@update_password');
 
+    Route::get('vue/users/roles', 'UserController@roles');
     Route::get('users/roles', 'UserController@roles');
     Route::post('users/roles', 'UserController@store_role');
     Route::get('users/{role}/edit-role', 'UserController@edit_role');
@@ -30,6 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('users/export', 'UserController@export_users');
     Route::post('users/sort', 'UserController@updateOrder');
     Route::patch('/users/{user}/status', 'UserController@status');
+    Route::resource('vue/users', 'UserController');
     Route::resource('users', 'UserController');
 });
 

@@ -6,7 +6,9 @@ export default {
       oldPassword: "",
       password: "",
       confirmPassword: "",
-      errors: {}
+      errors: {},
+
+      show: false
     };
   },
 

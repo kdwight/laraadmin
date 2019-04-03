@@ -55,6 +55,10 @@ class UserController extends Controller
     public function roles()
     {
         $roles = Role::get();
+
+        if (request()->ajax()) {
+            return response($roles);
+        }
         return view('admin.users.roles', compact('roles'));
     }
 
@@ -72,7 +76,8 @@ class UserController extends Controller
             'description' => request('description')
         ]);
 
-        return back()->with('success', 'Role created');
+        return response()->json('Role created', 200);
+        // return back()->with('success', 'Role created');
     }
 
     public function edit_role(Role $role)
@@ -97,18 +102,27 @@ class UserController extends Controller
             'description' => request('description')
         ]);
 
-        return redirect('/users/roles')->with('success', 'Role updated');
+        return response()->json('Role updated', 200);
+        // return redirect('/users/roles')->with('success', 'Role updated');
     }
 
     public function destroy_role(Role $role)
     {
         $role->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json('Role deleted', 200);
+        }
         return redirect('/users/roles')->with('success', 'Role deleted');
     }
 
     public function index()
     {
         $users = User::orderBy('order', 'ASC')->get();
+
+        if (request()->ajax()) {
+            return response($users);
+        }
         return view('admin.users.index', compact('users'));
     }
 
@@ -149,7 +163,9 @@ class UserController extends Controller
             'password' => bcrypt(request('password'))
         ]);
 
-        return redirect('/users')->with('success', 'User created');
+        return response()->json('User created', 200);
+
+        // return redirect('/users')->with('success', 'User created');
     }
 
     public function edit(User $user)
@@ -173,20 +189,29 @@ class UserController extends Controller
             'password' => bcrypt(request('password'))
         ]);
 
-        return redirect('/users')->with('success', 'User updated');
+        return response()->json('User updated', 200);
+        // return redirect('/users')->with('success', 'User updated');
     }
 
     public function status(User $user)
     {
         $user->update([
-            'status' => request()->has('status')
+            'status' => request('status')
         ]);
+
+        if (request()->expectsJson()) {
+            return response()->json('status updated', 200);
+        }
         return back()->with('success', 'Status has been updated');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json('User deleted', 200);
+        }
         return redirect('/users')->with('success', 'User deleted');
     }
 }
