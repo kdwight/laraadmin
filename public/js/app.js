@@ -2885,9 +2885,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      // table
       search: "",
       roles: [],
       headers: [{
@@ -2897,7 +2947,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         text: "Action",
         align: "left",
         sortable: false
-      }]
+      }],
+      //modal
+      dialog: false,
+      isEdit: false,
+      // forms
+      access: [],
+      disabled: false,
+      errors: {},
+      editRoleIndex: [],
+      role: "",
+      description: "",
+      allowedAccess: []
     };
   },
   computed: {
@@ -2930,20 +2991,119 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return getRoles;
+    }(),
+    getAccessLists: function () {
+      var _getAccessLists = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var pageAccess;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                pageAccess = window.App.sidebar.filter(function (access) {
+                  return access != "users";
+                });
+                this.access = pageAccess;
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getAccessLists() {
+        return _getAccessLists.apply(this, arguments);
+      }
+
+      return getAccessLists;
     }()
   },
   created: function created() {
     this.getRoles;
+    this.getAccessLists;
   },
   methods: {
-    delPage: function delPage(item) {
+    enable: function enable() {
+      return this.disabled = false;
+    },
+    closeDialog: function closeDialog() {
+      this.role = "";
+      this.description = "";
+      this.allowedAccess = [];
+      this.dialog = false;
+      this.errors = {};
+      this.disabled = false;
+    },
+    editRole: function editRole(role) {
+      this.dialog = true;
+      this.isEdit = true;
+      this.editRoleIndex = {
+        index: this.roles.indexOf(role),
+        id: role.id
+      };
+      this.role = role.name;
+      this.description = role.description;
+      this.allowedAccess = JSON.parse(role.access);
+    },
+    submitRole: function submitRole() {
+      this.isEdit ? this.updateRole() : this.addRole();
+    },
+    addRole: function addRole() {
       var _this2 = this;
 
-      var index = this.roles.indexOf(item);
-      confirm("Are you sure you want to delete this item?") && axios.delete("/users/".concat(item.id, "/delete-role")).then(function (_ref2) {
+      this.disabled = true;
+      var data = {
+        name: this.role,
+        description: this.description,
+        access: this.allowedAccess
+      };
+      axios.post("/users/roles", data).then(function (_ref2) {
         var data = _ref2.data;
 
-        _this2.roles.splice(index, 1);
+        _this2.closeDialog();
+
+        _this2.roles.push(data.role);
+
+        flash(data.success);
+      }).catch(function (_ref3) {
+        var response = _ref3.response;
+        _this2.errors = response.data.errors;
+      });
+    },
+    updateRole: function updateRole() {
+      var _this3 = this;
+
+      this.disabled = true;
+      var data = {
+        name: this.role,
+        description: this.description,
+        access: this.allowedAccess
+      };
+      axios.patch("/users/".concat(this.editRoleIndex.id, "/update-role"), data).then(function (_ref4) {
+        var data = _ref4.data;
+        _this3.roles[_this3.editRoleIndex.index].name = _this3.role;
+        _this3.roles[_this3.editRoleIndex.index].description = _this3.description;
+        _this3.roles[_this3.editRoleIndex.index].access = JSON.stringify(_this3.allowedAccess);
+
+        _this3.closeDialog();
+
+        flash(data.success);
+      }).catch(function (_ref5) {
+        var response = _ref5.response;
+        _this3.errors = response.data.errors;
+      });
+    },
+    delRole: function delRole(item) {
+      var _this4 = this;
+
+      var index = this.roles.indexOf(item);
+      confirm("Are you sure you want to delete this item?") && axios.delete("/users/".concat(item.id, "/delete-role")).then(function (_ref6) {
+        var data = _ref6.data;
+
+        _this4.roles.splice(index, 1);
 
         flash(data);
       });
@@ -5632,13 +5792,220 @@ var render = function() {
                       _c(
                         "v-card-title",
                         [
-                          _vm._v("\n            Users\n            "),
+                          _vm._v("\n            Roles\n            "),
                           _c(
                             "v-btn",
                             {
-                              attrs: { href: "/users/create", color: "primary" }
+                              attrs: { color: "primary", dark: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.stopPropagation()
+                                  ;(_vm.dialog = true), (_vm.isEdit = false)
+                                }
+                              }
                             },
-                            [_vm._v("Add User")]
+                            [_vm._v("Add")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-dialog",
+                            {
+                              attrs: { persistent: "", "max-width": "600px" },
+                              model: {
+                                value: _vm.dialog,
+                                callback: function($$v) {
+                                  _vm.dialog = $$v
+                                },
+                                expression: "dialog"
+                              }
+                            },
+                            [
+                              _c(
+                                "v-card",
+                                { on: { keyup: _vm.enable } },
+                                [
+                                  _c("v-card-title", [
+                                    _c("span", { staticClass: "headline" }, [
+                                      _vm._v("Add Roles")
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-card-text",
+                                    [
+                                      _c(
+                                        "v-container",
+                                        { attrs: { "grid-list-md": "" } },
+                                        [
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { wrap: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs12: "" } },
+                                                [
+                                                  _c("v-text-field", {
+                                                    attrs: {
+                                                      label: "Role",
+                                                      placeholder: "Role",
+                                                      required: ""
+                                                    },
+                                                    model: {
+                                                      value: _vm.role,
+                                                      callback: function($$v) {
+                                                        _vm.role = $$v
+                                                      },
+                                                      expression: "role"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _vm.errors.name
+                                                    ? _c("p", {
+                                                        staticClass:
+                                                          "text-danger",
+                                                        domProps: {
+                                                          textContent: _vm._s(
+                                                            _vm.errors.name[0]
+                                                          )
+                                                        }
+                                                      })
+                                                    : _vm._e()
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs12: "" } },
+                                                [
+                                                  _c("v-text-field", {
+                                                    attrs: {
+                                                      label: "Description",
+                                                      placeholder:
+                                                        "Description",
+                                                      required: ""
+                                                    },
+                                                    model: {
+                                                      value: _vm.description,
+                                                      callback: function($$v) {
+                                                        _vm.description = $$v
+                                                      },
+                                                      expression: "description"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _vm.errors.description
+                                                    ? _c("p", {
+                                                        staticClass:
+                                                          "text-danger",
+                                                        domProps: {
+                                                          textContent: _vm._s(
+                                                            _vm.errors
+                                                              .description[0]
+                                                          )
+                                                        }
+                                                      })
+                                                    : _vm._e()
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs12: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n                        Allowed Access\n                        "
+                                                  ),
+                                                  _vm.errors.access
+                                                    ? _c("p", {
+                                                        staticClass:
+                                                          "text-danger",
+                                                        domProps: {
+                                                          textContent: _vm._s(
+                                                            _vm.errors.access[0]
+                                                          )
+                                                        }
+                                                      })
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm._l(_vm.access, function(
+                                                    access,
+                                                    key
+                                                  ) {
+                                                    return _c("v-checkbox", {
+                                                      key: key,
+                                                      attrs: {
+                                                        label: access,
+                                                        value: access
+                                                      },
+                                                      on: {
+                                                        change: _vm.enable
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.allowedAccess,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.allowedAccess = $$v
+                                                        },
+                                                        expression:
+                                                          "allowedAccess"
+                                                      }
+                                                    })
+                                                  })
+                                                ],
+                                                2
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-card-actions",
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            color: "blue darken-1",
+                                            flat: ""
+                                          },
+                                          on: { click: _vm.closeDialog }
+                                        },
+                                        [_vm._v("Close")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            color: "blue darken-1",
+                                            flat: "",
+                                            disabled: _vm.disabled
+                                          },
+                                          on: { click: _vm.submitRole }
+                                        },
+                                        [_vm._v("Save")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
                           ),
                           _vm._v(" "),
                           _c("v-spacer"),
@@ -5707,14 +6074,20 @@ var render = function() {
                                                     _vm._g(
                                                       {
                                                         attrs: {
-                                                          href:
-                                                            "/users/" +
-                                                            props.item.id +
-                                                            "/edit",
                                                           color: "success",
                                                           fab: "",
                                                           small: "",
                                                           dark: ""
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            $event.stopPropagation()
+                                                            return _vm.editRole(
+                                                              props.item
+                                                            )
+                                                          }
                                                         }
                                                       },
                                                       on
@@ -5764,7 +6137,7 @@ var render = function() {
                                                           click: function(
                                                             $event
                                                           ) {
-                                                            return _vm.delPage(
+                                                            return _vm.delRole(
                                                               props.item
                                                             )
                                                           }

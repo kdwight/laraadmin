@@ -35,7 +35,7 @@ class UserController extends Controller
             'password' => 'required | confirmed'
         ]);
 
-        if (!(Hash::check(request('old_password'), $user->password))) {
+        if (! (Hash::check(request('old_password'), $user->password))) {
             return response(["not_match" => "Your current password does not matches with the password you provided. Please try again."], 422);
         }
 
@@ -64,19 +64,19 @@ class UserController extends Controller
 
     public function store_role()
     {
-        $this->validate(request(), [
+        request()->validate([
             'name' => 'required',
             'access' => 'required',
             'description' => 'required',
         ]);
 
-        Role::create([
+        $role = Role::create([
             'name' => strtolower(str_replace(' ', '-', request('name'))),
             'access' => json_encode(request('access')),
             'description' => request('description')
         ]);
 
-        return response()->json('Role created', 200);
+        return response()->json(['role' => $role, 'sucess' => 'Role created'], 200);
         // return back()->with('success', 'Role created');
     }
 
@@ -90,7 +90,7 @@ class UserController extends Controller
 
     public function update_role(Role $role)
     {
-        $this->validate(request(), [
+        request()->validate([
             'name' => 'required',
             'access' => 'required',
             'description' => 'required',
@@ -102,7 +102,7 @@ class UserController extends Controller
             'description' => request('description')
         ]);
 
-        return response()->json('Role updated', 200);
+        return response()->json(['success' => 'Role updated'], 200);
         // return redirect('/users/roles')->with('success', 'Role updated');
     }
 

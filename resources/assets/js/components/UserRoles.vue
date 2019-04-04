@@ -5,8 +5,57 @@
         <v-flex xs10>
           <v-card>
             <v-card-title>
-              Users
-              <v-btn href="/users/create" color="primary">Add User</v-btn>
+              Roles
+              <v-btn color="primary" dark @click.stop="dialog = true, isEdit = false">Add</v-btn>
+              <v-dialog v-model="dialog" persistent max-width="600px">
+                <v-card @keyup="enable">
+                  <v-card-title>
+                    <span class="headline">Add Roles</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container grid-list-md>
+                      <v-layout wrap>
+                        <v-flex xs12>
+                          <v-text-field label="Role" placeholder="Role" v-model="role" required></v-text-field>
+                          <p class="text-danger" v-if="errors.name" v-text="errors.name[0]"></p>
+                        </v-flex>
+
+                        <v-flex xs12>
+                          <v-text-field
+                            label="Description"
+                            placeholder="Description"
+                            v-model="description"
+                            required
+                          ></v-text-field>
+                          <p
+                            class="text-danger"
+                            v-if="errors.description"
+                            v-text="errors.description[0]"
+                          ></p>
+                        </v-flex>
+
+                        <v-flex xs12>
+                          Allowed Access
+                          <p class="text-danger" v-if="errors.access" v-text="errors.access[0]"></p>
+                          <v-checkbox
+                            @change="enable"
+                            v-for="(access, key) in access"
+                            :label="access"
+                            :key="key"
+                            :value="access"
+                            v-model="allowedAccess"
+                          ></v-checkbox>
+                        </v-flex>
+                      </v-layout>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" flat @click="closeDialog">Close</v-btn>
+                    <v-btn color="blue darken-1" flat :disabled="disabled" @click="submitRole">Save</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
 
               <v-spacer></v-spacer>
               <v-text-field
@@ -25,12 +74,12 @@
                   <v-tooltip top>
                     <template v-slot:activator="{ on }">
                       <v-btn
-                        :href="`/users/${props.item.id}/edit`"
                         color="success"
                         v-on="on"
                         fab
                         small
                         dark
+                        @click.stop="editRole(props.item)"
                       >
                         <v-icon>edit</v-icon>
                       </v-btn>
@@ -40,7 +89,7 @@
 
                   <v-tooltip right>
                     <template v-slot:activator="{ on }">
-                      <v-btn @click="delPage(props.item)" color="error" v-on="on" fab small dark>
+                      <v-btn @click="delRole(props.item)" color="error" v-on="on" fab small dark>
                         <v-icon>delete</v-icon>
                       </v-btn>
                     </template>
@@ -60,6 +109,7 @@
 export default {
   data() {
     return {
+      // table
       search: "",
       roles: [],
       headers: [
@@ -69,7 +119,18 @@ export default {
           align: "left",
           sortable: false
         }
-      ]
+      ],
+      //modal
+      dialog: false,
+      isEdit: false,
+      // forms
+      access: [],
+      disabled: false,
+      errors: {},
+      editRoleIndex: [],
+      role: "",
+      description: "",
+      allowedAccess: []
     };
   },
 
@@ -78,15 +139,91 @@ export default {
       await axios.get(`/vue/users/roles`).then(({ data }) => {
         this.roles = data;
       });
+    },
+
+    async getAccessLists() {
+      const pageAccess = window.App.sidebar.filter(access => access != "users");
+      this.access = pageAccess;
     }
   },
 
   created() {
     this.getRoles;
+    this.getAccessLists;
   },
 
   methods: {
-    delPage(item) {
+    enable() {
+      return (this.disabled = false);
+    },
+
+    closeDialog() {
+      this.role = "";
+      this.description = "";
+      this.allowedAccess = [];
+      this.dialog = false;
+      this.errors = {};
+      this.disabled = false;
+    },
+
+    editRole(role) {
+      this.dialog = true;
+      this.isEdit = true;
+
+      this.editRoleIndex = { index: this.roles.indexOf(role), id: role.id };
+      this.role = role.name;
+      this.description = role.description;
+      this.allowedAccess = JSON.parse(role.access);
+    },
+
+    submitRole() {
+      this.isEdit ? this.updateRole() : this.addRole();
+    },
+
+    addRole() {
+      this.disabled = true;
+      const data = {
+        name: this.role,
+        description: this.description,
+        access: this.allowedAccess
+      };
+
+      axios
+        .post(`/users/roles`, data)
+        .then(({ data }) => {
+          this.closeDialog();
+          this.roles.push(data.role);
+          flash(data.success);
+        })
+        .catch(({ response }) => {
+          this.errors = response.data.errors;
+        });
+    },
+
+    updateRole() {
+      this.disabled = true;
+      const data = {
+        name: this.role,
+        description: this.description,
+        access: this.allowedAccess
+      };
+      axios
+        .patch(`/users/${this.editRoleIndex.id}/update-role`, data)
+        .then(({ data }) => {
+          this.roles[this.editRoleIndex.index].name = this.role;
+          this.roles[this.editRoleIndex.index].description = this.description;
+          this.roles[this.editRoleIndex.index].access = JSON.stringify(
+            this.allowedAccess
+          );
+          this.closeDialog();
+          flash(data.success);
+        })
+        .catch(({ response }) => {
+          this.errors = response.data.errors;
+        });
+    },
+
+    delRole(item) {
       const index = this.roles.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         axios.delete(`/users/${item.id}/delete-role`).then(({ data }) => {
