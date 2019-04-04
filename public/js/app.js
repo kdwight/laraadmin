@@ -5863,7 +5863,7 @@ var render = function() {
                                                   _vm.errors.name
                                                     ? _c("p", {
                                                         staticClass:
-                                                          "text-danger",
+                                                          "red--text",
                                                         domProps: {
                                                           textContent: _vm._s(
                                                             _vm.errors.name[0]
@@ -5898,7 +5898,7 @@ var render = function() {
                                                   _vm.errors.description
                                                     ? _c("p", {
                                                         staticClass:
-                                                          "text-danger",
+                                                          "red--text",
                                                         domProps: {
                                                           textContent: _vm._s(
                                                             _vm.errors
@@ -5911,17 +5911,18 @@ var render = function() {
                                                 1
                                               ),
                                               _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v("Allowed Access")
+                                              ]),
+                                              _vm._v(" "),
                                               _c(
                                                 "v-flex",
                                                 { attrs: { xs12: "" } },
                                                 [
-                                                  _vm._v(
-                                                    "\n                        Allowed Access\n                        "
-                                                  ),
                                                   _vm.errors.access
                                                     ? _c("p", {
                                                         staticClass:
-                                                          "text-danger",
+                                                          "red--text",
                                                         domProps: {
                                                           textContent: _vm._s(
                                                             _vm.errors.access[0]
@@ -5938,7 +5939,8 @@ var render = function() {
                                                       key: key,
                                                       attrs: {
                                                         label: access,
-                                                        value: access
+                                                        value: access,
+                                                        "hide-details": ""
                                                       },
                                                       on: {
                                                         change: _vm.enable
@@ -6213,7 +6215,7 @@ var render = function() {
   return _c(
     "v-navigation-drawer",
     {
-      attrs: { clipped: "", floating: "", fixed: "", app: "" },
+      attrs: { clipped: "", fixed: "", app: "" },
       model: {
         value: _vm.drawer,
         callback: function($$v) {
@@ -6277,11 +6279,7 @@ var render = function() {
           _vm._l(_vm.sidebar, function(nav, index) {
             return _c(
               "v-list-tile",
-              {
-                key: index,
-                attrs: { href: "/" + nav },
-                on: { click: function($event) {} }
-              },
+              { key: index, attrs: { href: "/" + nav } },
               [
                 _c("v-list-tile-action", [_c("v-icon", [_vm._v("list")])], 1),
                 _vm._v(" "),
@@ -6342,7 +6340,19 @@ var render = function() {
       _c(
         "v-toolbar-title",
         { staticClass: "ml-0 pl-3", staticStyle: { width: "300px" } },
-        [_c("span", { staticClass: "hidden-sm-and-down" }, [_vm._v("LaraCMS")])]
+        [
+          _c("v-toolbar-side-icon", {
+            on: {
+              click: function($event) {
+                $event.stopPropagation()
+                _vm.drawer = !_vm.drawer
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "hidden-sm-and-down" }, [_vm._v("LaraCMS")])
+        ],
+        1
       ),
       _vm._v(" "),
       _c("v-spacer"),
@@ -6388,10 +6398,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-list-tile",
-                {
-                  attrs: { href: "/admin_logout" },
-                  on: { click: function($event) {} }
-                },
+                { attrs: { href: "/admin_logout" } },
                 [
                   _c(
                     "v-list-tile-action",

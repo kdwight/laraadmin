@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" clipped floating fixed app>
+  <v-navigation-drawer v-model="drawer" clipped fixed app>
     <v-toolbar flat class="transparent">
       <v-list class="pa-0">
         <v-list-tile avatar>
@@ -19,7 +19,7 @@
 
     <v-list class="pt-0" dense>
       <v-divider></v-divider>
-      <v-list-tile :href="`/${nav}`" v-for="(nav, index) in sidebar" :key="index" @click>
+      <v-list-tile :href="`/${nav}`" v-for="(nav, index) in sidebar" :key="index">
         <v-list-tile-action>
           <v-icon>list</v-icon>
         </v-list-tile-action>

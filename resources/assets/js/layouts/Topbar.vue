@@ -1,7 +1,7 @@
 <template>
   <v-toolbar color="teal accent-4" dark clipped-left app fixed>
     <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-      <!-- <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon> -->
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <span class="hidden-sm-and-down">LaraCMS</span>
     </v-toolbar-title>
 
@@ -25,7 +25,7 @@
           <v-list-tile-title>Change Password</v-list-tile-title>
         </v-list-tile>
 
-        <v-list-tile href="/admin_logout" @click>
+        <v-list-tile href="/admin_logout">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>

@@ -20,17 +20,17 @@
                     @keyup="slugify"
                     required>
                   </v-text-field>
-                  <p class="text-danger" v-if="errors.title" v-text="errors.title[0]"></p>
+                  <p class="red--text" v-if="errors.title" v-text="errors.title[0]"></p>
                 </v-flex>
 
                 <v-flex>
                   <v-text-field name="slug" label="Slug" v-model="slug" required></v-text-field>
-                   <p class="text-danger" v-if="errors.slug" v-text="errors.slug[0]"></p>
+                   <p class="red--text" v-if="errors.slug" v-text="errors.slug[0]"></p>
                 </v-flex>
 
                 <v-flex>
                   <label>Description</label>
-                  <p class="text-danger" v-if="errors.description" v-text="errors.description[0]"></p>
+                  <p class="red--text" v-if="errors.description" v-text="errors.description[0]"></p>
                   <editor
                     :plugins="plugins"
                     :toolbar="toolbars"

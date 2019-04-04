@@ -18,7 +18,7 @@
                         value="{{ $role->name }}"
                     >
                     @if ( $errors->has('name'))
-                        <p class="text-danger">{{ $errors->first('name') }}</p>
+                        <p class="red--text">{{ $errors->first('name') }}</p>
                     @endif
                 </div>
 
@@ -31,14 +31,14 @@
                         value="{{ $role->description }}"
                     >
                     @if ( $errors->has('description'))
-                        <p class="text-danger">{{ $errors->first('description') }}</p>
+                        <p class="red--text">{{ $errors->first('description') }}</p>
                     @endif
                 </div>
 
                 <div class="form-group">
                     <label>Allowed access</label>
                     @if ( $errors->has('access'))
-                        <p class="text-danger">{{ $errors->first('access') }}</p>
+                        <p class="red--text">{{ $errors->first('access') }}</p>
                     @endif
                     <div class="row">
                         <div class="col-md-6">

@@ -17,7 +17,7 @@
                       <v-layout wrap>
                         <v-flex xs12>
                           <v-text-field label="Role" placeholder="Role" v-model="role" required></v-text-field>
-                          <p class="text-danger" v-if="errors.name" v-text="errors.name[0]"></p>
+                          <p class="red--text" v-if="errors.name" v-text="errors.name[0]"></p>
                         </v-flex>
 
                         <v-flex xs12>
@@ -28,22 +28,22 @@
                             required
                           ></v-text-field>
                           <p
-                            class="text-danger"
+                            class="red--text"
                             v-if="errors.description"
                             v-text="errors.description[0]"
                           ></p>
                         </v-flex>
-
+                        <p>Allowed Access</p>
                         <v-flex xs12>
-                          Allowed Access
-                          <p class="text-danger" v-if="errors.access" v-text="errors.access[0]"></p>
+                          <p class="red--text" v-if="errors.access" v-text="errors.access[0]"></p>
                           <v-checkbox
                             @change="enable"
                             v-for="(access, key) in access"
-                            :label="access"
                             :key="key"
+                            :label="access"
                             :value="access"
                             v-model="allowedAccess"
+                            hide-details
                           ></v-checkbox>
                         </v-flex>
                       </v-layout>

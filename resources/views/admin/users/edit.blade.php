@@ -15,17 +15,17 @@
 
                 <v-flex>
                     <v-text-field name="username" label="Username" v-model="username" required></v-text-field>
-                    <p class="text-danger" v-if="errors.username" v-text="errors.username[0]"></p>
+                    <p class="red--text" v-if="errors.username" v-text="errors.username[0]"></p>
                 </v-flex>
 
                 <v-flex>
                   <v-select :items="items" item-text="description" item-value="name" name="type" label="Type" v-model="type" @change="enable"></v-select>
-                   <p class="text-danger" v-if="errors.type" v-text="errors.type[0]"></p>
+                   <p class="red--text" v-if="errors.type" v-text="errors.type[0]"></p>
                 </v-flex>
 
                 <v-flex>
                   <v-text-field name="password" label="Password" v-model="password" type="password" required></v-text-field>
-                   <p class="text-danger" v-if="errors.password" v-text="errors.password[0]"></p>
+                   <p class="red--text" v-if="errors.password" v-text="errors.password[0]"></p>
                 </v-flex>
 
                 <v-flex>
