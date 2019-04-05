@@ -2341,6 +2341,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2348,6 +2349,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      loading: true,
       search: "",
       pages: [],
       headers: [{
@@ -2375,6 +2377,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.get("/vue/pages").then(function (_ref) {
                   var data = _ref.data;
                   _this.pages = data;
+                  _this.loading = false;
                 });
 
               case 2:
@@ -5292,141 +5295,162 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("v-data-table", {
-                        attrs: {
-                          headers: _vm.headers,
-                          items: _vm.pages,
-                          search: _vm.search
-                        },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "items",
-                            fn: function(props) {
-                              return [
-                                _c("td", { attrs: { width: "70%" } }, [
-                                  _vm._v(_vm._s(props.item.title))
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "td",
-                                  { attrs: { width: "30%" } },
-                                  [
-                                    _c("status", {
-                                      attrs: {
-                                        attributes: props.item,
-                                        endpoint:
-                                          "/pages/" + props.item.id + "/status"
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-tooltip",
-                                      {
-                                        attrs: { top: "" },
-                                        scopedSlots: _vm._u(
-                                          [
-                                            {
-                                              key: "activator",
-                                              fn: function(ref) {
-                                                var on = ref.on
-                                                return [
-                                                  _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      {
-                                                        attrs: {
-                                                          href:
-                                                            "/pages/" +
-                                                            props.item.id +
-                                                            "/edit",
-                                                          color: "success",
-                                                          fab: "",
-                                                          small: "",
-                                                          dark: ""
-                                                        }
-                                                      },
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v("edit")
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                ]
-                                              }
-                                            }
-                                          ],
-                                          true
-                                        )
-                                      },
-                                      [
-                                        _vm._v(" "),
-                                        _c("span", [_vm._v("Edit")])
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-tooltip",
-                                      {
-                                        attrs: { right: "" },
-                                        scopedSlots: _vm._u(
-                                          [
-                                            {
-                                              key: "activator",
-                                              fn: function(ref) {
-                                                var on = ref.on
-                                                return [
-                                                  _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      {
-                                                        attrs: {
-                                                          color: "error",
-                                                          fab: "",
-                                                          small: "",
-                                                          dark: ""
-                                                        },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.delPage(
-                                                              props.item
-                                                            )
+                      _c(
+                        "v-data-table",
+                        {
+                          attrs: {
+                            headers: _vm.headers,
+                            items: _vm.pages,
+                            search: _vm.search,
+                            loading: _vm.loading
+                          },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "items",
+                              fn: function(props) {
+                                return [
+                                  _c("td", { attrs: { width: "70%" } }, [
+                                    _vm._v(_vm._s(props.item.title))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    { attrs: { width: "30%" } },
+                                    [
+                                      _c("status", {
+                                        attrs: {
+                                          attributes: props.item,
+                                          endpoint:
+                                            "/pages/" +
+                                            props.item.id +
+                                            "/status"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: { top: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        {
+                                                          attrs: {
+                                                            href:
+                                                              "/pages/" +
+                                                              props.item.id +
+                                                              "/edit",
+                                                            color: "success",
+                                                            fab: "",
+                                                            small: "",
+                                                            dark: ""
                                                           }
-                                                        }
-                                                      },
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v("delete")
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                ]
+                                                        },
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v("edit")
+                                                        ])
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
                                               }
-                                            }
-                                          ],
-                                          true
-                                        )
-                                      },
-                                      [
-                                        _vm._v(" "),
-                                        _c("span", [_vm._v("Delete")])
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ]
+                                            ],
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("Edit")])
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: { right: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        {
+                                                          attrs: {
+                                                            color: "error",
+                                                            fab: "",
+                                                            small: "",
+                                                            dark: ""
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.delPage(
+                                                                props.item
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v("delete")
+                                                        ])
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("Delete")])
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
+                              }
                             }
-                          }
-                        ])
-                      })
+                          ])
+                        },
+                        [
+                          _c("v-progress-linear", {
+                            attrs: { color: "blue", indeterminate: "" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "progress",
+                                fn: function() {
+                                  return undefined
+                                },
+                                proxy: true
+                              }
+                            ])
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   )

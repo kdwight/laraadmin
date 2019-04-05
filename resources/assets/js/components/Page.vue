@@ -17,7 +17,8 @@
               ></v-text-field>
             </v-card-title>
 
-            <v-data-table :headers="headers" :items="pages" :search="search">
+            <v-data-table :headers="headers" :items="pages" :search="search" :loading="loading">
+              <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
               <template slot="items" slot-scope="props">
                 <td width="70%">{{ props.item.title }}</td>
                 <td width="30%">
@@ -65,6 +66,7 @@ export default {
 
   data() {
     return {
+      loading: true,
       search: "",
       pages: [],
       headers: [
@@ -82,6 +84,7 @@ export default {
     async getPages() {
       await axios.get(`/vue/pages`).then(({ data }) => {
         this.pages = data;
+        this.loading = false;
       });
     }
   },
