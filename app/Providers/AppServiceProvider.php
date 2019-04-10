@@ -7,6 +7,16 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -22,15 +32,5 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('sidebar', json_decode(auth()->user()->hasAccess()->access));
             }
         });
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 }

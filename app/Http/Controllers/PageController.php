@@ -20,7 +20,7 @@ class PageController extends Controller
     //admin side
     public function index()
     {
-        $pages = Page::latest()->get();
+        $pages = Page::take(50)->latest()->get();
         return view('admin.pages.index', compact('pages'));
     }
 
@@ -31,7 +31,7 @@ class PageController extends Controller
 
     public function store()
     {
-        $attr = $this->validate(request(), [
+        $attr = request()->validate([
             'title' => 'required',
             'slug' => 'required|unique:pages,slug',
             'description' => 'required',
@@ -49,7 +49,7 @@ class PageController extends Controller
 
     public function update(Page $page)
     {
-        $attr = $this->validate(request(), [
+        $attr = request()->validate([
             'title' => 'required',
             'slug' => ['required', Rule::unique('pages')->ignore($page->id)],
             'description' => 'required',

@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Page::class, function (Faker $faker) {
+$factory->define(Model::class, function (Faker $faker) {
     return [
         'title' => $faker->word,
         'slug' => str_random(10),

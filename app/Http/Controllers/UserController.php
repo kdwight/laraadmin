@@ -30,7 +30,7 @@ class UserController extends Controller
 
     public function update_password(User $user)
     {
-        $this->validate(request(), [
+        request()->validate([
             'old_password' => 'required',
             'password' => 'required | confirmed'
         ]);
@@ -60,7 +60,7 @@ class UserController extends Controller
 
     public function store_role()
     {
-        $this->validate(request(), [
+        request()->validate([
             'name' => 'required',
             'access' => 'required',
             'description' => 'required',
@@ -85,7 +85,7 @@ class UserController extends Controller
 
     public function update_role(Role $role)
     {
-        $this->validate(request(), [
+        request()->validate([
             'name' => 'required',
             'access' => 'required',
             'description' => 'required',
@@ -137,7 +137,7 @@ class UserController extends Controller
 
     public function store()
     {
-        $this->validate(request(), [
+        request()->validate([
             'username' => 'required',
             'type' => 'required',
             'password' => 'required | confirmed',
@@ -162,7 +162,7 @@ class UserController extends Controller
 
     public function update(User $user)
     {
-        $this->validate(request(), [
+        request()->validate([
             'username' => 'required',
             'password' => 'nullable | confirmed',
         ]);
