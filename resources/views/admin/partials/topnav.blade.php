@@ -1,8 +1,8 @@
 <!-- Top navbar -->
-<nav class="navbar navbar-top navbar-expand-md" id="navbar-main">
+<nav class="navbar navbar-top navbar-expand-md bg-gradient-default navbar-dark" id="navbar-main">
     <div class="container-fluid">
         <!-- Brand -->
-        <a class="h4 mb-0 text-uppercase d-none d-lg-inline-block" href="#">Users</a>
+        <a class="h4 mb-0 text-uppercase d-none d-lg-inline-block text-white" href="#">{{ request()->segment(2) }}</a>
 
         <!-- User -->
         <ul class="navbar-nav align-items-center d-none d-md-flex">
@@ -11,8 +11,9 @@
                 <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle fa fa-user"></span>
+
                         <div class="media-body ml-2 d-none d-lg-block">
-                            <span class="mb-0 text-sm  font-weight-bold">Barry Allen</span>
+                            <span class="mb-0 text-sm text-capitalize font-weight-bold">{{ auth()->user()->username }}</span>
                         </div>
                     </div>
                 </a>
@@ -38,7 +39,8 @@
                     </a>
 
                     <div class="dropdown-divider"></div>
-                    <a href="#!" class="dropdown-item">
+
+                    <a href="{{ url('admin-logout') }}" class="dropdown-item">
                         <i class="ni ni-user-run"></i>
                         <span>Logout</span>
                     </a>

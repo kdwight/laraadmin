@@ -5,35 +5,47 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
+    const ADMIN_TYPE = 'admin';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username', 'password', 'type', 'status',
+        'created_by', 'updated_by',
+        'last_login_at', 'last_login_ip', 'last_user_agent'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected $dates = ['deleted_at'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        /* static::creating(function ($model) {
+            $model->created_by = auth()->id();
+        }); */
+
+        static::updating(function ($model) {
+            $model->updated_by = auth()->id();
+        });
+    }
+
+    public function isAdmin()
+    {
+        return $this->type === self::ADMIN_TYPE;
+    }
+
+    public function hasAccess()
+    {
+        $type = $this->type;
+        return Role::whereName($type)->first();
+    }
 }

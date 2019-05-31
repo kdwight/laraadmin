@@ -11,7 +11,7 @@
             LaraCMS
         </a>
 
-        @include('partials.mobnav')
+        @include('admin.partials.mobnav')
 
         <!-- Collapse -->
         <div class="collapse navbar-collapse" id="sidenav-collapse-main">
@@ -34,19 +34,17 @@
 
             <!-- Navigation -->
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-single-copy-04 text-yellow"></i> Pages
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-users text-default"></i> Users
-                    </a>
-                </li>
+                @for ($i = 0; $i < count($sidenav); $i++)
+                    <li class="nav-item">
+                        <a class="nav-link {{ (request()->is('admin/'.$sidenav[$i] . '*')) ? 'active' : '' }}" href="/admin/{{ $sidenav[$i] }}">
+                            <i class="{{ (request()->is('admin/'.$sidenav[$i] . '*')) ? 'fas fa-circle' : 'far fa-circle' }}"></i> {{ ucwords(str_replace('_', ' ', $sidenav[$i])) }}
+                        </a>
+                    </li>
+                @endfor
             </ul>
+
             <hr class="my-3">
+
             <div>
                 <!-- Heading -->
                 <h6 class="navbar-heading text-muted">Account</h6>
@@ -55,13 +53,13 @@
                 <ul class="navbar-nav mb-md-3">
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <i class="ni ni-lock-circle-open"></i> Change Password
+                            <i class="ni ni-lock-circle-open text-info"></i> Change Password
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="ni ni-user-run"></i> Logout
+                        <a class="nav-link" href="{{ url('admin-logout') }}">
+                            <i class="ni ni-user-run text-danger"></i> Logout
                         </a>
                     </li>
                 </ul>
