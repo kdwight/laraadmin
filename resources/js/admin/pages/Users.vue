@@ -2,9 +2,11 @@
   <div>
     <div class="d-flex justify-content-end">
       <user-form></user-form>
+      <router-link :to="{ name: 'user.roles' }">Roles</router-link>
     </div>
 
-    <users-table fetch-url="/admin/users" :columns="['username', 'type']"></users-table>
+    <router-view></router-view>
+    <!-- <users-table fetch-url="/admin/users" :columns="['username', 'type']"></users-table> -->
   </div>
 </template>
 

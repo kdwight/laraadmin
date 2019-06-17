@@ -123,9 +123,9 @@ class UserController extends Controller
     public function store()
     {
         $this->validate(request(), [
-            'username' => 'required',
+            'username' => 'required|unique:users',
             'type' => 'required',
-            'password' => 'required | confirmed',
+            'password' => 'required|confirmed',
         ]);
 
         User::create([

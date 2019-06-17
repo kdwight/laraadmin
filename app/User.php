@@ -5,12 +5,10 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
-    use SoftDeletes;
     const ADMIN_TYPE = 'admin';
 
     protected $fillable = [
@@ -23,15 +21,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $dates = ['deleted_at'];
-
     public static function boot()
     {
         parent::boot();
 
-        /* static::creating(function ($model) {
+        static::creating(function ($model) {
             $model->created_by = auth()->id();
-        }); */
+        });
 
         static::updating(function ($model) {
             $model->updated_by = auth()->id();

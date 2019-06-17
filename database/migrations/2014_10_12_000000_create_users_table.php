@@ -26,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->string('last_user_agent')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
