@@ -140,7 +140,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         if ($user->id != 1) {
-            return view('admin.users.edit', compact('user'));
+            return response($user);
         }
 
         return back();

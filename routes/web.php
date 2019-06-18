@@ -10,6 +10,7 @@ Route::get('admin-logout', 'AdminSessionController@destroy');
 
 Route::prefix('admin')->group(function () {
     Route::middleware(['auth'])->group(function () {
+        Route::get('/{any}', 'UserController@index')->where(['any' => 'users.*|roles']);
 
         /* USER MANAGEMENT */
         Route::get('change-password/{user}', 'UserController@edit_password');

@@ -1,6 +1,7 @@
 import './bootstrap';
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import routes from './admin/router';
 
 Vue.use(VueRouter)
 
@@ -17,34 +18,6 @@ window.fetchData = function () {
 
 import Flash from './admin/components/Flash'
 import Users from './admin/pages/Users'
-import UserEdit from './admin/pages/UserEdit'
-import Roles from './admin/pages/Roles'
-import UsersTable from './admin/components/UsersTable'
-
-const router = new VueRouter({
-    mode: 'history',
-    routes: [
-        {
-            path: '/admin/users',
-            name: 'users.index',
-            component: UsersTable,
-            props: {
-                fetchUrl: "/admin/users",
-                columns: ['username', 'type']
-            }
-        },
-        {
-            path: '/admin/users/:id/edit',
-            name: 'users.edit',
-            component: UserEdit
-        },
-        {
-            path: '/admin/roles',
-            name: 'user.roles',
-            component: Roles,
-        },
-    ],
-});
 
 const admin = new Vue({
     el: '#admin',
@@ -52,5 +25,6 @@ const admin = new Vue({
         Flash,
         Users
     },
-    router
+
+    router: new VueRouter(routes)
 });

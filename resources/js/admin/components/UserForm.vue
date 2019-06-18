@@ -1,9 +1,5 @@
 <template>
   <div>
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#userForm">
-      <i class="fas fa-user-plus"></i> Create User
-    </button>
-
     <div
       class="modal fade"
       id="userForm"

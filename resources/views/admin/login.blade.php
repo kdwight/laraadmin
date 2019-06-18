@@ -7,7 +7,7 @@
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Favicon -->
-  <link href="{{ asset('argon/img/brand/favicon.png') }}" rel="icon" type="image/png">
+  <link href="{{ asset('images/favicon.png') }}" rel="icon" type="image/png">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 
@@ -38,7 +38,8 @@
       </div>
 
       <div class="separator separator-bottom separator-skew zindex-100">
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+          xmlns="http://www.w3.org/2000/svg">
           <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
         </svg>
       </div>
@@ -51,9 +52,9 @@
           <div class="card bg-secondary shadow border-0">
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-danger mb-4">
-                  @if ($message = session('error'))
-                      <small>{{ $message }}</small>
-                  @endif
+                @if ($message = session('error'))
+                <small>{{ $message }}</small>
+                @endif
               </div>
 
               <form method="POST" action="{{ url('admin') }}">
@@ -65,7 +66,8 @@
                       <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                     </div>
 
-                    <input type="text" class="form-control" name="username" placeholder="username" value="{{ old('username') }}" autocomplete="username" required autofocus>
+                    <input type="text" class="form-control" name="username" placeholder="username"
+                      value="{{ old('username') }}" autocomplete="username" required autofocus>
                   </div>
                 </div>
 
@@ -81,7 +83,8 @@
                 </div>
 
                 <div class="custom-control custom-control-alternative custom-checkbox">
-                  <input class="custom-control-input" id="remember" name="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }}>
+                  <input class="custom-control-input" id="remember" name="remember" type="checkbox"
+                    {{ old('remember') ? 'checked' : '' }}>
 
                   <label class="custom-control-label" for="remember">
                     <span class="text-muted">{{ __('Remember Me') }}</span>
@@ -106,7 +109,8 @@
       <div class="row align-items-center justify-content-xl-between">
         <div class="col-xl-6">
           <div class="copyright text-center text-xl-left text-muted">
-            &copy; {{ date('Y') }} <a href="https://github.com/kdwight" class="font-weight-bold ml-1" target="_blank">Kdwight</a>
+            &copy; {{ date('Y') }} <a href="https://github.com/kdwight" class="font-weight-bold ml-1"
+              target="_blank">Kdwight</a>
           </div>
         </div>
         <div class="col-xl-6">

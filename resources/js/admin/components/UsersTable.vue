@@ -9,6 +9,10 @@
               <button class="btn btn-primary btn-sm" @click="fetchData">
                 <i class="fas fa-sync"></i> Reload
               </button>
+
+              <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#userForm">
+                <i class="fas fa-user-plus"></i> Create User
+              </button>
             </div>
 
             <div class="col-3">
@@ -68,13 +72,11 @@
                 <td class="text-center">
                   <status :attributes="data" :endpoint="`/admin/users/${data.id}/status`"></status>
 
-                  <router-link :to="{ name: 'users.edit', params: { id: data.id } }">Edit</router-link>
-
-                  <a :href="`/admin/users/${data.id}/edit`" class="mr-2">
+                  <router-link :to="{ name: 'users.edit', params: { id: data.id } }" class="mr-2">
                     <button type="button" class="btn btn-success btn-sm">
                       <i class="fas fa-user-edit"></i>
                     </button>
-                  </a>
+                  </router-link>
 
                   <button type="button" class="btn btn-danger btn-sm" @click="deleteRow(data)">
                     <i class="fas fa-user-times"></i>
@@ -96,17 +98,21 @@
         </div>
       </div>
     </div>
+
+    <!-- modal form -->
+    <user-form></user-form>
   </div>
 </template>
 
 <script>
+import UserForm from "../components/UserForm";
 import Status from "../components/Status";
 import TableNav from "../components/TableNav";
 import DataTable from "../mixins/DataTables";
 
 export default {
   mixins: [DataTable],
-  components: { Status, TableNav },
+  components: { UserForm, Status, TableNav },
 
   data() {
     return {};

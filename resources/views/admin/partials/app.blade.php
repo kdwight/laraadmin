@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'laracms') }}</title>
 
     <!-- Favicon -->
-    <link href="{{ asset('argon/img/brand/favicon.png') }}" rel="icon" type="image/png">
+    <link href="{{ asset('images/favicon.png') }}" rel="icon" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 
