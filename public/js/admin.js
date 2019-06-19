@@ -2231,6 +2231,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2345,6 +2348,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user'],
   data: function data() {
     return {
       form: new _forms__WEBPACK_IMPORTED_MODULE_0__["Form"]({
@@ -2362,11 +2366,16 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
 
-    axios.get("/admin/users/".concat(this.$route.params.id, "/edit")).then(function (_ref) {
+    axios.get("/admin/API/".concat(this.$route.params.id, "/user-edit")).then(function (_ref) {
       var data = _ref.data;
       _this.form.username = data.username;
       _this.form.type = data.type;
     });
+
+    if (this.user) {
+      this.form.username = this.user.username;
+      this.form.type = this.user.type;
+    }
   }
 });
 
@@ -4311,7 +4320,7 @@ var render = function() {
                                       attrs: {
                                         to: {
                                           name: "users.edit",
-                                          params: { id: data.id }
+                                          params: { id: data.id, user: data }
                                         }
                                       }
                                     },
@@ -20440,7 +20449,8 @@ __webpack_require__.r(__webpack_exports__);
   }, {
     path: '/admin/users/:id/edit',
     name: 'users.edit',
-    component: _pages_UserEdit__WEBPACK_IMPORTED_MODULE_0__["default"]
+    component: _pages_UserEdit__WEBPACK_IMPORTED_MODULE_0__["default"],
+    props: true
   }, {
     path: '/admin/roles',
     name: 'user.roles',

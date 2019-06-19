@@ -10,6 +10,10 @@ Route::get('admin-logout', 'AdminSessionController@destroy');
 
 Route::prefix('admin')->group(function () {
     Route::middleware(['auth'])->group(function () {
+        Route::prefix('API')->group(function () {
+            Route::get('/{user}/user-edit', 'UserController@edit');
+        });
+
         Route::get('/{any}', 'UserController@index')->where(['any' => 'users.*|roles']);
 
         /* USER MANAGEMENT */

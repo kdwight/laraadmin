@@ -72,7 +72,10 @@
                 <td class="text-center">
                   <status :attributes="data" :endpoint="`/admin/users/${data.id}/status`"></status>
 
-                  <router-link :to="{ name: 'users.edit', params: { id: data.id } }" class="mr-2">
+                  <router-link
+                    :to="{ name: 'users.edit', params: { id: data.id, user: data } }"
+                    class="mr-2"
+                  >
                     <button type="button" class="btn btn-success btn-sm">
                       <i class="fas fa-user-edit"></i>
                     </button>

@@ -23,7 +23,8 @@ export default {
         {
             path: '/admin/users/:id/edit',
             name: 'users.edit',
-            component: UserEdit
+            component: UserEdit,
+            props: true
         },
         {
             path: '/admin/roles',

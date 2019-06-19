@@ -46,6 +46,9 @@
 import { Form } from "../forms";
 
 export default {
+  props: ['user'],
+
+
   data() {
     return {
       form: new Form({
@@ -59,10 +62,15 @@ export default {
     if (this.$route.params.id == 1) {
       this.$router.push({ name: "users.index" });
     }
-    axios.get(`/admin/users/${this.$route.params.id}/edit`).then(({ data }) => {
+    axios.get(`/admin/API/${this.$route.params.id}/user-edit`).then(({ data }) => {
       this.form.username = data.username;
       this.form.type = data.type;
     });
+
+    if(this.user) {
+      this.form.username = this.user.username;
+      this.form.type = this.user.type;
+    }
   }
 };
 </script>
