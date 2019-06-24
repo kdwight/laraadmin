@@ -19,7 +19,7 @@ Route::prefix('admin')->group(function () {
         /* USER MANAGEMENT */
         Route::get('change-password/{user}', 'UserController@edit_password');
         Route::patch('change-password/{user}', 'UserController@update_password');
-        Route::put('update-password/{user}', 'UserController@change_password');
+        Route::put('update-password/{user}', 'UserController@changePassword');
 
         Route::get('users/data-table', 'UserController@index')->name('users.table');
         Route::patch('users/{user}/status', 'UserController@status');

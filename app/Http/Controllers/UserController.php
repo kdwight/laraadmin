@@ -148,18 +148,30 @@ class UserController extends Controller
 
     public function update(User $user)
     {
-        $this->validate(request(), [
+        request()->validate([
             'username' => 'required',
-            'password' => 'nullable | confirmed',
+            'type' => 'required',
         ]);
 
         $user->update([
             'username' => request('username'),
             'type' => request('type'),
-            'password' => bcrypt(request('password'))
         ]);
 
         return response()->json('User updated', 200);
+    }
+
+    public function changePassword(User $user)
+    {
+        request()->validate([
+            'password' => 'required|confirmed|string|min:8'
+        ]);
+
+        $user->update([
+            'password' => bcrypt(request('password'))
+        ]);
+
+        return response()->json("User's password updated", 200);
     }
 
     public function status(User $user)
