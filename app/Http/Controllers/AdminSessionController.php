@@ -28,7 +28,7 @@ class AdminSessionController extends Controller
             'last_user_agent' => request()->header('User-Agent')
         ]);
 
-        return redirect('/pages');
+        return redirect('/admin/pages');
     }
 
     public function destroy()

@@ -1,90 +1,130 @@
-@extends('layouts_admin.master')
+@extends('admin.partials.app')
 
 @section('content')
-<div class="offset-11">
-    <a href="/users" class="btn btn-dark">Back</a>
-</div>
-<br>
 <div class="row">
-    <div class="col-md-6 grid-margin stretch-card">
-        <div class="card">
+    <div class="col-md-4">
+        <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <span class="mb-0">Add Role</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="card-body">
-                <h4 class="card-title">Add Role</h4>
-                <form class="forms-sample" action="/users/roles" method="post">
-                    {{ csrf_field() }}
+                <form class="forms-sample" action="{{ url('admin/users/roles') }}" method="post">
+                    @csrf
 
                     <div class="form-group">
-                        <label for="name">Role</label>
-                        <input type="text"
-                            name="name"
+                        <label class="form-control-label">Role</label>
+
+                        <input type="text" name="name"
                             class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
-                            placeholder="Role"
                             value="{{ old('name')}}"
-                        >
-                        @if ( $errors->has('name'))
-                            <p class="text-danger">{{ $errors->first('name') }}</p>
-                        @endif
+                            placeholder="Role">
+
+                        @error('name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
 
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="text"
-                            name="description"
+                        <label class="form-control-label">Description</label>
+
+                        <input type="text" name="description"
                             class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                            placeholder="Description"
-                            value="{{ old('description')}}"
-                        >
-                        @if ( $errors->has('description'))
-                            <p class="text-danger">{{ $errors->first('description') }}</p>
-                        @endif
+                            placeholder="Description" value="{{ old('description')}}">
+
+                        @error('description')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
 
                     <div class="form-group">
-                        <label>Allowed access</label>
-                        @if ( $errors->has('access'))
-                            <p class="text-danger">{{ $errors->first('access') }}</p>
-                        @endif
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-check form-check-flat">
-                                    <label class="form-check-label">
-                                    <input type="checkbox" name="access[]" class="form-check-input" value="pages"> Pages
-                                    <i class="input-helper"></i></label>
+                        <label class="form-control-label">Allowed Access</label>
+
+                        @error('access')
+                        <p class="text-warning">
+                            <small>
+                                {{ $errors->first('access') }}
+                            </small>
+                        </p>
+                        @enderror
+
+                        <div class="row justify-content-around">
+                            <div class="">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="pages" class="custom-control-input" type="checkbox" name="access[]" value="pages">
+                                    <label for="pages" class="custom-control-label">Pages</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input id="careers" class="custom-control-input" type="checkbox" name="access[]" value="careers">
+                                    <label for="careers" class="custom-control-label">Careers</label>
+                                </div>
+                            </div>
+
+                            <div class="">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="articles" class="custom-control-input" type="checkbox" name="access[]" value="articles">
+                                    <label for="articles" class="custom-control-label">Articles</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input id="works" class="custom-control-input" type="checkbox" name="access[]" value="works">
+                                    <label for="works" class="custom-control-label">Works</label>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-success mr-2">Submit</button>
-                    <a href="/users" class="btn btn-light">Cancel</a>
+                    <a href="{{ url('admin/users') }}" class="btn btn-light">Cancel</a>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="col-md-6 grid-margin stretch-card">
-        <div class="card">
+    <div class="col">
+        <div class="card shadow">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <span class="mb-0">List of Roles</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="card-body">
-                <h4 class="card-title">List of Roles</h4>
                 <div class="table-responsive">
-                    <table id="table" class="table table-hover">
-                        <thead>
+                    <table id="table" class="table align-items-center table-hover">
+                        <thead class="thead-light">
                             <tr>
-                                <th width="80%">Role</th>
-                                <th>Action</th>
+                                <th>Role</th>
+                                <th width="10%">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+
+                        <tbody class="list">
                             @foreach ($roles as $role)
                             <tr>
                                 <td> {{ $role->description }} </td>
                                 @if ($role->name != 'admin')
                                 <td style="white-space: nowrap">
-                                    <form class="confirmDelete" action="/users/{{$role->id }}/delete-role" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                        <a href="/users/{{$role->id}}/edit-role" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a>
-                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                    <form class="confirmDelete" action="{{ url("admin/users/$role->id/delete-role") }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <a href="{{ url("admin/users/$role->id/edit-role") }}" class="btn btn-icons btn-rounded btn-success btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <button type="submit" class="btn btn-icons btn-rounded btn-danger btn-sm" title="delete">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </form>
                                 </td>
                                 @else
@@ -99,6 +139,4 @@
         </div>
     </div>
 </div>
-<flash message="{{ session('success') }}"></flash>
-
 @endsection

@@ -1,97 +1,132 @@
 <!DOCTYPE html>
-<html lang="en" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{env('APP_NAME')}}</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link rel="stylesheet" href="{{ asset('staradmin/vendors/iconfonts/font-awesome/css/font-awesome.css') }}">
-    <link rel="stylesheet" href="{{ asset('staradmin/vendors/iconfonts/mdi/css/materialdesignicons.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('staradmin/vendors/css/vendor.bundle.base.css') }}">
-    <link rel="stylesheet" href="{{ asset('staradmin/vendors/css/vendor.bundle.addons.css') }}">
-    <link rel="stylesheet" href="{{ asset('staradmin/css/style.css') }}">
-    <link rel="shortcut icon" href="{{ asset('staradmin/images/favicon.png') }}" />
+  <!-- Favicon -->
+  <link href="{{ asset('images/favicon.png') }}" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 
-    <style>
-        .login-bg {
-            background: #112a2e !important;
-        }
-    </style>
+  <!-- Argon Dashboard-->
+  <link href="{{ asset('argon/vendor/nucleo/css/nucleo.css') }}" rel="stylesheet">
+  <link href="{{ asset('argon/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('argon/css/argon.min.css') }}" rel="stylesheet">
+  <script src="{{ asset('argon/vendor/jquery/dist/jquery.min.js') }}" defer></script>
+  <script src="{{ asset('argon/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}" defer></script>
+  <script src="{{ asset('argon/js/argon.min.js') }}" defer></script>
+  <!-- Argon Dashboard-->
 </head>
 
-<body>
-    <div class="container-scroller">
-        <div class="container-fluid page-body-wrapper full-page-wrapper auth-page">
-            <div class="login-bg content-wrapper d-flex align-items-center auth theme-one">
-                <div class="row w-100">
-                    <div class="col-lg-4 mx-auto">
+<body class="bg-default">
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header bg-gradient-primary py-5">
+      <div class="container">
+        <div class="header-body text-center mb-7">
+          <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-6">
+              <h1 class="text-white">안녕!</h1>
 
-                        @if ($message = session('error'))
-                            <div class="alert alert-danger alert-block ">
-                            {{ $message }}
-                            </div>
-                        @endif
-
-                        <div class="auto-form-wrapper">
-
-                            <form method="POST" action="{{'/admin_login'}}">
-                                {{ csrf_field() }}
-
-                                <div class="form-group">
-                                    <label class="label">Username</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="username" placeholder="Username" value="{{ old('username') }}" autofocus>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-user"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="label">Password</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" name="password" placeholder="*********">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-key"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <button class="btn btn-primary submit-btn btn-block">Login</button>
-                                </div>
-
-                            </form>
-
-                        </div>
-                        <ul class="auth-footer">
-                            <li>
-                                <a href="#">Conditions</a>
-                            </li>
-                            <li>
-                                <a href="#">Help</a>
-                            </li>
-                            <li>
-                                <a href="#">Terms</a>
-                            </li>
-                        </ul>
-                        <p class="footer-text text-center">copyright © 2018 CarbonDigital Inc. All rights reserved.</p>
-                    </div>
-                </div>
+              <p class="text-lead text-light">CMS by kdwight.</p>
             </div>
+          </div>
         </div>
+      </div>
+
+      <div class="separator separator-bottom separator-skew zindex-100">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+          xmlns="http://www.w3.org/2000/svg">
+          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+      </div>
     </div>
 
-    <script src="{{ asset('staradmin/vendors/js/vendor.bundle.base.js') }}"></script>
-    <script src="{{ asset('staradmin/vendors/js/vendor.bundle.addons.js') }}"></script>
-    <script src="{{ asset('staradmin/js/off-canvas.js') }}"></script>
-    <script src="{{ asset('staradmin/js/misc.js') }}"></script>
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="card bg-secondary shadow border-0">
+            <div class="card-body px-lg-5 py-lg-5">
+              <div class="text-center text-danger mb-4">
+                @if ($message = session('error'))
+                <small>{{ $message }}</small>
+                @endif
+              </div>
+
+              <form method="POST" action="{{ url('admin_login') }}">
+                @csrf
+
+                <div class="form-group mb-3 @error('username') has-danger @enderror">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                    </div>
+
+                    <input type="text" class="form-control" name="username" placeholder="username"
+                      value="{{ old('username') }}" autocomplete="username" required autofocus>
+                  </div>
+                </div>
+
+                <div class="form-group @error('password') has-danger @enderror">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+
+                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                  </div>
+
+                </div>
+
+                <div class="custom-control custom-control-alternative custom-checkbox">
+                  <input class="custom-control-input" id="remember" name="remember" type="checkbox"
+                    {{ old('remember') ? 'checked' : '' }}>
+
+                  <label class="custom-control-label" for="remember">
+                    <span class="text-muted">{{ __('Remember Me') }}</span>
+                  </label>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-xl-between">
+        <div class="col-xl-6">
+          <div class="copyright text-center text-xl-left text-muted">
+            &copy; {{ date('Y') }} <a href="https://github.com/kdwight" class="font-weight-bold ml-1"
+              target="_blank">Kdwight</a>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+            <li class="nav-item">
+              <a href="https://twitter.com/kisserdwight" class="nav-link" target="_blank">Twitter</a>
+            </li>
+            <li class="nav-item">
+              <a href="https://github.com/kdwight" class="nav-link" target="_blank">GitHub</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
 </body>
 
 </html>

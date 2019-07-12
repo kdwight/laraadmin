@@ -1,46 +1,74 @@
-@extends('layouts_admin.master')
+@extends('admin.partials.app')
 
 @section('content')
+<div class="d-flex flex-column">
 
-<div class="col-md-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Edit a page</h4>
-
-            <form class="forms-sample" action="/pages/{{$page->id}}" method="post">
-                {{ csrf_field() }}
-                {{ method_field('PATCH') }}
-
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" name="title" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"  value="{{ null !== old('title') ? old('title') : $page->title }}" placeholder="Title">
-                    @if ( $errors->has('title'))
-                        <p class="text-danger">{{ $errors->first('title') }}</p>
-                    @endif
+    <div class="d-flex justify-content-around">
+        <div class="col-md-9">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-between">
+                        <div class="col-8">
+                            <h3 class="mb-0">Edit Page</h3>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="slug">City</label>
-                    <input type="text" id="slug" name="slug" placeholder="Slug" class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" value="{{ null !== old('slug') ? old('slug') : $page->slug }}">
-                    @if ( $errors->has('slug'))
-                        <p class="text-danger">{{ $errors->first('slug') }}</p>
-                    @endif
+                <div class="card-body">
+                    <form action="{{ url("admin/pages/$page->id") }}" method="post">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="form-group">
+                            <label class="form-control-label">Title</label>
+
+                            <input type="text" id="title" name="title" placeholder="Title"
+                                class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
+                                value="{{ null !== old('title') ? old('title') : $page->title }}">
+
+                            @error('title')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">Slug</label>
+
+                            <input type="text" id="slug" name="slug" placeholder="Slug"
+                                class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}"
+                                value="{{ null !== old('slug') ? old('slug') : $page->slug }}">
+
+                            @error('slug')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">Description</label>
+
+                            @error('description')
+                            <p class="text-warning">
+                                <small>
+                                    {{ $message }}
+                                </small>
+                            </p>
+                            @enderror
+
+                            <textarea class="description" name="description"
+                                rows="10">{!! $page->description !!}</textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success mr-2">Submit</button>
+                        <a href="{{ url('admin/pages') }}" class="btn btn-light">Cancel</a>
+                    </form>
                 </div>
-
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description">{!! $page->description !!}</textarea>
-                    @if ( $errors->has('description'))
-                        <p class="text-danger">{{ $errors->first('description') }}</p>
-                    @endif
-                </div>
-
-                <button type="submit" class="btn btn-success mr-2">Submit</button>
-                <a href="/pages" class="btn btn-light">Cancel</a>
-            </form>
-
+            </div>
         </div>
     </div>
-</div>
 
+</div>
 @endsection

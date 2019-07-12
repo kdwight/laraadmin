@@ -1,5 +1,6 @@
 <?php
 
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
@@ -18,9 +19,9 @@ use Faker\Generator as Faker;
 $factory->define(User::class, function (Faker $faker) {
     return [
         'username' => $faker->name,
-        'password' => '$2y$10$3rsC0huV31ZsMn2rHb8CFOjBWglWRS1mIuajeQ3NcxWNSRWFjSKj6', // 123
         'type' => 'editor',
+        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'created_by' => 1,
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
     ];
 });

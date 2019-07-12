@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,8 +13,8 @@ class User extends Authenticatable
     use SoftDeletes;
     const ADMIN_TYPE = 'admin';
 
-    protected $fillable = ['order', 'username', 'password', 'type', 'status', 'created_by', 'updated_by', 'last_login_at', 'last_login_ip', 'last_user_agent'];
-    protected $hidden = ['password', 'remember_token', 'order'];
+    protected $fillable = ['username', 'password', 'type', 'status', 'created_by', 'updated_by', 'last_login_at', 'last_login_ip', 'last_user_agent'];
+    protected $hidden = ['password', 'remember_token'];
     protected $dates = ['deleted_at'];
 
     public static function boot()

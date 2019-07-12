@@ -1,45 +1,73 @@
-@extends('layouts_admin.master')
+@extends('admin.partials.app')
 
 @section('content')
+<div class="d-flex flex-column">
 
-<div class="col-md-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Add a page</h4>
-            <div id="app2">
-            <form class="forms-sample" action="/pages" method="post">
-                {{ csrf_field() }}
-
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" name="title" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" value="{{ old('title')}}" placeholder="Title">
-                    @if ( $errors->has('title'))
-                        <p class="text-danger">{{ $errors->first('title') }}</p>
-                    @endif
-                </div>
-                <p></p>
-                <div class="form-group">
-                    <label for="slug">Slug</label>
-                    <input type="text" id="slug" name="slug" placeholder="Slug" class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" value="{{ old('slug')}}">
-                    @if ( $errors->has('slug'))
-                        <p class="text-danger">{{ $errors->first('slug') }}</p>
-                    @endif
+    <div class="d-flex justify-content-around">
+        <div class="col-md-9">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-between">
+                        <div class="col-8">
+                            <h3 class="mb-0">Add Page</h3>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" placeholder="Description"> {{ old('description')}} </textarea>
-                    @if ( $errors->has('description'))
-                        <p class="text-danger">{{ $errors->first('description') }}</p>
-                    @endif
-                </div>
+                <div class="card-body">
+                    <form class="forms-sample" action="{{ url('admin/pages') }}" method="post">
+                        @csrf
 
-                <button type="submit" class="btn btn-success mr-2">Submit</button>
-                <a href="/pages" class="btn btn-light">Cancel</a>
-            </form>
-</div>
+                        <div class="form-group">
+                            <label class="form-control-label">Title</label>
+
+                            <input id="title" type="text" name="title" placeholder="Title"
+                                class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
+                                value="{{ old('title') }}">
+
+                            @error('title')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">Slug</label>
+
+                            <input id="slug" type="text" name="slug" placeholder="Slug"
+                                class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}"
+                                value="{{ old('slug') }}">
+
+                            @error('slug')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">Description</label>
+
+                            @error('description')
+                            <p class="text-warning">
+                                <small>
+                                    {{ $message }}
+                                </small>
+                            </p>
+                            @enderror
+
+                            <textarea class="description" name="description" rows="10"
+                                placeholder="Description"> {{ old('description') }} </textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success mr-2">Submit</button>
+                        <a href="{{ url('admin/pages') }}" class="btn btn-light">Cancel</a>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
+</div>
 @endsection

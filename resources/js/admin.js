@@ -1,19 +1,77 @@
+import './bootstrap'
+import Vue from 'vue'
+
+window.events = new Vue();
+window.flash = function (message, level = "success") {
+    window.events.$emit('flash', { message, level });
+};
+
+import Flash from './admin/components/Flash'
+import Status from './admin/components/Status'
+
+const app = new Vue({
+    el: '#admin',
+    components: {
+        Flash,
+        Status
+    }
+});
+
+// == == == == == == == == == == == == == == == == == ==
+
 // delete button with confirmation
 $(".confirmDelete").on("submit", function () {
     return confirm("Do you want to delete this item?");
 });
 
 // turns static table into datatable
-$("#table").DataTable();
+$("#table").DataTable({
+    language: {
+        paginate: {
+            next: '<i class="fas fa-angle-right"></i>',
+            previous: '<i class="fas fa-angle-left"></i>'
+        }
+    },
 
-// turns datatable into sortable datatable
-$("#tablecontents").sortable({
-    items: "tr",
-    cursor: 'move',
-    opacity: 0.6,
-    update: function () {
-        sendOrderToServer();
-    }
+    columnDefs: [{
+        targets: [-1, -2],
+        searchable: false,
+        orderable: false
+    }]
+});
+
+$('#ajax-table').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+        url: $('#ajax-table').data('url'),
+        dataType: "json",
+        type: "POST",
+        data: { _token: window.token.content }
+    },
+
+    language: {
+        loadingRecords: '&nbsp;',
+        processing: '<img src="/img/preloader.svg">',
+        paginate: {
+            next: '<i class="fas fa-angle-right"></i>',
+            previous: '<i class="fas fa-angle-left"></i>'
+        }
+    },
+
+    columns: [
+        { data: "username" },
+        { data: "type" },
+        { data: "status" },
+        { data: "action" },
+    ],
+
+    aoColumnDefs: [
+        {
+            bSortable: false,
+            aTargets: [1, 2, -1]
+        }
+    ]
 });
 
 // copies title field input into slug field while typing and turns whitespaces to dash
@@ -29,15 +87,12 @@ if (title_field) {
 // turns textarea into wysiwyg with laravel file manager
 const editor_config = {
     path_absolute: "/",
-    selector: "#description",
-    height: 400,
-    plugins: [
-        "link image hr anchor pagebreak",
-        "searchreplace wordcount code fullscreen",
-        "insertdatetime nonbreaking contextmenu",
-        "paste textcolor colorpicker textpattern"
-    ],
-    toolbar: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code",
+    selector: ".description",
+    plugins: ["advlist autolink lists link image charmap preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking contextmenu directionality",
+        "paste textcolor colorpicker textpattern"],
+    toolbar1: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code",
     relative_urls: false,
     file_browser_callback: function (field_name, url, type, win) {
         var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;

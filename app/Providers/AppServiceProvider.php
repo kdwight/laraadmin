@@ -27,9 +27,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('roles', \App\Role::all());
         });
 
-        view()->composer('*', function ($view) {
+        view()->composer('admin.partials.sidenav', function ($view) {
             if (auth()->check()) {
-                $view->with('sidebar', json_decode(auth()->user()->hasAccess()->access));
+                $view->with('sidenav', json_decode(auth()->user()->hasAccess()->access));
             }
         });
     }

@@ -11,26 +11,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $pages = factory(App\Page::class, 10)->create();
+        \App\User::create([
+            'username' => 'admin',
+            'password' => bcrypt('6.62607004'),
+            'type' => 'admin',
+            'created_by' => 1
+        ]);
 
-        $admin = new \App\User();
-        $admin->username = 'admin';
-        $admin->password = bcrypt('secret');
-        $admin->type = 'admin';
-        $admin->created_by = 1;
-        $admin->save();
-
-        $admin = new \App\Role();
-        $admin->name = 'admin';
-        $admin->access = '["pages","bookings","inquiries","articles","services", "users"]';
-        $admin->description = 'Administrator';
-        $admin->save();
-
-        $editor = new \App\Role();
-        $editor->name = 'editor';
-        $editor->access = '["pages","articles"]';
-        $editor->description = 'Content Editor';
-        $editor->save();
+        \App\Role::create([
+            'name' => 'admin',
+            'access' => '["dashboard","pages","users"]',
+            'description' => 'Administrator'
+        ]);
+        \App\Role::create([
+            'name' => 'editor',
+            'access' => '["dashboard","pages"]',
+            'description' => 'Content Editor'
+        ]);
 
         $users = factory(App\User::class, 10)->create();
     }
