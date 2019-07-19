@@ -6,16 +6,21 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
+    use LogsActivity;
     const ADMIN_TYPE = 'admin';
 
-    protected $fillable = ['username', 'password', 'type', 'status', 'created_by', 'updated_by', 'last_login_at', 'last_login_ip', 'last_user_agent'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $hidden = ['password', 'remember_token'];
     protected $dates = ['deleted_at'];
+
+    protected static $logUnguarded = true;
+    protected static $logOnlyDirty = true;
 
     public static function boot()
     {

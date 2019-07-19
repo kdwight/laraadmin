@@ -148,97 +148,19 @@
             </div>
 
             <div class="table-responsive">
-            <!-- Projects table -->
-                <table class="table align-items-center table-flush">
+                <table class="table align-items-center table-flush" id="ajax-table"
+                    data-url="{{ url('admin/activityLists') }}"
+                    data-headers="activityColumns"
+                    >
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">Page name</th>
-                            <th scope="col">Visitors</th>
-                            <th scope="col">Unique users</th>
-                            <th scope="col">Bounce rate</th>
+                            <th>Description</th>
+                            <th>Subject</th>
                         </tr>
                     </thead>
-
-                    <tbody>
-                        <tr>
-                            <th scope="row">
-                            /argon/
-                            </th>
-                            <td>
-                            4,569
-                            </td>
-                            <td>
-                            340
-                            </td>
-                            <td>
-                            <i class="fas fa-arrow-up text-success mr-3"></i> 46,53%
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                            /argon/index.html
-                            </th>
-                            <td>
-                            3,985
-                            </td>
-                            <td>
-                            319
-                            </td>
-                            <td>
-                            <i class="fas fa-arrow-down text-warning mr-3"></i> 46,53%
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                            /argon/charts.html
-                            </th>
-                            <td>
-                            3,513
-                            </td>
-                            <td>
-                            294
-                            </td>
-                            <td>
-                            <i class="fas fa-arrow-down text-warning mr-3"></i> 36,49%
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                            /argon/tables.html
-                            </th>
-                            <td>
-                            2,050
-                            </td>
-                            <td>
-                            147
-                            </td>
-                            <td>
-                            <i class="fas fa-arrow-up text-success mr-3"></i> 50,87%
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                            /argon/profile.html
-                            </th>
-                            <td>
-                            1,795
-                            </td>
-                            <td>
-                            190
-                            </td>
-                            <td>
-                            <i class="fas fa-arrow-down text-danger mr-3"></i> 46,53%
-                            </td>
-                        </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
 @endsection
-
-@push('styles')
-    <script src="/argon/vendor/chart.js/dist/Chart.min.js"></script>
-    <script src="/argon/vendor/chart.js/dist/Chart.extension.js"></script>
-@endpush

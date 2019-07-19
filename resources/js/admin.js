@@ -1,5 +1,8 @@
 import './bootstrap'
 import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(BootstrapVue)
 
 window.events = new Vue();
 window.flash = function (message, level = "success") {
@@ -40,6 +43,18 @@ $("#table").DataTable({
     }]
 });
 
+const userColumns = [
+    { data: "username" },
+    { data: "type" },
+    { data: "status" },
+    { data: "action" },
+];
+
+const activityColumns = [
+    { data: "description" },
+    { data: "created_at" },
+];
+
 $('#ajax-table').DataTable({
     processing: true,
     serverSide: true,
@@ -59,19 +74,14 @@ $('#ajax-table').DataTable({
         }
     },
 
-    columns: [
-        { data: "username" },
-        { data: "type" },
-        { data: "status" },
-        { data: "action" },
-    ],
+    columns: eval($('#ajax-table').data('headers')),
 
     aoColumnDefs: [
         {
             bSortable: false,
-            aTargets: [1, 2, -1]
+            aTargets: [1, -1]
         }
-    ]
+    ],
 });
 
 // copies title field input into slug field while typing and turns whitespaces to dash

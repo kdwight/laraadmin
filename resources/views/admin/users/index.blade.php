@@ -27,7 +27,10 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover" id="ajax-table" data-url="{{ url('admin/userlist') }}">
+                        <table class="table table-hover" id="ajax-table"
+                            data-url="{{ url('admin/userlist') }}"
+                            data-headers="userColumns"
+                            >
                             <thead class="thead-light">
                                 <tr>
                                     <th width="50%">Username</th>

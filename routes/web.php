@@ -14,7 +14,8 @@ Route::get('/admin-logout', 'AdminSessionController@destroy');
 Route::prefix('admin')->group(function () {
     Route::middleware(['auth'])->group(function () {
 
-        Route::resource('dashboard', 'DashboardController');
+        Route::get('dashboard', 'DashboardController@index');
+        Route::post('activityLists', 'DashboardController@activityLists');
 
         Route::put('pages/{page}/status', 'PageController@status');
         Route::resource('pages', 'PageController');

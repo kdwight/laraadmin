@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form class="forms-sample" action="{{ url('admin/pages') }}" method="post">
+                    <form action="{{ url('admin/pages') }}" method="post">
                         @csrf
 
                         <div class="form-group">

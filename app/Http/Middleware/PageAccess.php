@@ -18,6 +18,7 @@ class PageAccess
         if (in_array("pages", json_decode(auth()->user()->hasAccess()->access))) {
             return $next($request);
         }
+
         return abort(403);
     }
 }

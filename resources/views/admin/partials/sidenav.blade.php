@@ -34,9 +34,15 @@
 
             <!-- Navigation -->
             <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link {{ (request()->is('admin/dashboard*')) ? 'active' : '' }}" href="{{ url("admin/dashboard") }}">
+                        <i class="{{ (request()->is('admin/dashboard*')) ? 'fas fa-circle' : 'far fa-circle' }}"></i>
+                        Dashboard
+                    </a>
+                </li>
                 @for ($i = 0; $i < count($sidenav); $i++)
                     <li class="nav-item">
-                        <a class="nav-link {{ (request()->is('admin/'.$sidenav[$i] . '*')) ? 'active' : '' }}" href="{{ url("/admin/" . $sidenav[$i]) }}">
+                        <a class="nav-link {{ (request()->is('admin/'.$sidenav[$i] . '*')) ? 'active' : '' }}" href="{{ url("admin/" . $sidenav[$i]) }}">
                             <i class="{{ (request()->is('admin/'.$sidenav[$i] . '*')) ? 'fas fa-circle' : 'far fa-circle' }}"></i>
                             {{ ucwords(str_replace('_', ' ', $sidenav[$i])) }}
                         </a>

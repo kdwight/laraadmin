@@ -36,6 +36,10 @@
 </head>
 
 <body>
+    <noscript>
+      <strong>We're sorry but the cms doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+
     <div id="admin">
         @include('admin.partials.sidenav')
 
