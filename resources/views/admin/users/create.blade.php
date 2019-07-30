@@ -19,7 +19,9 @@
                         @csrf
 
                         <div class="form-group">
-                            <label class="form-control-label">Username</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Username
+                            </label>
 
                             <input type="username" name="username"
                                 class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}"
@@ -34,7 +36,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-control-label">Type</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Type
+                            </label>
 
                             <select name="type" id="select" class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}">
                                 <option value="">Please select</option>
@@ -54,7 +58,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-control-label">Password</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Password
+                            </label>
 
                             <input type="password" name="password"
                                 class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
@@ -68,7 +74,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-control-label">Password Confirmation</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Password Confirmation
+                            </label>
 
                             <input type="password" name="password_confirmation"
                                 class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}"

@@ -79,7 +79,7 @@ $('#ajax-table').DataTable({
     aoColumnDefs: [
         {
             bSortable: false,
-            aTargets: [1, -1]
+            aTargets: [-1, -2]
         }
     ],
 });

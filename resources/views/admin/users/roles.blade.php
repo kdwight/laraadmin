@@ -7,7 +7,7 @@
             <div class="card-header bg-white border-0">
                 <div class="row align-items-center">
                     <div class="col">
-                        <span class="mb-0">Add Role</span>
+                        <h3 class="mb-0">Add Role</h3>
                     </div>
                 </div>
             </div>
@@ -17,7 +17,9 @@
                     @csrf
 
                     <div class="form-group">
-                        <label class="form-control-label">Role</label>
+                        <label class="form-control-label">
+                            <span class="text-danger">*</span> Role
+                        </label>
 
                         <input type="text" name="name"
                             class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
@@ -32,7 +34,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-control-label">Description</label>
+                        <label class="form-control-label">
+                            <span class="text-danger">*</span> Description
+                        </label>
 
                         <input type="text" name="description"
                             class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
@@ -46,7 +50,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-control-label">Allowed Access</label>
+                        <label class="form-control-label">
+                            <span class="text-danger">*</span> Allowed Access
+                        </label>
 
                         @error('access')
                         <p class="text-warning">
@@ -93,7 +99,7 @@
             <div class="card-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <span class="mb-0">List of Roles</span>
+                        <h3 class="mb-0">List of Roles</h3>
                     </div>
                 </div>
             </div>

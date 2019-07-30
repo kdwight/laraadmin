@@ -20,7 +20,9 @@
                         @method('PUT')
 
                         <div class="form-group">
-                            <label class="form-control-label">Title</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Title
+                            </label>
 
                             <input type="text" id="title" name="title" placeholder="Title"
                                 class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
@@ -34,7 +36,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-control-label">Slug</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Slug
+                            </label>
 
                             <input type="text" id="slug" name="slug" placeholder="Slug"
                                 class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}"
@@ -48,7 +52,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-control-label">Description</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Description
+                            </label>
 
                             @error('description')
                             <p class="text-warning">

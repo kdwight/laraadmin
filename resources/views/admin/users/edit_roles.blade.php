@@ -20,7 +20,9 @@
                         @method('PUT')
 
                         <div class="form-group">
-                            <label class="form-control-label">Role</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Role
+                            </label>
 
                             <input type="text" name="name"
                                 class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
@@ -35,7 +37,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-control-label">Description</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Description
+                            </label>
 
                             <input type="text" name="description"
                                 class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
@@ -50,7 +54,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-control-label">Allowed Access</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Allowed Access
+                            </label>
 
                             @error('access')
                             <p class="text-warning">

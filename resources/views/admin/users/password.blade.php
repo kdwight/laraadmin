@@ -21,7 +21,9 @@
                         @method('PUT')
 
                         <div class="form-group">
-                            <label class="form-control-label">Old Password</label>
+                            <label class="form-control-label">
+                                <span class="text-danger">*</span> Old Password
+                            </label>
 
                             <input type="password" name="old_password"
                                 class="form-control {{ $errors->has('old_password') ? 'is-invalid' : '' }}"
@@ -41,7 +43,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-control-label" for="password">New Password</label>
+                            <label class="form-control-label" for="password">
+                                <span class="text-danger">*</span> New Password
+                            </label>
+
                             <input type="password" name="password"
                                 class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
                                 placeholder="Unit type">
@@ -54,7 +59,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-control-label" for="password_confirmation">Confirm Password</label>
+                            <label class="form-control-label" for="password_confirmation">
+                                <span class="text-danger">*</span> Confirm Password
+                            </label>
+
                             <input type="password" name="password_confirmation"
                                 class="form-control"
                                 placeholder="Confirm Password">
