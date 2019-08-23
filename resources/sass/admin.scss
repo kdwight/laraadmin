@@ -1,0 +1,6 @@
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "loading…" }
+
+.form-img {
+    max-width: 100%;
+}

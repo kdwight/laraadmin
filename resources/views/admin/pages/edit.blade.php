@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ url("admin/pages/$page->id") }}" method="post">
+                    <form action="{{ url("admin/pages/$page->slug") }}" method="post">
                         @csrf
                         @method('PUT')
 
@@ -24,27 +24,11 @@
                                 <span class="text-danger">*</span> Title
                             </label>
 
-                            <input type="text" id="title" name="title" placeholder="Title"
+                            <input type="text" name="title" placeholder="Title"
                                 class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
-                                value="{{ null !== old('title') ? old('title') : $page->title }}">
+                                value="{{ old('title') ?? $page->title }}">
 
                             @error('title')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-control-label">
-                                <span class="text-danger">*</span> Slug
-                            </label>
-
-                            <input type="text" id="slug" name="slug" placeholder="Slug"
-                                class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}"
-                                value="{{ null !== old('slug') ? old('slug') : $page->slug }}">
-
-                            @error('slug')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -65,7 +49,7 @@
                             @enderror
 
                             <textarea class="description" name="description"
-                                rows="10">{!! $page->description !!}</textarea>
+                                rows="10">{!! old('description') ?? $page->description !!}</textarea>
                         </div>
 
                         <button type="submit" class="btn btn-success mr-2">Submit</button>

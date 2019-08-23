@@ -26,7 +26,7 @@
 
                             <input type="text" name="name"
                                 class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
-                                value="{{ $role->name }}"
+                                value="{{ old('name') ?? $role->name }}"
                                 placeholder="Role">
 
                             @error('name')
@@ -43,7 +43,7 @@
 
                             <input type="text" name="description"
                                 class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                                value="{{ $role->description }}"
+                                value="{{ old('description') ?? $role->description }}"
                                 placeholder="Description" >
 
                             @error('description')

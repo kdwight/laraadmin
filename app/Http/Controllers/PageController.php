@@ -6,11 +6,6 @@ use App\Page;
 
 class PageController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('pages_access')->except('pages');
-    }
-
     public function pages()
     {
         return view('pages');
@@ -32,7 +27,6 @@ class PageController extends Controller
     {
         $attr = request()->validate([
             'title' => 'required|string',
-            'slug' => 'required|string',
             'description' => 'required|string'
         ]);
 
@@ -53,7 +47,6 @@ class PageController extends Controller
     {
         $attr = request()->validate([
             'title' => 'required|string',
-            'slug' => 'required|string',
             'description' => 'required|string'
         ]);
 

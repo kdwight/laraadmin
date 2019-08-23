@@ -26,7 +26,7 @@
 
                             <input type="text" id="username" name="username"
                                 class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}"
-                                value="{{ null !== old('username') ? old('username') : $user->username }}"
+                                value="{{ old('username') ?? $user->username }}"
                                 placeholder="Username">
 
                             @error('username')

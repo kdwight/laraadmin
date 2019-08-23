@@ -1,4 +1,7 @@
 <?php
+// down or up
+// Artisan::call('up');
+// Artisan::call('down --message="come back later"');
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,8 +20,10 @@ Route::prefix('admin')->group(function () {
         Route::get('dashboard', 'DashboardController@index');
         Route::post('activityLists', 'DashboardController@activityLists');
 
-        Route::put('pages/{page}/status', 'PageController@status');
-        Route::resource('pages', 'PageController');
+        Route::middleware(['pages_access'])->group(function () {
+            Route::put('pages/{page}/status', 'PageController@status');
+            Route::resource('pages', 'PageController');
+        });
 
         /* USER MANAGEMENT */
         Route::get('users/{user}/change-password', 'UserController@edit_password');

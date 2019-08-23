@@ -37,23 +37,23 @@
                                 <tr>
                                     <td> {{ $page->title }} </td>
                                     <td>
-                                        <form action="{{ url("admin/pages/$page->id/status") }}" method="POST">
+                                        <form action="{{ url("admin/pages/$page->slug/status") }}" method="POST">
                                             @csrf
                                             @method('PUT')
 
                                             <div class="custom-control custom-checkbox">
-                                                <input id="status-{{ $page->id }}" class="custom-control-input" type="checkbox" name="status" {{$page->status ? 'checked' : ''}} onChange="this.form.submit()">
-                                                <label for="status-{{ $page->id }}" class="custom-control-label">{{$page->status ? 'Active' : 'Not Active'}}</label>
+                                                <input id="status-{{ $page->slug }}" class="custom-control-input" type="checkbox" name="status" {{$page->status ? 'checked' : ''}} onChange="this.form.submit()">
+                                                <label for="status-{{ $page->slug }}" class="custom-control-label">{{$page->status ? 'Active' : 'Not Active'}}</label>
                                             </div>
                                         </form>
                                     </td>
                                     <td style="white-space:nowrap">
-                                        <form class="confirmDelete" action="{{ url("admin/pages/$page->id")}}"
+                                        <form class="confirmDelete" action="{{ url("admin/pages/$page->slug")}}"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
 
-                                            <a href="{{ url("admin/pages/$page->id/edit") }}" class="btn btn-icons btn-rounded btn-success btn-sm" title="edit">
+                                            <a href="{{ url("admin/pages/$page->slug/edit") }}" class="btn btn-icons btn-rounded btn-success btn-sm" title="edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
 

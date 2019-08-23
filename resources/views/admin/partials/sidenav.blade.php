@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="#">
-                            <img src="{{ asset('img/favicon.png')}}" alt="...">
+                            <img src="{{ asset('img/logo.png')}}" alt="...">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">

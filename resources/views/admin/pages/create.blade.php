@@ -23,27 +23,11 @@
                                 <span class="text-danger">*</span> Title
                             </label>
 
-                            <input id="title" type="text" name="title" placeholder="Title"
+                            <input type="text" name="title" placeholder="Title"
                                 class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
                                 value="{{ old('title') }}">
 
                             @error('title')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-control-label">
-                                <span class="text-danger">*</span> Slug
-                            </label>
-
-                            <input id="slug" type="text" name="slug" placeholder="Slug"
-                                class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}"
-                                value="{{ old('slug') }}">
-
-                            @error('slug')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
