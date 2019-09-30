@@ -23,10 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', function ($view) {
-            if (auth()->check()) {
-                $view->with('sidenav', json_decode(auth()->user()->hasAccess()->access));
-            }
-        });
+        //
     }
 }
