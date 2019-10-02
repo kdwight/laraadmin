@@ -2,6 +2,7 @@ window.Vue = require('vue');
 window.VueRouter = require('vue-router').default;
 
 Vue.use(VueRouter)
+Vue.prototype.moment = require('moment');
 
 window.events = new Vue();
 window.flash = function (message, level = "success") {

@@ -1,7 +1,15 @@
 let routes = [
     {
-        path: "/admin/pages",
-        component: require('./pages/Pages').default
+        path: "/admin/users",
+        component: require('./pages/UsersIndex').default
+    },
+    {
+        path: "/admin/users/create",
+        component: require('./pages/UserCreate').default
+    },
+    {
+        path: "/admin/users/:id/edit",
+        component: require('./pages/UserEdit').default
     },
 ];
 

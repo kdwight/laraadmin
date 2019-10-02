@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="auth" content="{{ auth()->user() }}">
 
         <title>{{ config('app.name', 'LARACMS') }}</title>
 
@@ -46,12 +47,11 @@
             <div class="main-content">
                 @auth()
                     @include('admin.layouts.navbars.topbar')
-                @endauth
 
-                @auth
                     {{-- @include('admin.layouts.headers.cards') --}}
                     @include('admin.layouts.headers.header')
                 @endauth
+
                 @guest
                     @include('admin.layouts.headers.guest')
                 @endguest

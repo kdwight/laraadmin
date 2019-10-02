@@ -64,23 +64,29 @@
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard') }}">
-                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
+                    <a class="nav-link {{ (request()->is('admin/dashboard*')) ? 'active' : '' }}"
+                        href="{{ route('dashboard') }}"
+                    >
+                        <i class="ni ni-tv-2 text-primary"></i> Dashboard
                     </a>
                 </li>
 
-                {{-- @for ($i = 0; $i < count($sidebar); $i++)
+                @for ($i = 0; $i < count($sidebar); $i++)
                 <li class="nav-item">
-                    <a class="nav-link {{ (request()->is('admin/'.$sidebar[$i] . '*')) ? 'active' : '' }}" href="{{ url("admin/" . $sidebar[$i]) }}">
+                    <a class="nav-link {{ (request()->is('admin/'.$sidebar[$i] . '*')) ? 'active' : '' }}"
+                        href="{{ url("admin/" . $sidebar[$i]) }}"
+                    >
                         <i class="{{ (request()->is('admin/'.$sidebar[$i] . '*')) ? 'fas fa-circle' : 'far fa-circle' }}"></i>
                         {{ ucwords(str_replace('_', ' ', $sidebar[$i])) }}
                     </a>
                 </li>
-                @endfor --}}
+                @endfor
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('admin/users') }}">
-                        <i class="fas fa-users-cog text-primary"></i> Users Management
+                    <a class="nav-link {{ (request()->is('admin/users*')) ? 'active' : '' }}"
+                        href="{{ url('admin/users') }}"
+                    >
+                        <i class="fas fa-users-cog text-primary"></i> Users
                     </a>
                 </li>
             </ul>

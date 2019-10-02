@@ -12,7 +12,7 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
-    const ADMIN_ROLE = 'admin';
+    const ADMIN_ROLE = 1;
 
     /**
      * The attributes that are not mass assignable.
@@ -69,12 +69,11 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->role === self::ADMIN_ROLE;
+        return $this->role_id === self::ADMIN_ROLE;
     }
 
     public function hasAccess()
     {
-        $role = $this->role;
-        return Role::whereName($role)->first();
+        return Role::find($this->role_id);
     }
 }

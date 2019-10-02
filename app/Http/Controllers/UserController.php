@@ -11,11 +11,11 @@ class UserController extends Controller
     /**
      * Display a listing of the users
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\View\
      */
     public function index()
     {
-        return view('admin.users.index', ['users' => User::paginate(15)]);
+        return view('admin.users.index', ['users' => User::get()]);
     }
 
     /**
@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return $this->index();
     }
 
     /**

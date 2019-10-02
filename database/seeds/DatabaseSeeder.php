@@ -11,13 +11,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        App\Role::create([
+            'name' => 'admin',
+            'access' => ["pages"],
+            'description' => 'Administrator'
+        ]);
+
         \App\User::create([
             'username' => 'admin',
             'name' => 'Admin Admin',
             'email' => 'admin@cdi.com',
             'email_verified_at' => now(),
             'password' => Hash::make('6.62607004'),
-            'role' => 'admin',
+            'role_id' => 1,
             'created_by' => 1
         ]);
     }
