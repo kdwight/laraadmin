@@ -11,12 +11,11 @@ class UserController extends Controller
     /**
      * Display a listing of the users
      *
-     * @param  \App\User  $model
      * @return \Illuminate\View\View
      */
-    public function index(User $model)
+    public function index()
     {
-        return view('users.index', ['users' => $model->paginate(15)]);
+        return view('admin.users.index', ['users' => User::paginate(15)]);
     }
 
     /**
@@ -26,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('admin.users.create');
     }
 
     /**
@@ -38,9 +37,11 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
+        unset($request['password_confirmation']);
+
         $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
 
-        return redirect()->route('user.index')->withStatus(__('User successfully created.'));
+        return redirect()->route('users.index')->withStatus(__('User successfully created.'));
     }
 
     /**
@@ -51,7 +52,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -65,10 +66,12 @@ class UserController extends Controller
     {
         $user->update(
             $request->merge(['password' => Hash::make($request->get('password'))])
-                ->except([$request->get('password') ? '' : 'password']
-        ));
+                ->except(
+                    [$request->get('password') ? '' : 'password']
+                )
+        );
 
-        return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
+        return redirect()->route('users.index')->withStatus(__('User successfully updated.'));
     }
 
     /**
@@ -81,6 +84,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('user.index')->withStatus(__('User successfully deleted.'));
+        return redirect()->route('users.index')->withStatus(__('User successfully deleted.'));
     }
 }

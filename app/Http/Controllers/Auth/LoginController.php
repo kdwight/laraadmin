@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -25,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admin/dashboard';
 
     /**
      * Create a new controller instance.
@@ -35,5 +37,30 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        if (!$user->status) {
+            auth()->logout();
+            return back()->with('warning', 'Sorry, your account has been deactivated');
+        }
+
+        $user->update([
+            'last_login' => [
+                'at' => Carbon::now()->toDateTimeString(),
+                'ip' => $request->getClientIp(),
+                'user_agent' => $request->header('User-Agent')
+            ]
+        ]);
+
+        return redirect()->intended($this->redirectPath());
     }
 }
