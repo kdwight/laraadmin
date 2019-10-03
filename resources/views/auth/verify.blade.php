@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['class' => 'bg-default', 'yieldClass' => 'container mt--8 pb-5'])
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="row justify-content-center">

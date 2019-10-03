@@ -24,8 +24,8 @@
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
         <!-- Argon Dashboard-->
 
-        <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-        <script src="{{ asset('js/admin.js') }}" defer></script>
+        <link href="{{ asset('css') }}/admin.css" rel="stylesheet">
+        <script src="{{ asset('js') }}/admin.js" defer></script>
 
         @stack('styles')
         @stack('js')
@@ -48,8 +48,11 @@
                 @auth()
                     @include('admin.layouts.navbars.topbar')
 
-                    {{-- @include('admin.layouts.headers.cards') --}}
-                    @include('admin.layouts.headers.header')
+                    @if (request()->is('admin/dashboard*'))
+                        @include('admin.layouts.headers.cards')
+                    @else
+                        @include('admin.layouts.headers.header')
+                    @endif
                 @endauth
 
                 @guest

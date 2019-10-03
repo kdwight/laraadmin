@@ -11,20 +11,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        App\Role::create([
+        $role = App\Role::create([
             'name' => 'admin',
             'access' => ["pages"],
             'description' => 'Administrator'
         ]);
 
+        App\Role::create([
+            'name' => 'editor',
+            'access' => ["pages", "articles"],
+            'description' => 'Content Editor'
+        ]);
+
         \App\User::create([
             'username' => 'admin',
-            'name' => 'Admin Admin',
+            'role_id' => $role->id,
+            'name' => 'Admin Sadmin',
             'email' => 'admin@cdi.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('6.62607004'),
-            'role_id' => 1,
-            'created_by' => 1
+            'password' => Hash::make('6.62607004')
         ]);
+
+        factory(App\User::class, 99)->create();
     }
 }

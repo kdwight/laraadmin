@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\UsersResource;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -15,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.users.index', ['users' => User::get()]);
+        return view('admin.users.index', ['users' => User::take(10)->get()]);
     }
 
     /**
@@ -52,7 +53,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        return $this->index();
     }
 
     /**
@@ -85,5 +86,12 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users.index')->withStatus(__('User successfully deleted.'));
+    }
+
+    public function getUsers()
+    {
+        $query = User::orderBy(request('column'), request('order'))->where('email', 'like', '%' . request('filter') . '%');
+
+        return UsersResource::collection($query->paginate(request('per_page')));
     }
 }

@@ -3,8 +3,9 @@ import AdminRoutes from './admin/AdminRoutes'
 import Flash from './admin/components/Flash'
 import Users from './admin/modules/Users.vue'
 
-// Larave's auth helper into a Vue instance  this.$auth
-Vue.prototype.$auth = JSON.parse(document.querySelector("meta[name='auth']").getAttribute('content'));
+// Laravel's auth helper into a Vue instance  this.$auth
+let authUser = (document.querySelector("meta[name='auth']").getAttribute('content'))
+Vue.prototype.$auth = authUser ? JSON.parse(authUser) : '';
 
 const admin = new Vue({
     el: '#admin',

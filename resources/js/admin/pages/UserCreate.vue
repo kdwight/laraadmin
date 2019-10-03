@@ -10,7 +10,7 @@
               </div>
 
               <div class="col-4 text-right">
-                <router-link :to="`/admin/users`">
+                <router-link :to="{ name: 'UsersIndex' }">
                   <button class="btn btn-primary btn-sm">Back to list</button>
                 </router-link>
               </div>
@@ -60,6 +60,7 @@
 
                 <div :class="`form-group ${form.errors.email ? 'has-danger' : ''}`">
                   <label class="form-control-label" for="input-email">email</label>
+
                   <input
                     type="email"
                     name="email"

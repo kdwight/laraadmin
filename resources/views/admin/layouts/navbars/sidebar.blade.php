@@ -73,10 +73,10 @@
 
                 @for ($i = 0; $i < count($sidebar); $i++)
                 <li class="nav-item">
-                    <a class="nav-link {{ (request()->is('admin/'.$sidebar[$i] . '*')) ? 'active' : '' }}"
+                    <a class="nav-link {{ request()->is('admin/'.$sidebar[$i] . '*') ? 'active' : '' }}"
                         href="{{ url("admin/" . $sidebar[$i]) }}"
                     >
-                        <i class="{{ (request()->is('admin/'.$sidebar[$i] . '*')) ? 'fas fa-circle' : 'far fa-circle' }}"></i>
+                        <i class="{{ request()->is('admin/'.$sidebar[$i] . '*') ? 'fas fa-circle' : 'far fa-circle' }}"></i>
                         {{ ucwords(str_replace('_', ' ', $sidebar[$i])) }}
                     </a>
                 </li>

@@ -16,12 +16,14 @@ Route::prefix('admin')->group(function () {
         //     Route::resource('pages', 'PageController');
         // });
 
-        Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
-        Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
-        Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+        Route::middleware(['verified'])->group(function () {
+            Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
+            Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
+            Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+        });
 
         Route::middleware(['is_admin'])->group(function () {
-            Route::put('/users/{user}/status', 'UserController@status');
+            Route::get('users-list', 'UserController@getUsers');
             Route::resource('users', 'UserController', ['except' => ['show']]);
         });
     });
