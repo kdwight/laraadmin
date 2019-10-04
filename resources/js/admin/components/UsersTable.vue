@@ -2,9 +2,7 @@
   <div class="row">
     <div class="col">
       <div class="card shadow">
-        <h1 class="loading" v-if="loading">
-          <img src="/img/preloader.svg" />
-        </h1>
+        <preloader />
 
         <div class="card-header border-0">
           <div class="row align-items-center">
@@ -34,16 +32,19 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Username</th>
-
-                <th scope="col" @click="sortByColumn('email')">
-                  Email
-                  <span v-if="'email' === sortedColumn">
-                    <i v-if="order === 'asc' " class="fa fa-arrow-up"></i>
-                    <i v-else class="fa fa-arrow-down"></i>
+                <th
+                  v-for="column in columns"
+                  :key="column"
+                  @click="sortByColumn(column)"
+                  class="table-head"
+                >
+                  {{ column | columnHead }}
+                  <span v-if="column === sortedColumn">
+                    <i v-if="order === 'asc' " class="fas fa-arrow-up"></i>
+                    <i v-else class="fas fa-arrow-down"></i>
                   </span>
                 </th>
-                <th scope="col">Date created</th>
+
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -52,34 +53,38 @@
               <tr class v-if="tableData.length === 0">
                 <td class="lead text-center" :colspan="columns.length + 1">No data found.</td>
               </tr>
-              <tr v-for="data in tableData" :key="data.id" class="m-datatable__row" v-else>
-                <td>{{ data.username }}</td>
-                <td>{{ data.email }}</td>
-                <td>{{ moment(data.created_at).format('YYYY-MM-DD') }}</td>
 
-                <td v-if="data.role_id != 1">
-                  <router-link :to="`/admin/users/${data.id}/edit`">
-                    <button
-                      type="button"
-                      class="btn btn-icons btn-rounded btn-success"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Edit"
+              <tr v-for="user in tableData" :key="user.id" class="m-datatable__row" v-else>
+                <td>{{ user.username }}</td>
+
+                <td>{{ user.role }}</td>
+
+                <td>{{ user.status }}</td>
+
+                <td>{{ moment(user.created_at).format('YYYY-MM-DD') }}</td>
+
+                <td class="text-right">
+                  <div class="dropdown" v-if="user.id != 1">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      href="#"
+                      role="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
                     >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                  </router-link>
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
 
-                  <button
-                    type="button"
-                    class="btn btn-icons btn-rounded btn-danger"
-                    data-toggle="tooltip"
-                    data-placement="right"
-                    title="Delete"
-                    @click="deleteRow(data)"
-                  >
-                    <i class="fa fa-trash"></i>
-                  </button>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                      <router-link
+                        class="dropdown-item"
+                        :to="{ name: 'UserEdit', params: { id: user.id }}"
+                      >Edit</router-link>
+
+                      <button class="dropdown-item" @click="deleteRow(user)">Delete</button>
+                    </div>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -87,7 +92,7 @@
         </div>
 
         <div class="card-footer py-4">
-          <pagination></pagination>
+          <pagination />
         </div>
       </div>
     </div>
@@ -96,16 +101,23 @@
 
 <script>
 import DataTable from "../mixins/DataTables";
+import Preloader from "./Preloader";
 import Pagination from "./Pagination";
 
 export default {
   mixins: [DataTable],
-  components: { Pagination },
+  components: { Preloader, Pagination },
 
   data() {
     return {
       //
     };
+  },
+
+  methods: {
+    deleteRow(user) {
+      // fetchData();
+    }
   }
 };
 </script>

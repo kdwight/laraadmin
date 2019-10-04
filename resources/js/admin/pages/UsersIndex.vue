@@ -1,6 +1,10 @@
 <template>
   <div>
-    <users-table fetch-url="/admin/users-list" :columns="['email', 'role']"></users-table>
+    <users-table
+      fetch-url="/admin/users-list"
+      :columns="['username', 'role', 'status', 'created_at']"
+      :sortables="['username', 'created_at']"
+    ></users-table>
   </div>
 </template>
 

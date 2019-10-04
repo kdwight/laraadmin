@@ -23,7 +23,7 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::middleware(['is_admin'])->group(function () {
-            Route::get('users-list', 'UserController@getUsers');
+            Route::get('users-list', 'UserController@index');
             Route::resource('users', 'UserController', ['except' => ['show']]);
         });
     });

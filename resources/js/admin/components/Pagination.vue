@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav
-      class="d-flex justify-content-end"
+      class="d-flex justify-content-between"
       aria-label="..."
       v-if="$parent.pagination && $parent.tableData.length > 0"
     >
@@ -11,6 +11,7 @@
       </span>
 
       <ul class="pagination float-right">
+        <!-- first & prev -->
         <li class="page-item" :class="{'disabled' : $parent.currentPage === 1}">
           <a class="page-link" href="#" @click.prevent="$parent.changePage(1)">&#171;</a>
         </li>
@@ -22,6 +23,7 @@
           >Prev</a>
         </li>
 
+        <!-- pages -->
         <li
           v-for="(page, key) in $parent.pagesNumber"
           class="page-item"
@@ -35,6 +37,7 @@
           >{{ page }}</a>
         </li>
 
+        <!-- next & last -->
         <li
           class="page-item"
           :class="{'disabled': $parent.currentPage === $parent.pagination.meta.last_page }"

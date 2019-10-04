@@ -1,7 +1,8 @@
 export default {
     props: {
         fetchUrl: { type: String, required: true },
-        columns: { type: Array, required: true }
+        columns: { type: Array, required: true },
+        sortables: { type: Array, required: true }
     },
 
     data() {
@@ -11,7 +12,7 @@ export default {
             pagination: {
                 meta: { to: 1, from: 1 }
             },
-            offset: 4,
+            offset: 2,
             currentPage: 1,
             perPage: 10,
             sortedColumn: this.columns[0],
@@ -23,7 +24,7 @@ export default {
 
     watch: {
         fetchUrl: {
-            handler: function (fetchUrl) {
+            handler(fetchUrl) {
                 this.url = fetchUrl;
             },
             immediate: true
@@ -66,6 +67,12 @@ export default {
         }
     },
 
+    filters: {
+        columnHead(value) {
+            return value.split('_').join(' ').toUpperCase()
+        }
+    },
+
     methods: {
         fetchData() {
             let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${
@@ -97,13 +104,17 @@ export default {
          * Sort the data by column.
          * */
         sortByColumn(column) {
-            if (column === this.sortedColumn) {
-                this.order = this.order === "asc" ? "desc" : "asc";
-            } else {
-                this.sortedColumn = column;
-                this.order = "asc";
+            if (this.sortables.includes(column)) {
+
+                if (column === this.sortedColumn) {
+                    this.order = this.order === "asc" ? "desc" : "asc";
+                } else {
+                    this.sortedColumn = column;
+                    this.order = "asc";
+                }
+
+                this.fetchData();
             }
-            this.fetchData();
         }
     }
 }

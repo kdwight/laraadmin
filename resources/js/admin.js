@@ -7,6 +7,10 @@ import Users from './admin/modules/Users.vue'
 let authUser = (document.querySelector("meta[name='auth']").getAttribute('content'))
 Vue.prototype.$auth = authUser ? JSON.parse(authUser) : '';
 
+window.fetchData = function () {
+    window.events.$emit('fetchData');
+};
+
 const admin = new Vue({
     el: '#admin',
     router: AdminRoutes,
