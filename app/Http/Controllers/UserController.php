@@ -32,7 +32,7 @@ class UserController extends Controller
 
         $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
 
-        return redirect()->route('users.index')->withStatus(__('User successfully created.'));
+        return response('User successfully created.');
     }
 
     public function edit(User $user)
@@ -47,13 +47,22 @@ class UserController extends Controller
                 ->except([$request->get('password') ? '' : 'password'])
         );
 
-        return redirect()->route('users.index')->withStatus(__('User successfully updated.'));
+        return response('User successfully updated.');
     }
 
-    public function destroy(User  $user)
+    public function destroy(User $user)
     {
         $user->delete();
 
-        return redirect()->route('users.index')->withStatus(__('User successfully deleted.'));
+        return response(['success' => 'User successfully deleted.'], 200);
+    }
+
+    public function status(User $user)
+    {
+        $user->update([
+            'status' => request('status')
+        ]);
+
+        return response(['success' => 'Status has been updated'], 200);
     }
 }

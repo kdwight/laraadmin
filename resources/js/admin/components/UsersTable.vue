@@ -1,4 +1,4 @@
-<template>
+<template >
   <div class="row">
     <div class="col">
       <div class="card shadow">
@@ -57,11 +57,19 @@
               <tr v-for="user in tableData" :key="user.id" class="m-datatable__row" v-else>
                 <td>{{ user.username }}</td>
 
+                <td>{{ user.email }}</td>
+
                 <td>{{ user.role }}</td>
 
-                <td>{{ user.status }}</td>
-
                 <td>{{ moment(user.created_at).format('YYYY-MM-DD') }}</td>
+
+                <td>
+                  <status
+                    :attributes="user"
+                    :endpoint="`/admin/users/${user.id}/status`"
+                    v-if="user.id != 1"
+                  ></status>
+                </td>
 
                 <td class="text-right">
                   <div class="dropdown" v-if="user.id != 1">
@@ -103,10 +111,13 @@
 import DataTable from "../mixins/DataTables";
 import Preloader from "./Preloader";
 import Pagination from "./Pagination";
+import Status from "./Status";
+
+import Swal from "sweetalert2";
 
 export default {
   mixins: [DataTable],
-  components: { Preloader, Pagination },
+  components: { Preloader, Pagination, Status },
 
   data() {
     return {
@@ -116,7 +127,32 @@ export default {
 
   methods: {
     deleteRow(user) {
-      // fetchData();
+      const index = this.tableData.indexOf(user);
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios
+            .delete(`/admin/users/${user.id}`)
+            .then(({ data }) => {
+              this.tableData.splice(index, 1);
+
+              flash(data.success, "success");
+              this.fetchData();
+            })
+            .catch(error => {
+              flash(error.response.data.message, "danger");
+              this.fetchData();
+            });
+        }
+      });
     }
   }
 };

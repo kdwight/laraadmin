@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav
-      class="d-flex justify-content-between"
+      class="row justify-content-between"
       aria-label="..."
       v-if="$parent.pagination && $parent.tableData.length > 0"
     >
@@ -10,7 +10,7 @@
         <small>Displaying {{ $parent. pagination.data.length }} of {{ $parent.pagination.meta.total }} entries.</small>
       </span>
 
-      <ul class="pagination float-right">
+      <ul class="pagination">
         <!-- first & prev -->
         <li class="page-item" :class="{'disabled' : $parent.currentPage === 1}">
           <a class="page-link" href="#" @click.prevent="$parent.changePage(1)">&#171;</a>

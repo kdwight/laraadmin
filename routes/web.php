@@ -24,6 +24,7 @@ Route::prefix('admin')->group(function () {
 
         Route::middleware(['is_admin'])->group(function () {
             Route::get('users-list', 'UserController@index');
+            Route::patch('users/{user}/status', 'UserController@status');
             Route::resource('users', 'UserController', ['except' => ['show']]);
         });
     });

@@ -2,7 +2,7 @@
   <div>
     <users-table
       fetch-url="/admin/users-list"
-      :columns="['username', 'role', 'status', 'created_at']"
+      :columns="['username', 'email', 'role', 'created_at', 'status']"
       :sortables="['username', 'created_at']"
     ></users-table>
   </div>
