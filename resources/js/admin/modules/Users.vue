@@ -6,12 +6,16 @@
 
 <script>
 export default {
-  props: ["attributes"],
-
   data() {
     return {
-      users: this.attributes
+      roles: []
     };
+  },
+
+  created() {
+    axios.get("/admin/roles").then(({ data }) => {
+      this.roles = data;
+    });
   }
 };
 </script>

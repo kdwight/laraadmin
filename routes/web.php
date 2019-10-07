@@ -23,9 +23,14 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::middleware(['is_admin'])->group(function () {
-            Route::get('users-list', 'UserController@index');
+            Route::get('roles-list', 'RoleController@rolesList', ['except' => ['show', 'create', 'edit']]);
+            Route::resource('roles', 'RoleController', ['except' => ['show', 'create', 'edit']]);
+
             Route::patch('users/{user}/status', 'UserController@status');
-            Route::resource('users', 'UserController', ['except' => ['show']]);
+            Route::get('users-list', 'UserController@index');
+            Route::get('users/create', 'UserController@index');
+            Route::get('users/{user}/edit', 'UserController@edit');
+            Route::resource('users', 'UserController', ['except' => ['show', 'create', 'edit']]);
         });
     });
 });

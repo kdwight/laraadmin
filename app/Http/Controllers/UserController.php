@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UsersResource;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -21,33 +22,34 @@ class UserController extends Controller
         return view('admin.users.index');
     }
 
-    public function create()
-    {
-        return $this->index();
-    }
-
     public function store(UserRequest $request, User $model)
     {
         unset($request['password_confirmation']);
 
-        $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        event(new Registered($model->create($request->merge(['password' => Hash::make($request->get('password'))])->all())));
 
-        return response('User successfully created.');
+        return response(['success' => 'User successfully created.'], 200);
     }
 
     public function edit(User $user)
     {
-        return $this->index();
+        if (request()->wantsJson()) {
+            return response($user);
+        }
+
+        return view('admin.users.index');
     }
 
-    public function update(UserRequest $request, User  $user)
+    public function update(UserRequest $request, User $user)
     {
+        unset($request['password_confirmation']);
+
         $user->update(
             $request->merge(['password' => Hash::make($request->get('password'))])
                 ->except([$request->get('password') ? '' : 'password'])
         );
 
-        return response('User successfully updated.');
+        return response(['success' => 'User successfully updated.'], 200);
     }
 
     public function destroy(User $user)

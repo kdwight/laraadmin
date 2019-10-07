@@ -3,10 +3,12 @@
     <div class="row">
       <div class="col-xl-12 order-xl-1">
         <div class="card bg-secondary shadow">
+          <preloader />
+
           <div class="card-header bg-white border-0">
             <div class="row align-items-center">
               <div class="col-8">
-                <h3 class="mb-0">User Management</h3>
+                <h3 class="mb-0">User Edit</h3>
               </div>
 
               <div class="col-4 text-right">
@@ -18,12 +20,14 @@
           </div>
 
           <div class="card-body">
-            <form method="post" action="/admin/users" autocomplete="off">
+            <form autocomplete="off">
               <h6 class="heading-small text-muted mb-4">User Information</h6>
 
               <div class="pl-lg-4">
                 <div :class="`form-group ${form.errors.username ? 'has-danger' : ''}`">
-                  <label class="form-control-label" for="input-username">Username</label>
+                  <label class="form-control-label" for="input-username">
+                    <span class="text-danger">*</span> Username
+                  </label>
 
                   <input
                     type="text"
@@ -31,7 +35,7 @@
                     id="input-username"
                     :class="`form-control form-control-alternative ${ form.errors.username ? ' is-invalid' : '' }`"
                     placeholder="Username"
-                    :value="form.username"
+                    v-model="form.username"
                     required
                     autofocus
                   />
@@ -41,8 +45,29 @@
                   </span>
                 </div>
 
+                <div :class="`form-group ${form.errors.name ? 'has-danger' : ''}`">
+                  <label class="form-control-label" for="input-name">
+                    <span class="text-danger">*</span> Name
+                  </label>
+
+                  <input
+                    type="text"
+                    name="name"
+                    id="input-name"
+                    :class="`form-control form-control-alternative ${ form.errors.name ? ' is-invalid' : '' }`"
+                    placeholder="Name"
+                    v-model="form.name"
+                  />
+
+                  <span class="invalid-feedback" role="alert" v-if="form.errors.name">
+                    <strong>{{ form.errors.name[0] }}</strong>
+                  </span>
+                </div>
+
                 <div :class="`form-group ${form.errors.email ? 'has-danger' : ''}`">
-                  <label class="form-control-label" for="input-email">Email</label>
+                  <label class="form-control-label" for="input-email">
+                    <span class="text-danger">*</span> Email
+                  </label>
 
                   <input
                     type="email"
@@ -50,12 +75,37 @@
                     id="input-email"
                     :class="`form-control form-control-alternative ${ form.errors.email ? ' is-invalid' : '' }`"
                     placeholder="Email"
-                    :value="form.email"
+                    v-model="form.email"
                     required
                   />
 
                   <span class="invalid-feedback" role="alert" v-if="form.errors.email">
                     <strong>{{ form.errors.email[0] }}</strong>
+                  </span>
+                </div>
+
+                <div :class="`form-group ${form.errors.role ? 'has-danger' : ''}`">
+                  <label class="form-control-label" for="input-role">
+                    <span class="text-danger">*</span> Role
+                  </label>
+
+                  <select
+                    name="role"
+                    id="input-role"
+                    :class="`form-control form-control-alternative ${ form.errors.role_id ? ' is-invalid' : '' }`"
+                    v-model="form.role_id"
+                  >
+                    <option :value="null">Please select</option>
+
+                    <option
+                      v-for="role in $parent.roles"
+                      :key="role.id"
+                      :value="role.id"
+                    >{{ role.description }}</option>
+                  </select>
+
+                  <span class="invalid-feedback" role="alert" v-if="form.errors.role_id">
+                    <strong>{{ form.errors.role_id[0] }}</strong>
                   </span>
                 </div>
 
@@ -68,7 +118,7 @@
                     id="input-password"
                     :class="`form-control form-control-alternative ${ form.errors.password ? ' is-invalid' : '' }`"
                     placeholder="Password"
-                    value
+                    v-model="form.password"
                   />
 
                   <span class="invalid-feedback" role="alert" v-if="form.errors.password">
@@ -88,12 +138,17 @@
                     id="input-password-confirmation"
                     class="form-control form-control-alternative"
                     placeholder="Confirm Password"
-                    value
+                    v-model="form.password_confirmation"
                   />
                 </div>
 
                 <div class="text-center">
-                  <button type="submit" class="btn btn-success mt-4">Save</button>
+                  <button
+                    type="submit"
+                    class="btn btn-success mt-4"
+                    @click.prevent="updateUser"
+                    :disabled="form.submitted"
+                  >Submit</button>
                 </div>
               </div>
             </form>
@@ -106,20 +161,56 @@
 
 <script>
 import AdminForm from "../AdminForm";
+import Preloader from "../components/Preloader";
 
 export default {
+  components: { Preloader },
+
   data() {
     return {
       form: new AdminForm({
         username: "",
-        email: ""
-      })
+        name: "",
+        email: "",
+        role_id: null,
+        password: "",
+        password_confirmation: ""
+      }),
+
+      loading: false
     };
   },
 
   mounted() {
-    console.log(this.$route.params.attributes);
-    console.log(this.$parent.users.find(v => v.id == this.$route.params.id));
+    this.userAttributes();
+  },
+
+  methods: {
+    userAttributes() {
+      this.loading = true;
+
+      axios
+        .get(`/admin/users/${this.$route.params.id}/edit`)
+        .then(({ data }) => {
+          this.loading = false;
+
+          for (let prop in data) {
+            if (this.form.hasOwnProperty(prop)) {
+              this.form[prop] = data[prop];
+            }
+          }
+        });
+    },
+
+    updateUser() {
+      this.form
+        .put(`/admin/users/${this.$route.params.id}`)
+        .then(({ data }) => {
+          this.$router.push({ name: "UsersIndex" }, () => {
+            flash(data.success);
+          });
+        });
+    }
   }
 };
 </script>

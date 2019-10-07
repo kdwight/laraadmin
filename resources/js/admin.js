@@ -22,7 +22,7 @@ const admin = new Vue({
 
     data() {
         return {
-            //
+            // roles: window.Roles
         }
     }
 });

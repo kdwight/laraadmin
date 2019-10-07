@@ -15,5 +15,10 @@ export default {
 </script>
 
 <style scoped>
-/*  */
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -50px 0px 0px -50px;
+}
 </style>

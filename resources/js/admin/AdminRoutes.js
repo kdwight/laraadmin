@@ -15,6 +15,12 @@ let routes = [
         component: require('./pages/UserEdit').default,
         props: true
     },
+
+    {
+        path: "/admin/roles",
+        name: 'Roles',
+        component: require('./pages/Roles').default
+    },
 ];
 
 export default new VueRouter({

@@ -27,10 +27,10 @@ class UserRequest extends FormRequest
     {
         return [
             'username' => [
-                'required', 'min:3'
+                'required', 'min:3', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
             ],
-            'role' => [
-                'required', 'min:3'
+            'role_id' => [
+                'required'
             ],
             'name' => [
                 'required', 'min:3'

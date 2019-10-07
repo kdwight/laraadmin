@@ -18,6 +18,7 @@ export default {
       active: this.attributes.status
     };
   },
+
   computed: {
     classes() {
       return [
@@ -29,10 +30,12 @@ export default {
       return ["fa", this.active ? "fa-check" : "fa-times"];
     }
   },
+
   methods: {
     toggle() {
       this.active ? this.destroy() : this.create();
     },
+
     destroy() {
       axios
         .patch(this.endpoint, {
@@ -43,6 +46,7 @@ export default {
           flash(data.success);
         });
     },
+
     create() {
       axios
         .patch(this.endpoint, {

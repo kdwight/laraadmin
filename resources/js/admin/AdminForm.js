@@ -29,13 +29,16 @@ class AdminForm {
     }
 
     submit(endpoint, requestType = 'post') {
+        this.submitted = true;
+
         return axios[requestType](endpoint, this.data())
             .catch(this.onFail.bind(this))
             .then(this.onSuccess.bind(this));
     }
 
     onSuccess(response) {
-        this.submitted = true;
+        this.submitted = false;
+        this.reset();
         this.errors = {};
 
         return response;

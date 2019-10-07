@@ -21,6 +21,10 @@
             </div>
 
             <div class="col-4 text-right">
+              <router-link :to="{ name: 'Roles' }">
+                <button class="btn btn-danger btn-sm">Roles</button>
+              </router-link>
+
               <router-link :to="{ name: 'UserCreate' }">
                 <button class="btn btn-primary btn-sm">Add User</button>
               </router-link>
@@ -87,7 +91,7 @@
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                       <router-link
                         class="dropdown-item"
-                        :to="{ name: 'UserEdit', params: { id: user.id }}"
+                        :to="{ name: 'UserEdit', params: { id: user.id, attributes: user }}"
                       >Edit</router-link>
 
                       <button class="dropdown-item" @click="deleteRow(user)">Delete</button>
@@ -149,7 +153,6 @@ export default {
             })
             .catch(error => {
               flash(error.response.data.message, "danger");
-              this.fetchData();
             });
         }
       });
