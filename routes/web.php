@@ -11,10 +11,11 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
-        // Route::middleware(['pages_access'])->group(function () {
-        //     Route::put('pages/{page}/status', 'PageController@status');
-        //     Route::resource('pages', 'PageController');
-        // });
+        Route::middleware(['pages_access'])->group(function () {
+            Route::put('pages/{page}/status', 'PageController@status');
+            Route::get('pages/create', 'PageController@index');
+            Route::resource('pages', 'PageController')->except(['show', 'create', 'edit']);
+        });
 
         Route::middleware(['verified'])->group(function () {
             Route::get('profile', 'ProfileController@edit')->name('profile.edit');

@@ -64,6 +64,14 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        // images folder in for tinymce in laravel file manager
+        'tinymce' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/tinymce'),
+            'url' => env('APP_URL') . '/storage/tinymce',
+            'visibility' => 'public',
+        ],
+
     ],
 
 ];

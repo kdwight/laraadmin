@@ -1,6 +1,7 @@
 import './bootstrap'
 import AdminRoutes from './admin/AdminRoutes'
 import Flash from './admin/components/Flash'
+import Pages from './admin/modules/Pages.vue'
 import Users from './admin/modules/Users.vue'
 
 // Laravel's auth helper into a Vue instance  this.$auth
@@ -17,6 +18,7 @@ const admin = new Vue({
 
     components: {
         Flash,
+        Pages,
         Users
     },
 
