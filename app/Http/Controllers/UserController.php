@@ -24,9 +24,7 @@ class UserController extends Controller
 
     public function store(UserRequest $request, User $model)
     {
-        unset($request['password_confirmation']);
-
-        event(new Registered($model->create($request->merge(['password' => Hash::make($request->get('password'))])->all())));
+        event(new Registered($model->create($request->merge(['password' => Hash::make($request->get('password'))])->except('password_confirmation'))));
 
         return response(['success' => 'User successfully created.'], 200);
     }
@@ -42,11 +40,9 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        unset($request['password_confirmation']);
-
         $user->update(
             $request->merge(['password' => Hash::make($request->get('password'))])
-                ->except([$request->get('password') ? '' : 'password'])
+                ->except([$request->get('password') ? '' : 'password', 'password_confirmation'])
         );
 
         return response(['success' => 'User successfully updated.'], 200);

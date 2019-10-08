@@ -82,13 +82,15 @@
                 </li>
                 @endfor
 
+                @if (auth()->user()->role_id === 1)
                 <li class="nav-item">
-                    <a class="nav-link {{ (request()->is('admin/users*')) ? 'active' : '' }}"
+                    <a class="nav-link {{ (request()->is('admin/users*') || request()->is('admin/roles*')) ? 'active' : '' }}"
                         href="{{ url('admin/users') }}"
                     >
                         <i class="fas fa-users-cog text-primary"></i> Users
                     </a>
                 </li>
+                @endif
             </ul>
 
             <!-- Divider -->
@@ -100,14 +102,8 @@
             <!-- Navigation -->
             <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('profile.edit') }}">
+                    <a class="nav-link {{ (request()->is('admin/profile*')) ? 'active' : '' }}" href="{{ route('profile.edit') }}">
                         <i class="ni ni-single-02 text-default"></i> Profile
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('admin/activities') }}">
-                        <i class="ni ni-calendar-grid-58 text-info"></i> Acivity
                     </a>
                 </li>
 

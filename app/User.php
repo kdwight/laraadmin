@@ -82,4 +82,24 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Role::find($this->role_id);
     }
+
+    public function userAgent()
+    {
+        $agent = new \Jenssegers\Agent\Agent();
+
+        $agent->setUserAgent($this->last_login['user_agent']);
+
+        return $agent;
+    }
+
+    public function lastSession()
+    {
+        return $this->update([
+            'last_login' => [
+                'at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'ip' => request()->getClientIp(),
+                'user_agent' => request()->header('User-Agent')
+            ]
+        ]);
+    }
 }

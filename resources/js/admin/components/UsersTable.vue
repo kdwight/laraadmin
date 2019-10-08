@@ -89,9 +89,12 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                      <a href="/admin/profile" class="dropdown-item" v-if="$auth.id == user.id">Edit</a>
+
                       <router-link
                         class="dropdown-item"
                         :to="{ name: 'UserEdit', params: { id: user.id, attributes: user }}"
+                        v-else
                       >Edit</router-link>
 
                       <button class="dropdown-item" @click="deleteRow(user)">Delete</button>
@@ -134,7 +137,7 @@ export default {
       const index = this.tableData.indexOf(user);
 
       Swal.fire({
-        title: "Are you sure?",
+        title: "<h2>Are you sure?</h2>",
         text: "You won't be able to revert this!",
         type: "warning",
         showCancelButton: true,

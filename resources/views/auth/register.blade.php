@@ -23,11 +23,11 @@
                             <input class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" placeholder="{{ __('Username') }}" type="text" name="username" value="{{ old('username') }}" required autofocus>
                         </div>
 
-                        @if ($errors->has('username'))
+                        @error('username')
                             <span class="invalid-feedback" style="display: block;" role="alert">
                                 <strong>{{ $errors->first('username') }}</strong>
                             </span>
-                        @endif
+                        @enderror
                     </div>
 
                     <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
@@ -39,11 +39,11 @@
                             <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}" type="email" name="email" value="{{ old('email') }}" required>
                         </div>
 
-                        @if ($errors->has('email'))
+                        @error('email')
                             <span class="invalid-feedback" style="display: block;" role="alert">
                                 <strong>{{ $errors->first('email') }}</strong>
                             </span>
-                        @endif
+                        @enderror
                     </div>
 
                     <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
@@ -55,11 +55,11 @@
                             <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password') }}" type="password" name="password" required>
                         </div>
 
-                        @if ($errors->has('password'))
+                        @error('password')
                             <span class="invalid-feedback" style="display: block;" role="alert">
                                 <strong>{{ $errors->first('password') }}</strong>
                             </span>
-                        @endif
+                        @enderror
                     </div>
 
                     <div class="form-group">

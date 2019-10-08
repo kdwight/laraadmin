@@ -2308,6 +2308,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2330,7 +2333,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var index = this.tableData.indexOf(user);
       sweetalert2__WEBPACK_IMPORTED_MODULE_4___default.a.fire({
-        title: "Are you sure?",
+        title: "<h2>Are you sure?</h2>",
         text: "You won't be able to revert this!",
         type: "warning",
         showCancelButton: true,
@@ -3135,7 +3138,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
 
 // exports
 
@@ -25832,22 +25835,33 @@ var render = function() {
                                             "dropdown-menu dropdown-menu-right dropdown-menu-arrow"
                                         },
                                         [
-                                          _c(
-                                            "router-link",
-                                            {
-                                              staticClass: "dropdown-item",
-                                              attrs: {
-                                                to: {
-                                                  name: "UserEdit",
-                                                  params: {
-                                                    id: user.id,
-                                                    attributes: user
+                                          _vm.$auth.id == user.id
+                                            ? _c(
+                                                "a",
+                                                {
+                                                  staticClass: "dropdown-item",
+                                                  attrs: {
+                                                    href: "/admin/profile"
                                                   }
-                                                }
-                                              }
-                                            },
-                                            [_vm._v("Edit")]
-                                          ),
+                                                },
+                                                [_vm._v("Edit")]
+                                              )
+                                            : _c(
+                                                "router-link",
+                                                {
+                                                  staticClass: "dropdown-item",
+                                                  attrs: {
+                                                    to: {
+                                                      name: "UserEdit",
+                                                      params: {
+                                                        id: user.id,
+                                                        attributes: user
+                                                      }
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._v("Edit")]
+                                              ),
                                           _vm._v(" "),
                                           _c(
                                             "button",

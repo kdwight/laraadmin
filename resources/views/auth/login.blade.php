@@ -53,11 +53,11 @@
                             <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="{{ __('Password') }}" type="password" value="6.62607004" required>
                         </div>
 
-                        @if ($errors->has('password'))
+                        @error('password')
                             <span class="invalid-feedback" style="display: block;" role="alert">
                                 <strong>{{ $errors->first('password') }}</strong>
                             </span>
-                        @endif
+                        @enderror
                     </div>
 
                     <div class="custom-control custom-control-alternative custom-checkbox">

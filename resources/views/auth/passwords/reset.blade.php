@@ -8,6 +8,7 @@
                 <div class="text-center text-muted mb-4">
                     <small>{{ __('Reset Password') }}</small>
                 </div>
+
                 <form role="form" method="POST" action="{{ route('password.update') }}">
                     @csrf
 
@@ -20,12 +21,14 @@
                             </div>
                             <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}" type="email" name="email" value="{{ $email ?? old('email') }}" required autofocus>
                         </div>
-                        @if ($errors->has('email'))
-                            <span class="invalid-feedback" role="alert">
+
+                        @error('email')
+                            <span class="invalid-feedback" style="display: block;" role="alert">
                                 <strong>{{ $errors->first('email') }}</strong>
                             </span>
-                        @endif
+                        @enderror
                     </div>
+
                     <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                         <div class="input-group input-group-alternative">
                             <div class="input-group-prepend">
@@ -33,12 +36,14 @@
                             </div>
                             <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="{{ __('Password') }}" type="password" required>
                         </div>
-                        @if ($errors->has('password'))
-                            <span class="invalid-feedback" role="alert">
+
+                        @error('password')
+                            <span class="invalid-feedback" style="display: block;" role="alert">
                                 <strong>{{ $errors->first('password') }}</strong>
                             </span>
-                        @endif
+                        @enderror
                     </div>
+
                     <div class="form-group">
                         <div class="input-group input-group-alternative">
                             <div class="input-group-prepend">
@@ -47,6 +52,7 @@
                             <input class="form-control" placeholder="{{ __('Confirm Password') }}" type="password" name="password_confirmation" required>
                         </div>
                     </div>
+
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary my-4">{{ __('Reset Password') }}</button>
                     </div>
