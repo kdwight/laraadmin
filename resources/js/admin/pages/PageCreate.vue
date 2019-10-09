@@ -45,15 +45,12 @@
                     <span class="text-danger">*</span> Details
                   </label>
 
-                  <editor
+                  <tinymce-editor
                     api-key="jjnaxoo9ntewjb2s6ya0mz8csdvsgrf3x74a49slrbvdl8ma"
-                    :plugins="plugins"
-                    :toolbar="toolbars"
-                    :init="{ file_picker_callback }"
-                    ref="tinymce"
+                    :init="tinymceInit()"
                     v-model="form.details"
                     rows="20"
-                  ></editor>
+                  ></tinymce-editor>
 
                   <span class="invalid-feedback" role="alert" v-if="form.errors.details">
                     <strong>{{ form.errors.details[0] }}</strong>
@@ -84,7 +81,7 @@ import Wysiwyg from "../mixins/Wysiwyg";
 
 export default {
   components: {
-    Editor
+    "tinymce-editor": Editor
   },
 
   mixins: [Wysiwyg],
@@ -93,7 +90,7 @@ export default {
     return {
       form: new AdminForm({
         title: "",
-        details: "<p>Content of the editor.</p>"
+        details: "Content of the editor"
       })
     };
   },
