@@ -120,8 +120,6 @@ import Preloader from "./Preloader";
 import Pagination from "./Pagination";
 import Status from "./Status";
 
-import Swal from "sweetalert2";
-
 export default {
   mixins: [DataTable],
   components: { Preloader, Pagination, Status },
@@ -136,29 +134,33 @@ export default {
     deleteRow(user) {
       const index = this.tableData.indexOf(user);
 
-      Swal.fire({
-        title: "<h2>Are you sure?</h2>",
-        text: "You won't be able to revert this!",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(result => {
-        if (result.value) {
-          axios
-            .delete(`/admin/users/${user.id}`)
-            .then(({ data }) => {
-              this.tableData.splice(index, 1);
+      this.$bvModal
+        .msgBoxConfirm("Are you sure that you want to delete this item.", {
+          title: "Please Confirm",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(value => {
+          if (value) {
+            axios
+              .delete(`/admin/users/${user.id}`)
+              .then(({ data }) => {
+                this.tableData.splice(index, 1);
 
-              flash(data.success, "success");
-              this.fetchData();
-            })
-            .catch(error => {
-              flash(error.response.data.message, "danger");
-            });
-        }
-      });
+                flash(data.success, "success");
+                this.fetchData();
+              })
+              .catch(error => {
+                flash(error.response.data.message, "danger");
+              });
+          }
+        });
     }
   }
 };

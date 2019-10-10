@@ -10,7 +10,7 @@
 - `npm run dev`
 - update `APP_URL` from `.env` file with the project's URL
 
-after setting up `.env` file create a database then `php artisan migrate --seed` on terminal
+after setting up `.env` file create a database then `php artisan migrate:fresh --seed` on terminal
 
 ## specs
 

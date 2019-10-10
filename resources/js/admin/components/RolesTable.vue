@@ -91,8 +91,6 @@ import DataTable from "../mixins/DataTables";
 import Preloader from "./Preloader";
 import Pagination from "./Pagination";
 
-import Swal from "sweetalert2";
-
 export default {
   mixins: [DataTable],
   components: { Preloader, Pagination },

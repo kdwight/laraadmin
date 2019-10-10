@@ -1,85 +1,89 @@
-var editor_id = "";
-
-var dialogConfig = {
-    title: 'Embed Instagram',
-
-    body: {
-        type: 'panel',
-        items: [
-            {
-                type: 'input',
-                name: 'instagram',
-                label: 'enter embed code from instagram'
-            }
-        ]
-    },
-
-    buttons: [
-        {
-            type: 'cancel',
-            name: 'closeButton',
-            text: 'Cancel'
-        },
-        {
-            type: 'submit',
-            name: 'submitButton',
-            text: 'Submit',
-            primary: true
-        }
-    ],
-
-    initialData: {
-        instagram: '',
-    },
-
-    onSubmit: function (api) {
-        var data = api.getData();
-
-        var embedCode = data.instagram;
-        var script = embedCode.match(/<script.*<\/script>/)[0];
-        var scriptSrc = script.match(/".*\.js/)[0].split("\"")[1];
-
-        // <script async defer src="//www.instagram.com/embed.js"></script>
-        var sc = document.createElement("script");
-        sc.setAttribute("src", scriptSrc);
-        sc.setAttribute("type", "text/javascript");
-
-        var iframe = document.getElementById(editor_id + "_ifr");
-        var iframeHead = iframe.contentWindow.document.getElementsByTagName('head')[0];
-
-        tinyMCE.activeEditor.insertContent(data.instagram);
-        iframeHead.appendChild(sc);
-        setTimeout(function () {
-            iframe.contentWindow.instgrm.Embeds.process();
-        }, 1000)
-
-        api.close();
-    }
-};
-
 export default {
     data() {
         return {
             plugins: [
                 'advlist autolink anchor code codesample',
-                'lists link imagesearchreplace visualblocks fullscreen',
-                'insertdatetime media table paste  help wordcount',
-                "hr pagebreak visualchars nonbreaking  textpattern",
-                'fullpage importcss template toc imagetools noneditable quickbars'
+                'lists link searchreplace fullscreen',
+                'insertdatetime image media table paste help wordcount',
+                "hr visualchars nonbreaking textpattern",
+                'imagetools noneditable quickbars'
             ],
-            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | fullscreen | insertfile image media template link anchor codesample code | instagram',
+            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | insertfile image media link codesample | code fullscreen instagram',
         };
     },
 
     methods: {
         tinymceInit() {
+            let editor_id = "";
+
+            let dialogConfig = {
+                title: 'Embed Instagram',
+
+                body: {
+                    type: 'panel',
+                    items: [
+                        {
+                            type: 'input',
+                            name: 'instagram',
+                            label: 'enter embed code from instagram'
+                        }
+                    ]
+                },
+
+                buttons: [
+                    {
+                        type: 'cancel',
+                        name: 'closeButton',
+                        text: 'Cancel'
+                    },
+                    {
+                        type: 'submit',
+                        name: 'submitButton',
+                        text: 'Submit',
+                        primary: true
+                    }
+                ],
+
+                initialData: {
+                    instagram: '',
+                },
+
+                onSubmit: function (api) {
+                    var data = api.getData();
+
+                    var embedCode = data.instagram;
+
+                    if (embedCode && embedCode.includes("script")) {
+                        var script = embedCode.match(/<script.*<\/script>/)[0];
+                        var scriptSrc = script.match(/".*\.js/)[0].split("\"")[1];
+
+                        // <script async defer src="//www.instagram.com/embed.js"></script>
+                        var sc = document.createElement("script");
+                        sc.setAttribute("src", scriptSrc);
+                        sc.setAttribute("type", "text/javascript");
+
+                        var iframe = document.getElementById(editor_id + "_ifr");
+                        var iframeHead = iframe.contentWindow.document.getElementsByTagName('head')[0];
+
+                        iframeHead.appendChild(sc);
+                        setTimeout(function () {
+                            iframe.contentWindow.instgrm.Embeds.process();
+                        }, 1000)
+                    }
+
+                    tinyMCE.activeEditor.insertContent(`${data.instagram}`);
+
+                    api.close();
+                }
+            };
+
             return {
                 plugins: this.plugins,
                 toolbar: this.toolbar,
-                menubar: true,
                 image_advtab: true,
-                toolbar_drawer: 'sliding',
                 image_caption: true,
+                menubar: false,
+                toolbar_drawer: 'floating',
 
                 setup: function (editor) {
                     editor.on('init', function (args) {

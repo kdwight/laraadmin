@@ -3,6 +3,10 @@ import AdminRoutes from './admin/AdminRoutes'
 import Flash from './admin/components/Flash'
 import Pages from './admin/modules/Pages.vue'
 import Users from './admin/modules/Users.vue'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(BootstrapVue)
 
 // Laravel's auth helper into a Vue instance  this.$auth
 let authUser = (document.querySelector("meta[name='auth']").getAttribute('content'))
@@ -28,3 +32,8 @@ const admin = new Vue({
         }
     }
 });
+
+// == == == == == == == == == == == == == == == == == ==
+
+// turns input text into input tags
+$('#input-tags').tagsInput();
