@@ -20,28 +20,17 @@
           <div class="card-body">
             <form autocomplete="off">
               <div class="pl-lg-4">
-                <div :class="`form-group `">
+                <div class="form-group">
                   <label class="form-control-label">
                     Banner
                     <span
                       class="fas fa-question-circle"
                       v-b-tooltip.hover
-                      title="Max File Size: 2mb, Supported File Types: .jpg,.png, Dimension: 1350x500"
+                      title="Max File Size: 2mb, Supported File Types: .jpg,.png"
                     ></span>
                   </label>
 
-                  <div class="mb-2" v-if="imageData.length > 0">
-                    <img class="preview" :src="imageData" />
-                  </div>
-
-                  <b-form-file
-                    name="banner"
-                    id="file-default"
-                    ref="file-input"
-                    v-model="form.banner"
-                    accept="image/*"
-                    @change="previewImage"
-                  ></b-form-file>
+                  <preview-image-input v-model="form.banner" />
 
                   <span class="text-warning" v-if="form.errors.banner">
                     <strong>{{ form.errors.banner[0] }}</strong>
@@ -51,6 +40,11 @@
                 <div :class="`form-group`">
                   <label class="form-control-label" for="input-title">
                     <span class="text-danger">*</span> Title
+                    <span
+                      class="fas fa-question-circle"
+                      v-b-tooltip.hover
+                      title="Max Length 65 characters"
+                    ></span>
                   </label>
 
                   <input
@@ -59,6 +53,7 @@
                     id="input-title"
                     :class="`form-control ${ form.errors.title ? 'is-invalid' : '' }`"
                     placeholder="Title"
+                    maxlength="65"
                     autofocus
                     v-model="form.title"
                   />
@@ -87,7 +82,7 @@
 
                 <hr class="my-4" />
 
-                <h6 class="heading-small text-muted mb-4">SEO</h6>
+                <h6 class="heading-small text-muted mb-4">SEO Tags</h6>
 
                 <div :class="`form-group ${form.errors.meta_description ? 'has-danger' : ''}`">
                   <label class="form-control-label" for="input-meta_description">
@@ -123,6 +118,7 @@
                     id="input-tags"
                     :class="`form-control ${ form.errors.meta_keywords ? ' is-invalid' : '' }`"
                     placeholder="Meta Keywords"
+                    ref="metaKeywords"
                     v-model="form.meta_keywords"
                   />
 
@@ -152,10 +148,12 @@
 import AdminForm from "../AdminForm";
 import Editor from "@tinymce/tinymce-vue";
 import Wysiwyg from "../mixins/Wysiwyg";
+import PreviewImageInput from "../components/PreviewImageInput";
 
 export default {
   components: {
-    "tinymce-editor": Editor
+    "tinymce-editor": Editor,
+    PreviewImageInput
   },
 
   mixins: [Wysiwyg],
@@ -163,45 +161,38 @@ export default {
   data() {
     return {
       form: new AdminForm({
+        banner: null,
         title: "",
-        details: "Content of the editor"
-      }),
-
-      imageData: ""
+        details: "Content of the editor",
+        meta_description: "",
+        meta_keywords: ""
+      })
     };
   },
 
   methods: {
-    previewImage(event) {
-      // Reference to the DOM input element
-      var input = event.target;
-      // Ensure that you have a file before attempting to read it
-      if (input.files && input.files[0]) {
-        // create a new FileReader to read this image and convert to base64 format
-        var reader = new FileReader();
-        // Define a callback function to run, when FileReader finishes its job
-        reader.onload = e => {
-          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
-          // Read image as base64 and set to imageData
-          this.imageData = e.target.result;
-        };
-        // Start the reader job - read file as a data url (base64 format)
-        reader.readAsDataURL(input.files[0]);
-      }
-    },
-
     createPage() {
-      return console.log("create");
+      const form = new FormData();
+      form.append("banner", this.banner);
+
+      const config = {
+        headers: {
+          "Content-type": `multipart/form-data; boundary=${form._boundary}`
+        }
+      };
+
+      this.form.meta_keywords = this.$refs.metaKeywords.value;
+
+      this.form.submit("/admin/pages", "post").then(({ data }) => {
+        this.$router.push({ name: "PagesIndex" }, () => {
+          flash(data.success);
+        });
+      });
     }
   }
 };
 </script>
 
 <style scoped>
-img.preview {
-  width: 200px;
-  background-color: white;
-  border: 1px solid #ddd;
-  padding: 5px;
-}
+/*  */
 </style>

@@ -38,12 +38,6 @@ class Page extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $seo = [
-                'meta_description' => "",
-                'meta_keywords' => ""
-            ];
-
-            $model->seo = $seo;
             $model->created_by = auth()->id();
         });
 

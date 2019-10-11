@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PageRequest;
 use App\Page;
 
 class PageController extends Controller
@@ -11,9 +12,11 @@ class PageController extends Controller
         return view('admin.pages.index');
     }
 
-    public function store(PageRequest $request, Page $model)
+    public function store()
     {
-        $model->create($request->merge(['password' => Hash::make($request->get('password'))])->except('password_confirmation'));
+        return response(request()->file('banner')->getClientOriginalExtension(), 422);
+
+        Page::create($request->all());
 
         return response(['success' => 'Page successfully created.'], 200);
     }
