@@ -38,7 +38,7 @@ export default {
 
     destroy() {
       axios
-        .patch(this.endpoint, {
+        .put(this.endpoint, {
           status: false
         })
         .then(({ data }) => {
@@ -49,7 +49,7 @@ export default {
 
     create() {
       axios
-        .patch(this.endpoint, {
+        .put(this.endpoint, {
           status: true
         })
         .then(({ data }) => {

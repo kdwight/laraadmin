@@ -28,10 +28,10 @@ class AdminForm {
         return this.submit(endpoint, 'delete');
     }
 
-    submit(endpoint, requestType = 'post', config = {}) {
+    submit(endpoint, requestType = 'post') {
         this.submitted = true;
 
-        return axios[requestType](endpoint, this.data(), config)
+        return axios[requestType](endpoint, this.data())
             .catch(this.onFail.bind(this))
             .then(this.onSuccess.bind(this));
     }

@@ -32,9 +32,9 @@
 
                   <preview-image-input v-model="form.banner" />
 
-                  <span class="text-warning" v-if="form.errors.banner">
+                  <h5 class="text-warning" v-if="form.errors.banner">
                     <strong>{{ form.errors.banner[0] }}</strong>
-                  </span>
+                  </h5>
                 </div>
 
                 <div :class="`form-group`">
@@ -161,7 +161,7 @@ export default {
   data() {
     return {
       form: new AdminForm({
-        banner: null,
+        banner: "",
         title: "",
         details: "Content of the editor",
         meta_description: "",
@@ -172,22 +172,39 @@ export default {
 
   methods: {
     createPage() {
-      const form = new FormData();
-      form.append("banner", this.banner);
-
-      const config = {
-        headers: {
-          "Content-type": `multipart/form-data; boundary=${form._boundary}`
-        }
-      };
+      const formData = new FormData();
 
       this.form.meta_keywords = this.$refs.metaKeywords.value;
+      // this.form.submitted = true;
 
-      this.form.submit("/admin/pages", "post").then(({ data }) => {
-        this.$router.push({ name: "PagesIndex" }, () => {
-          flash(data.success);
+      const form = Object.keys(this.form.originalData).reduce(
+        (data, attribute) => {
+          formData.append(attribute, this.form[attribute]);
+
+          return formData;
+        },
+        {}
+      );
+
+      axios
+        .post("/admin/pages", form, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(({ data }) => {
+          this.form.submitted = false;
+          this.form.reset();
+          this.form.errors = {};
+
+          this.$router.push({ name: "PagesIndex" }, () => {
+            flash(data.success);
+          });
+        })
+        .catch(({ response }) => {
+          this.form.errors = response.data.errors;
+          this.form.submitted = false;
         });
-      });
     }
   }
 };

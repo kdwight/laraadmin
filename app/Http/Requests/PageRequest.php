@@ -26,7 +26,9 @@ class PageRequest extends FormRequest
         return [
             'banner' => 'required|mimes:jpeg,jpg,png|max:2048',
             'title' => 'required|string|max:65',
-            'details' => 'required|string'
+            'details' => 'required|string',
+            'meta_description' => 'nullable|string|max:160',
+            'meta_keywords' => 'nullable|string'
         ];
     }
 }

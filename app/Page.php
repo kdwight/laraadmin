@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Page extends Model
 {
@@ -18,7 +19,7 @@ class Page extends Model
      *
      * @var array
      */
-    protected $appends = ['visitors_count'];
+    protected $appends = ['visitors_count', 'cover_path'];
 
     /**
      * The attributes that should be cast to native types.
@@ -87,5 +88,15 @@ class Page extends Model
     public function getVisitorsCountAttribute($value)
     {
         return ($this->visitors) ? count($this->visitors) : 0;
+    }
+
+    /**
+     * Get a string path for the cover photo.
+     *
+     * @return string
+     */
+    public function getCoverPathAttribute()
+    {
+        return "storage/pages/{$this->banner}";
     }
 }

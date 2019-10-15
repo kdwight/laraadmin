@@ -10,7 +10,7 @@ let routes = [
         component: require('./pages/PageCreate').default
     },
     {
-        path: "/admin/pages/:id/edit",
+        path: "/admin/pages/:slug/edit",
         name: 'PageEdit',
         component: require('./pages/PageEdit').default,
         props: true

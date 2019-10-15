@@ -11,6 +11,7 @@
         "php": "^7.2",
         "alexusmai/laravel-file-manager": "^2.4",
         "fideloper/proxy": "^4.0",
+        "intervention/image": "^2.5",
         "jenssegers/agent": "^2.6",
         "laravel-frontend-presets/argon": "^1.0",
         "laravel/framework": "^6.0",

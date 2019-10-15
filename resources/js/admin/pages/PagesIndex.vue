@@ -1,18 +1,19 @@
 <template>
   <div>
-    test
-    <router-link :to="{name: 'PageCreate'}">
-      <button class="btn btn-warning">Create</button>
-    </router-link>
-
-    <router-link :to="{name: 'PageEdit'}">
-      <button class="btn btn-danger">Edit</button>
-    </router-link>
+    <pages-table
+      fetch-url="/admin/pages-list"
+      :columns="['title', 'status']"
+      :sortables="['title']"
+    ></pages-table>
   </div>
 </template>
 
 <script>
+import PagesTable from "../components/PagesTable";
+
 export default {
+  components: { PagesTable },
+
   data() {
     return {
       //

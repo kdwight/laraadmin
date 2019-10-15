@@ -84,6 +84,7 @@ export default {
                 image_caption: true,
                 menubar: false,
                 toolbar_drawer: 'floating',
+                paste_data_images: true,
 
                 setup: function (editor) {
                     editor.on('init', function (args) {
