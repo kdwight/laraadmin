@@ -63,7 +63,7 @@
                   </span>
                 </div>
 
-                <div :class="`form-group ${form.errors.title ? 'has-danger' : ''}`">
+                <div :class="`form-group ${form.errors.details ? 'has-danger' : ''}`">
                   <label class="form-control-label" for="input-title">
                     <span class="text-danger">*</span> Details
                   </label>
@@ -175,7 +175,7 @@ export default {
       const formData = new FormData();
 
       this.form.meta_keywords = this.$refs.metaKeywords.value;
-      // this.form.submitted = true;
+      this.form.submitted = true;
 
       const form = Object.keys(this.form.originalData).reduce(
         (data, attribute) => {

@@ -58,7 +58,7 @@
 
               <tr v-for="page in tableData" :key="page.slug" class="m-datatable__row" v-else>
                 <td>
-                  <img :src="`/${page.cover_path}`" class="mx-auto d-block w-25" />
+                  <img :src="page.banner_path" class="mx-auto d-block w-25" />
                 </td>
 
                 <td>{{ page.title }}</td>

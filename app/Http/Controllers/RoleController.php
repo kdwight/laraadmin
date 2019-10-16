@@ -9,10 +9,6 @@ class RoleController extends Controller
 {
     public function index()
     {
-        if (request()->wantsJson()) {
-            return $this->rolesList();
-        }
-
         return view('admin.users.index');
     }
 

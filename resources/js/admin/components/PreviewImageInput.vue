@@ -1,10 +1,10 @@
 <template>
   <div @click="chooseImage">
-    <a href="#" class="btn btn-outline-dark" v-if="!imageData">Choose an Image</a>
+    <a href="#" class="btn btn-outline-dark" v-if="!source">Choose an Image</a>
     <input ref="fileInput" type="file" @input="onSelectFile" hidden />
 
-    <label class="preview-container" v-if="imageData">
-      <img :src="imageData" class="preview-image" />
+    <label class="preview-container" v-if="source">
+      <img :src="source" class="preview-image" />
 
       <div class="preview-middle">
         <a href="#" class="btn btn-slack btn-sm">choose another</a>
@@ -19,6 +19,12 @@ export default {
     return {
       imageData: null
     };
+  },
+
+  computed: {
+    source() {
+      return this.imageData ? this.imageData : this.$attrs.value;
+    }
   },
 
   methods: {

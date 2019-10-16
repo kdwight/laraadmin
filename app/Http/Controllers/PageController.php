@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PageRequest;
 use App\Http\Resources\PagesResource;
 use App\Page;
 use Illuminate\Support\Str;
@@ -14,9 +13,17 @@ class PageController extends Controller
         return view('admin.pages.index');
     }
 
-    public function store(PageRequest $request)
+    public function store()
     {
-        $pageBanner = Str::slug($request->title) . '.' . request()->file('banner')->getClientOriginalExtension();
+        $attr = request()->validate([
+            'banner' => 'required|mimes:jpeg,jpg,png|max:2048',
+            'title' => 'required|string|max:65',
+            'details' => 'required|string',
+            'meta_description' => 'nullable|string|max:160',
+            'meta_keywords' => 'nullable|string'
+        ]);
+
+        $pageBanner = Str::slug(request('title')) . '.' . request()->file('banner')->getClientOriginalExtension();
         request()->file('banner')->storeAs('pages/', $pageBanner);
 
         \Image::make(public_path("/storage/pages/$pageBanner"))
@@ -26,18 +33,14 @@ class PageController extends Controller
             ->save();
 
         $seo = [
-            'meta_description' => $request->meta_description,
-            'meta_keywords' => $request->meta_keywords
+            'meta_description' => request('meta_description'),
+            'meta_keywords' => request('meta_keywords')
         ];
 
-        Page::create(
-            [
-                'title' => $request->title,
-                'details' => $request->details,
-                'seo' => $seo,
-                'banner' => $pageBanner
-            ]
-        );
+        Page::create(array_merge($attr, [
+            'seo' => $seo,
+            'banner' => $pageBanner
+        ]));
 
         return response(['success' => 'Page successfully created.'], 200);
     }
@@ -51,12 +54,40 @@ class PageController extends Controller
         return view('admin.pages.index');
     }
 
-    public function update(PageRequest $request, Page $page)
+    public function update(Page $page)
     {
-        $page->update(
-            $request->merge(['password' => Hash::make($request->get('password'))])
-                ->except([$request->get('password') ? '' : 'password', 'password_confirmation'])
-        );
+        $attr = request()->validate([
+            'banner' => 'nullable|mimes:jpeg,jpg,png|max:2048',
+            'title' => 'required|string|max:65',
+            'details' => 'required|string',
+            'meta_description' => 'nullable|string|max:160',
+            'meta_keywords' => 'nullable|string'
+        ]);
+        unset($attr['meta_description'], $attr['meta_keywords']);
+
+        $seo = [
+            'meta_description' => request('meta_description'),
+            'meta_keywords' => request('meta_keywords')
+        ];
+
+        $page->update(array_merge($attr, [
+            'seo' => $seo
+        ]));
+
+        if (request()->has('banner')) {
+            $pageBanner = Str::slug(request('title')) . '.' . request()->file('banner')->getClientOriginalExtension();
+            request()->file('banner')->storeAs('pages/', $pageBanner);
+
+            \Image::make(public_path("/storage/pages/$pageBanner"))
+                ->resize(null, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save();
+
+            $page->update([
+                'banner' => $pageBanner
+            ]);
+        }
 
         return response(['success' => 'Page successfully updated.'], 200);
     }

@@ -15,6 +15,7 @@ Route::prefix('admin')->group(function () {
             Route::get('pages-list', 'PageController@pagesList');
             Route::put('pages/{page}/status', 'PageController@status');
             Route::get('pages/create', 'PageController@index');
+            Route::get('pages/{page}/edit', 'PageController@edit');
             Route::resource('pages', 'PageController')->except(['show', 'create', 'edit']);
         });
 

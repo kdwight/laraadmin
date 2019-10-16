@@ -19,7 +19,7 @@ class Page extends Model
      *
      * @var array
      */
-    protected $appends = ['visitors_count', 'cover_path'];
+    protected $appends = ['visitors_count', 'banner_path'];
 
     /**
      * The attributes that should be cast to native types.
@@ -91,12 +91,12 @@ class Page extends Model
     }
 
     /**
-     * Get a string path for the cover photo.
+     * Get a string path for the banner image.
      *
      * @return string
      */
-    public function getCoverPathAttribute()
+    public function getBannerPathAttribute()
     {
-        return "storage/pages/{$this->banner}";
+        return "/storage/pages/{$this->banner}";
     }
 }
