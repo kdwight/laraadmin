@@ -12,9 +12,10 @@
               </div>
 
               <div class="col-4 text-right">
-                <router-link :to="{ name: 'PagesIndex' }">
-                  <button class="btn btn-primary btn-sm">Back to list</button>
-                </router-link>
+                <router-link
+                  class="btn btn-primary btn-sm"
+                  :to="{ name: 'PagesIndex' }"
+                >Back to list</router-link>
               </div>
             </div>
           </div>
@@ -181,10 +182,6 @@ export default {
   },
 
   methods: {
-    imagePath: function() {
-      return require("~assets/" + this.country.name + ".jpg");
-    },
-
     pageAttributes() {
       this.loading = true;
 

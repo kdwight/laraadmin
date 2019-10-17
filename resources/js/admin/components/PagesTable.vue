@@ -32,8 +32,6 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Banner</th>
-
                 <th
                   v-for="column in columns"
                   :key="column"
@@ -57,10 +55,6 @@
               </tr>
 
               <tr v-for="page in tableData" :key="page.slug" class="m-datatable__row" v-else>
-                <td>
-                  <img :src="page.banner_path" class="mx-auto d-block w-25" />
-                </td>
-
                 <td>{{ page.title }}</td>
 
                 <td>

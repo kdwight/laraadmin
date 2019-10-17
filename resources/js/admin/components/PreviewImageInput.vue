@@ -23,7 +23,9 @@ export default {
 
   computed: {
     source() {
-      return this.imageData ? this.imageData : this.$attrs.value;
+      return this.imageData
+        ? this.imageData
+        : `${this.$attrs.value}?t=${Math.random() * 100}`;
     }
   },
 

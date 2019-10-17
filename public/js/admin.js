@@ -2392,12 +2392,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2588,7 +2582,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     source: function source() {
-      return this.imageData ? this.imageData : this.$attrs.value;
+      return this.imageData ? this.imageData : "".concat(this.$attrs.value, "?t=").concat(Math.random() * 100);
     }
   },
   methods: {
@@ -3421,6 +3415,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -3449,9 +3444,6 @@ __webpack_require__.r(__webpack_exports__);
     this.pageAttributes();
   },
   methods: {
-    imagePath: function imagePath() {
-      return !(function webpackMissingModule() { var e = new Error("Cannot find module 'undefined'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-    },
     pageAttributes: function pageAttributes() {
       var _this = this;
 
@@ -32422,7 +32414,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
 
 // exports
 
@@ -32593,7 +32585,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
 
 // exports
 
@@ -55255,8 +55247,6 @@ var render = function() {
                   _c(
                     "tr",
                     [
-                      _c("th", { attrs: { scope: "col" } }, [_vm._v("Banner")]),
-                      _vm._v(" "),
                       _vm._l(_vm.columns, function(column) {
                         return _c(
                           "th",
@@ -55315,13 +55305,6 @@ var render = function() {
                             "tr",
                             { key: page.slug, staticClass: "m-datatable__row" },
                             [
-                              _c("td", [
-                                _c("img", {
-                                  staticClass: "mx-auto d-block w-25",
-                                  attrs: { src: page.banner_path }
-                                })
-                              ]),
-                              _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(page.title))]),
                               _vm._v(" "),
                               _c(
@@ -56707,14 +56690,11 @@ var render = function() {
                   [
                     _c(
                       "router-link",
-                      { attrs: { to: { name: "PagesIndex" } } },
-                      [
-                        _c(
-                          "button",
-                          { staticClass: "btn btn-primary btn-sm" },
-                          [_vm._v("Back to list")]
-                        )
-                      ]
+                      {
+                        staticClass: "btn btn-primary btn-sm",
+                        attrs: { to: { name: "PagesIndex" } }
+                      },
+                      [_vm._v("Back to list")]
                     )
                   ],
                   1
