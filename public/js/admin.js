@@ -2408,10 +2408,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    deleteRow: function deleteRow(user) {
+    deleteRow: function deleteRow(item) {
       var _this = this;
 
-      var index = this.tableData.indexOf(user);
+      var index = this.tableData.indexOf(item);
       this.$bvModal.msgBoxConfirm("Are you sure that you want to delete this item.", {
         title: "Please Confirm",
         size: "sm",
@@ -2424,7 +2424,7 @@ __webpack_require__.r(__webpack_exports__);
         centered: true
       }).then(function (value) {
         if (value) {
-          axios["delete"]("/admin/users/".concat(user.id)).then(function (_ref) {
+          axios["delete"]("".concat(_this.$route.path, "/").concat(item.slug)).then(function (_ref) {
             var data = _ref.data;
 
             _this.tableData.splice(index, 1);
@@ -2582,7 +2582,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     source: function source() {
-      return this.imageData ? this.imageData : "".concat(this.$attrs.value, "?t=").concat(Math.random() * 100);
+      if (this.imageData) {
+        return this.imageData;
+      } else if (this.$attrs.value) {
+        return "".concat(this.$attrs.value, "?t=").concat(Date.now());
+      } else {
+        return null;
+      }
     }
   },
   methods: {
@@ -2940,38 +2946,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {//
     };
-  },
-  methods: {
-    deleteRow: function deleteRow(user) {
-      var _this = this;
-
-      var index = this.tableData.indexOf(user);
-      this.$bvModal.msgBoxConfirm("Are you sure that you want to delete this item.", {
-        title: "Please Confirm",
-        size: "sm",
-        buttonSize: "sm",
-        okVariant: "danger",
-        okTitle: "YES",
-        cancelTitle: "NO",
-        footerClass: "p-2",
-        hideHeaderClose: false,
-        centered: true
-      }).then(function (value) {
-        if (value) {
-          axios["delete"]("/admin/users/".concat(user.id)).then(function (_ref) {
-            var data = _ref.data;
-
-            _this.tableData.splice(index, 1);
-
-            flash(data.success, "success");
-
-            _this.fetchData();
-          })["catch"](function (error) {
-            flash(error.response.data.message, "danger");
-          });
-        }
-      });
-    }
   }
 });
 
@@ -3218,34 +3192,15 @@ __webpack_require__.r(__webpack_exports__);
     createPage: function createPage() {
       var _this = this;
 
-      var formData = new FormData();
       this.form.meta_keywords = this.$refs.metaKeywords.value;
-      this.form.submitted = true;
-      var form = Object.keys(this.form.originalData).reduce(function (data, attribute) {
-        formData.append(attribute, _this.form[attribute]);
-        return formData;
-      }, {});
-      axios.post("/admin/pages", form, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      }).then(function (_ref) {
+      this.form.submitFormData("/admin/pages").then(function (_ref) {
         var data = _ref.data;
-        _this.form.submitted = false;
-
-        _this.form.reset();
-
-        _this.form.errors = {};
 
         _this.$router.push({
           name: "PagesIndex"
         }, function () {
           flash(data.success);
         });
-      })["catch"](function (_ref2) {
-        var response = _ref2.response;
-        _this.form.errors = response.data.errors;
-        _this.form.submitted = false;
       });
     }
   }
@@ -32509,7 +32464,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
 
 // exports
 
@@ -32566,7 +32521,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  */\r\n", ""]);
 
 // exports
 
@@ -73638,7 +73593,7 @@ function () {
         return formData;
       }, {});
 
-      if (requestType == 'PUT' || 'PATCH') {
+      if (['PUT', 'PATCH', 'put', 'patch'].includes(requestType)) {
         // laravel/php bug solution for put endpoint using FormData
         formData.append("_method", "PUT");
         requestType = "post"; // if banner state is not a File type
@@ -74541,6 +74496,36 @@ __webpack_require__.r(__webpack_exports__);
 
         this.fetchData();
       }
+    },
+    deleteRow: function deleteRow(item) {
+      var _this3 = this;
+
+      var index = this.tableData.indexOf(item);
+      this.$bvModal.msgBoxConfirm("Are you sure that you want to delete this item.", {
+        title: "Please Confirm",
+        size: "sm",
+        buttonSize: "sm",
+        okVariant: "danger",
+        okTitle: "YES",
+        cancelTitle: "NO",
+        footerClass: "p-2",
+        hideHeaderClose: false,
+        centered: true
+      }).then(function (value) {
+        if (value) {
+          axios["delete"]("".concat(_this3.$route.path, "/").concat(item.id)).then(function (_ref2) {
+            var data = _ref2.data;
+
+            _this3.tableData.splice(index, 1);
+
+            flash(data.success, "success");
+
+            _this3.fetchData();
+          })["catch"](function (error) {
+            flash(error.response.data.message, "danger");
+          });
+        }
+      });
     }
   }
 });

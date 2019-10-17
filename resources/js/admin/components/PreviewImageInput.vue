@@ -23,9 +23,13 @@ export default {
 
   computed: {
     source() {
-      return this.imageData
-        ? this.imageData
-        : `${this.$attrs.value}?t=${Math.random() * 100}`;
+      if (this.imageData) {
+        return this.imageData;
+      } else if (this.$attrs.value) {
+        return `${this.$attrs.value}?t=${Date.now()}`;
+      } else {
+        return null;
+      }
     }
   },
 

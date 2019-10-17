@@ -47,7 +47,7 @@ class AdminForm {
             return formData;
         }, {});
 
-        if (requestType == 'PUT' || 'PATCH') {
+        if (['PUT', 'PATCH', 'put', 'patch'].includes(requestType)) {
             // laravel/php bug solution for put endpoint using FormData
             formData.append("_method", "PUT");
 

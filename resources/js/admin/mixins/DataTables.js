@@ -115,6 +115,38 @@ export default {
 
                 this.fetchData();
             }
+        },
+
+        deleteRow(item) {
+            const index = this.tableData.indexOf(item);
+
+            this.$bvModal
+                .msgBoxConfirm("Are you sure that you want to delete this item.", {
+                    title: "Please Confirm",
+                    size: "sm",
+                    buttonSize: "sm",
+                    okVariant: "danger",
+                    okTitle: "YES",
+                    cancelTitle: "NO",
+                    footerClass: "p-2",
+                    hideHeaderClose: false,
+                    centered: true
+                })
+                .then(value => {
+                    if (value) {
+                        axios
+                            .delete(`${this.$route.path}/${item.id}`)
+                            .then(({ data }) => {
+                                this.tableData.splice(index, 1);
+
+                                flash(data.success, "success");
+                                this.fetchData();
+                            })
+                            .catch(error => {
+                                flash(error.response.data.message, "danger");
+                            });
+                    }
+                });
         }
     }
 }

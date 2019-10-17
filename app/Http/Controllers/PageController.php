@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PagesResource;
 use App\Page;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PageController extends Controller
@@ -22,15 +23,9 @@ class PageController extends Controller
             'meta_description' => 'nullable|string|max:160',
             'meta_keywords' => 'nullable|string'
         ]);
+        unset($attr['meta_description'], $attr['meta_keywords']);
 
-        $pageBanner = Str::slug(request('title')) . '.' . request()->file('banner')->getClientOriginalExtension();
-        request()->file('banner')->storeAs('pages/', $pageBanner);
-
-        \Image::make(public_path("/storage/pages/$pageBanner"))
-            ->resize(null, 200, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->save();
+        $pageBanner = $this->imageUpload();
 
         $seo = [
             'meta_description' => request('meta_description'),
@@ -70,19 +65,19 @@ class PageController extends Controller
             'meta_keywords' => request('meta_keywords')
         ];
 
+        $oldPage = $page->replicate();
+
         $page->update(array_merge($attr, [
             'seo' => $seo
         ]));
 
         if (request()->has('banner')) {
-            $pageBanner = Str::slug(request('title')) . '.' . request()->file('banner')->getClientOriginalExtension();
-            request()->file('banner')->storeAs('pages/', $pageBanner);
+            // change folder name if new title
+            if ($oldPage->title != $page->title) {
+                Storage::delete("pages/$oldPage->banner");
+            }
 
-            \Image::make(public_path("/storage/pages/$pageBanner"))
-                ->resize(null, 200, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->save();
+            $pageBanner = $this->imageUpload();
 
             $page->update([
                 'banner' => $pageBanner
@@ -94,6 +89,7 @@ class PageController extends Controller
 
     public function destroy(Page $page)
     {
+        Storage::delete("pages/$page->banner");
         $page->delete();
 
         return response(['success' => 'Page successfully deleted.'], 200);
@@ -114,5 +110,19 @@ class PageController extends Controller
             ->where('title', 'like', '%' . request('filter') . '%'); //you can chain these with searchable columns
 
         return PagesResource::collection($query->paginate(request('per_page')));
+    }
+
+    public function imageUpload()
+    {
+        $pageBanner = Str::slug(request('title')) . '.' . request()->file('banner')->getClientOriginalExtension();
+        request()->file('banner')->storeAs('pages/', $pageBanner);
+
+        \Image::make(public_path("/storage/pages/$pageBanner"))
+            ->resize(null, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save();
+
+        return $pageBanner;
     }
 }

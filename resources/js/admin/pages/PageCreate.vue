@@ -172,39 +172,13 @@ export default {
 
   methods: {
     createPage() {
-      const formData = new FormData();
-
       this.form.meta_keywords = this.$refs.metaKeywords.value;
-      this.form.submitted = true;
 
-      const form = Object.keys(this.form.originalData).reduce(
-        (data, attribute) => {
-          formData.append(attribute, this.form[attribute]);
-
-          return formData;
-        },
-        {}
-      );
-
-      axios
-        .post("/admin/pages", form, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(({ data }) => {
-          this.form.submitted = false;
-          this.form.reset();
-          this.form.errors = {};
-
-          this.$router.push({ name: "PagesIndex" }, () => {
-            flash(data.success);
-          });
-        })
-        .catch(({ response }) => {
-          this.form.errors = response.data.errors;
-          this.form.submitted = false;
+      this.form.submitFormData(`/admin/pages`).then(({ data }) => {
+        this.$router.push({ name: "PagesIndex" }, () => {
+          flash(data.success);
         });
+      });
     }
   }
 };

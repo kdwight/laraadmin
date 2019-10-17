@@ -118,8 +118,8 @@ export default {
   },
 
   methods: {
-    deleteRow(user) {
-      const index = this.tableData.indexOf(user);
+    deleteRow(item) {
+      const index = this.tableData.indexOf(item);
 
       this.$bvModal
         .msgBoxConfirm("Are you sure that you want to delete this item.", {
@@ -136,7 +136,7 @@ export default {
         .then(value => {
           if (value) {
             axios
-              .delete(`/admin/users/${user.id}`)
+              .delete(`${this.$route.path}/${item.slug}`)
               .then(({ data }) => {
                 this.tableData.splice(index, 1);
 

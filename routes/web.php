@@ -29,8 +29,8 @@ Route::prefix('admin')->group(function () {
             Route::get('roles-list', 'RoleController@rolesList');
             Route::resource('roles', 'RoleController')->except(['show', 'create', 'edit']);
 
-            Route::put('users/{user}/status', 'UserController@status');
             Route::get('users-list', 'UserController@index');
+            Route::put('users/{user}/status', 'UserController@status');
             Route::get('users/create', 'UserController@index');
             Route::get('users/{user}/edit', 'UserController@edit');
             Route::resource('users', 'UserController')->except(['show', 'create', 'edit']);
