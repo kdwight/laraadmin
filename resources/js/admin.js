@@ -34,6 +34,3 @@ const admin = new Vue({
 });
 
 // == == == == == == == == == == == == == == == == == ==
-
-// turns input text into input tags
-$('#input-tags').tagsInput();

@@ -16,13 +16,7 @@ class PageController extends Controller
 
     public function store()
     {
-        $attr = request()->validate([
-            'banner' => 'required|mimes:jpeg,jpg,png|max:2048',
-            'title' => 'required|string|max:65',
-            'details' => 'required|string',
-            'meta_description' => 'nullable|string|max:160',
-            'meta_keywords' => 'nullable|string'
-        ]);
+        $attr = $this->validatePage();
         unset($attr['meta_description'], $attr['meta_keywords']);
 
         $pageBanner = $this->imageUpload();
@@ -51,13 +45,7 @@ class PageController extends Controller
 
     public function update(Page $page)
     {
-        $attr = request()->validate([
-            'banner' => 'nullable|mimes:jpeg,jpg,png|max:2048',
-            'title' => 'required|string|max:65',
-            'details' => 'required|string',
-            'meta_description' => 'nullable|string|max:160',
-            'meta_keywords' => 'nullable|string'
-        ]);
+        $attr = $this->validatePage($page);
         unset($attr['meta_description'], $attr['meta_keywords']);
 
         $seo = [
@@ -93,6 +81,17 @@ class PageController extends Controller
         $page->delete();
 
         return response(['success' => 'Page successfully deleted.'], 200);
+    }
+
+    public function validatePage($page = null)
+    {
+        return request()->validate([
+            'banner' => [isset($page) ? 'nullable' : 'required', 'mimes:jpeg,jpg,png', 'max:2048'],
+            'title' => 'required|string|max:65',
+            'details' => 'required|string',
+            'meta_description' => 'nullable|string|max:160',
+            'meta_keywords' => 'nullable|string'
+        ]);
     }
 
     public function status(Page $page)

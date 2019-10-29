@@ -112,22 +112,20 @@
                   </span>
                 </div>
 
-                <div :class="`form-group ${form.errors.meta_keywords ? 'has-danger' : ''}`">
+                <div :class="`form-group `">
                   <label class="form-control-label" for="input-tags">Meta Keywords</label>
 
-                  <input
-                    type="text"
-                    name="meta_keywords"
+                  <vue-tags-input
                     id="input-tags"
-                    :class="`form-control ${ form.errors.meta_keywords ? ' is-invalid' : '' }`"
-                    placeholder="Meta Keywords"
-                    ref="metaKeywords"
-                    v-model="form.meta_keywords"
+                    name="meta_keywords"
+                    v-model="tag"
+                    :tags="tags"
+                    @tags-changed="newTags => tags = newTags"
                   />
 
-                  <span class="invalid-feedback" role="alert" v-if="form.errors.meta_keywords">
+                  <h5 class="text-warning" v-if="form.errors.meta_keywords">
                     <strong>{{ form.errors.meta_keywords[0] }}</strong>
-                  </span>
+                  </h5>
                 </div>
 
                 <div class="text-center">
@@ -153,12 +151,14 @@ import Editor from "@tinymce/tinymce-vue";
 import Wysiwyg from "../mixins/Wysiwyg";
 import PreviewImageInput from "../components/PreviewImageInput";
 import Preloader from "../components/Preloader";
+import VueTagsInput from "@johmun/vue-tags-input";
 
 export default {
   components: {
     "tinymce-editor": Editor,
     PreviewImageInput,
-    Preloader
+    Preloader,
+    VueTagsInput
   },
 
   mixins: [Wysiwyg],
@@ -173,7 +173,9 @@ export default {
         meta_keywords: ""
       }),
 
-      loading: false
+      loading: false,
+      tag: "",
+      tags: []
     };
   },
 
@@ -198,12 +200,16 @@ export default {
 
           this.form.banner = data.banner_path;
           this.form.meta_description = data.seo.meta_description;
-          this.form.meta_keywords = data.seo.meta_keywords;
+          this.tags = data.seo.meta_keywords
+            ? JSON.parse(data.seo.meta_keywords)
+            : [];
         });
     },
 
     editPage() {
-      this.form.meta_keywords = this.$refs.metaKeywords.value;
+      if (this.tags.length > 0) {
+        this.form.meta_keywords = JSON.stringify(this.tags);
+      }
 
       this.form
         .submitFormData(`/admin/pages/${this.$route.params.slug}`, "put")

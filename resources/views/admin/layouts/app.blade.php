@@ -24,11 +24,6 @@
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
         <!-- Argon Dashboard-->
 
-        <!-- Plugins -->
-        <script src="{{ asset('plugins/tagsinput/jquery.tagsinput.min.js') }}" ></script>
-        <link rel="stylesheet" type="text/css" href="{{ asset('plugins/tagsinput/jquery.tagsinput.min.css') }}" />
-        <!-- Plugins -->
-
         <link href="{{ asset('css') }}/admin.css" rel="stylesheet">
         <script src="{{ asset('js') }}/admin.js" defer></script>
 
