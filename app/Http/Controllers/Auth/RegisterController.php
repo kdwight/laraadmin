@@ -48,11 +48,19 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $validator =  Validator::make($data, [
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+
+        $validator->after(function ($validator) use ($data) {
+            if (!$this->isValidCaptcha() && env('RECAPTCHA_SECRET_KEY')) {
+                $validator->errors()->add('recaptcha', 'Invalid Recaptcha!');
+            }
+        });
+
+        return $validator;
     }
 
     /**
@@ -68,5 +76,29 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function isValidCaptcha()
+    {
+        $url = env('RECAPTCHA_URL');
+
+        $data = [
+            'secret' => env('RECAPTCHA_SECRET_KEY'),
+            'response' => request('recaptcha')
+        ];
+
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            ]
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        $resultJson = json_decode($result);
+
+        return ($resultJson->success != true) ? false : true;
     }
 }
