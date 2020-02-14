@@ -54,7 +54,7 @@
             </tr>
 
             <tr v-for="role in tableData" :key="role.id" class="m-datatable__row" v-else>
-              <td>{{ role.name }}</td>
+              <td>{{ role.description }}</td>
 
               <td class="text-right">
                 <div v-if="role.id != 1">

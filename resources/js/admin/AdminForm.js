@@ -36,6 +36,14 @@ class AdminForm {
             .then(this.onSuccess.bind(this));
     }
 
+    submitNoReset(endpoint, requestType = 'post') {
+        this.submitted = true;
+
+        return axios[requestType](endpoint, this.data())
+            .catch(this.onFail.bind(this))
+            .then(this.onSuccessTwo.bind(this));
+    }
+
     submitFormData(endpoint, requestType = 'post') {
         this.submitted = true;
 
@@ -43,6 +51,9 @@ class AdminForm {
 
         const form = Object.keys(this.originalData).reduce((data, attribute) => {
             formData.append(attribute, this[attribute]);
+            if (Array.isArray(this[attribute])) {
+                formData.append(attribute, JSON.stringify(this[attribute]));
+            }
 
             return formData;
         }, {});
@@ -69,6 +80,13 @@ class AdminForm {
     onSuccess(response) {
         this.submitted = false;
         this.reset();
+        this.errors = {};
+
+        return response;
+    }
+
+    onSuccessTwo(response) {
+        this.submitted = false;
         this.errors = {};
 
         return response;

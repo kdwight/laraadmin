@@ -6,6 +6,8 @@
 
 <script>
 export default {
+  props: ["attributes"],
+
   data() {
     return {
       roles: []

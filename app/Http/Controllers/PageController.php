@@ -11,7 +11,7 @@ class PageController extends Controller
 {
     public function index()
     {
-        return view('admin.pages.index');
+        return view('admin.index');
     }
 
     public function store()
@@ -40,7 +40,7 @@ class PageController extends Controller
             return response($page);
         }
 
-        return view('admin.pages.index');
+        return view('admin.index');
     }
 
     public function update(Page $page)
@@ -109,6 +109,26 @@ class PageController extends Controller
             ->where('title', 'like', '%' . request('filter') . '%'); //you can chain these with searchable columns
 
         return PagesResource::collection($query->paginate(request('per_page')));
+
+        // alternative
+        return collect([
+            'data' => $query->items(),
+            'links' => [
+                'first' => $query->toArray()['first_page_url'],
+                'last' => $query->toArray()['last_page_url'],
+                'prev' => $query->previousPageUrl(),
+                'next' => $query->nextPageUrl(),
+            ],
+            'meta' => [
+                'current_page' => $query->currentPage(),
+                'from' => $query->count(),
+                'last_page' => $query->lastPage(),
+                'path' => $query->getOptions()['path'],
+                'per_page' => $query->perPage(),
+                'to' => $query->toArray()['to'],
+                'total' => $query->total(),
+            ],
+        ]);
     }
 
     public function imageUpload()

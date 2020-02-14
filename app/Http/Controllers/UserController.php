@@ -19,7 +19,7 @@ class UserController extends Controller
             return UsersResource::collection($query->paginate(request('per_page')));
         }
 
-        return view('admin.users.index');
+        return view('admin.index');
     }
 
     public function store(UserRequest $request, User $model)
@@ -35,7 +35,7 @@ class UserController extends Controller
             return response($user);
         }
 
-        return view('admin.users.index');
+        return view('admin.index');
     }
 
     public function update(UserRequest $request, User $user)

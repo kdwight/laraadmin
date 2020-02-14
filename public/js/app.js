@@ -35084,15 +35084,6 @@ window.VueRouter = __webpack_require__(/*! vue-router */ "./node_modules/vue-rou
 Vue.use(VueRouter);
 Vue.prototype.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 window.events = new Vue();
-
-window.flash = function (message) {
-  var level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "success";
-  window.events.$emit('flash', {
-    message: message,
-    level: level
-  });
-};
-
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"); // window.axios.defaults.baseURL = '/stagingURI';
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

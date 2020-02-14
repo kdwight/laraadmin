@@ -15,7 +15,7 @@ class User extends Authenticatable implements MustVerifyEmail
     const ADMIN_ROLE = 1;
 
     /**
-     * The attributes that are not mass assignable.
+     * The attributes that aren't not mass assignable.
      *
      * @var array
      */
@@ -68,6 +68,9 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    /**
+     * Get the user's assigned role
+     */
     public function role()
     {
         return $this->belongsTo(Role::class);

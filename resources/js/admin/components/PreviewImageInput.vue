@@ -68,6 +68,7 @@ export default {
 .preview-image {
   opacity: 1;
   height: 200px;
+  /* max-height: 200px; */
   max-width: 100%;
   transition: 0.5s ease;
 }

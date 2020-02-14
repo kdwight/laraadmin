@@ -32,5 +32,9 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('sidebar', auth()->user()->hasAccess()->access);
             }
         });
+
+        view()->composer('*', function ($view) {
+            // $view->with('content', Contents::first());
+        });
     }
 }

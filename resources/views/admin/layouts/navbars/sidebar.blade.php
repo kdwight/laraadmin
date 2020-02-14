@@ -71,7 +71,7 @@
                     </a>
                 </li>
 
-                @for ($i = 0; $i < count($sidebar); $i++)
+                {{-- @for ($i = 0; $i < count($sidebar); $i++)
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('admin/'.$sidebar[$i] . '*') ? 'active' : '' }}"
                         href="{{ url("admin/" . $sidebar[$i]) }}"
@@ -80,7 +80,18 @@
                         {{ ucwords(str_replace('_', ' ', $sidebar[$i])) }}
                     </a>
                 </li>
-                @endfor
+                @endfor --}}
+
+                @foreach ($sidebar as $i => $sidebarr)
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('admin/'.$sidebarr . '*') ? 'active' : '' }}"
+                        href="{{ url("admin/" . $sidebarr) }}"
+                    >
+                        <i class="{{ request()->is('admin/'.$sidebarr . '*') ? 'fas fa-circle' : 'far fa-circle' }}"></i>
+                        {{ ucwords(str_replace('_', ' ', $sidebarr)) }}
+                    </a>
+                </li>
+                @endforeach
 
                 @if (auth()->user()->role_id === 1)
                 <li class="nav-item">

@@ -12,7 +12,7 @@ class RoleController extends Controller
         if (request()->wantsJson()) {
             return response(Role::all());
         }
-        return view('admin.users.index');
+        return view('admin.index');
     }
 
     public function store()
@@ -50,7 +50,7 @@ class RoleController extends Controller
     public function rolesList()
     {
         $query = Role::orderBy(request('column'), request('order'))
-            ->where('name', 'like', '%' . request('filter') . '%'); //you can chain these with searchable columns
+            ->where('description', 'like', '%' . request('filter') . '%'); //you can chain these with searchable columns
 
         return RolesResource::collection($query->paginate(request('per_page')));
     }

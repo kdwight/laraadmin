@@ -71,7 +71,6 @@ return [
             'url' => env('APP_URL') . '/storage/tinymce',
             'visibility' => 'public',
         ],
-
     ],
 
 ];

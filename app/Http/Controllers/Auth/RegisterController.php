@@ -55,7 +55,7 @@ class RegisterController extends Controller
         ]);
 
         $validator->after(function ($validator) use ($data) {
-            if (!$this->isValidCaptcha() && env('RECAPTCHA_SECRET_KEY')) {
+            if (!$this->isValidCaptcha()) {
                 $validator->errors()->add('recaptcha', 'Invalid Recaptcha!');
             }
         });
@@ -80,10 +80,10 @@ class RegisterController extends Controller
 
     public function isValidCaptcha()
     {
-        $url = env('RECAPTCHA_URL');
+        $url = "https://www.google.com/recaptcha/api/siteverify";
 
         $data = [
-            'secret' => env('RECAPTCHA_SECRET_KEY'),
+            'secret' => 'recaptcha-secret-key-here',
             'response' => request('recaptcha')
         ];
 

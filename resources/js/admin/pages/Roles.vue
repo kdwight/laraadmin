@@ -98,7 +98,12 @@
       </div>
     </div>
 
-    <roles-table fetch-url="/admin/roles-list" :columns="['name']" :sortables="['name']"></roles-table>
+    <roles-table
+      ref="roleTableComponent"
+      fetch-url="/admin/roles-list"
+      :columns="['description']"
+      :sortables="['description']"
+    ></roles-table>
   </div>
 </template>
 
@@ -176,6 +181,7 @@ export default {
             axios
               .delete(`/admin/roles/${role.id}`)
               .then(({ data }) => {
+                this.$refs.roleTableComponent.search = "";
                 fetchData();
 
                 flash(data.success, "success");

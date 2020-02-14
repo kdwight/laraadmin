@@ -5,9 +5,7 @@ Vue.use(VueRouter)
 Vue.prototype.moment = require('moment');
 
 window.events = new Vue();
-window.flash = function (message, level = "success") {
-    window.events.$emit('flash', { message, level });
-};
+
 
 window.axios = require('axios');
 // window.axios.defaults.baseURL = '/stagingURI';

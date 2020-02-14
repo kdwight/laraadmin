@@ -1,5 +1,14 @@
 <?php
 
+// config:cache or route:cache
+// Route::get('/cache', function () {
+//     // Artisan::call('route:cache');
+//     Artisan::call('config:cache');
+// });
+// down or up
+// Artisan::call('up');
+// Artisan::call('down --message="come back later"');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -8,7 +17,7 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::prefix('admin')->group(function () {
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth', 'admin_side_access'])->group(function () {
         Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
         Route::middleware(['pages_access'])->group(function () {
