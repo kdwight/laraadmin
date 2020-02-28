@@ -26,6 +26,7 @@ export default {
       if (this.imageData) {
         return this.imageData;
       } else if (this.$attrs.value) {
+        // return `/stagingURI/${this.$attrs.value}?t=${Date.now()}`;
         return `${this.$attrs.value}?t=${Date.now()}`;
       } else {
         return null;

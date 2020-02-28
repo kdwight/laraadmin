@@ -101,7 +101,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'last_login' => [
                 'at' => \Carbon\Carbon::now()->toDateTimeString(),
                 'ip' => request()->getClientIp(),
-                'user_agent' => request()->header('User-Agent')
+                'user_agent' => request()->header('User-Agent'),
+                'online' => !$this->last_login['online']
             ]
         ]);
     }
