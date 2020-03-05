@@ -1,7 +1,9 @@
 <template>
-  <h1 class="loading" v-if="$parent.loading">
-    <img src="/img/preloader.svg" />
-  </h1>
+  <div class="loading" v-if="$parent.loading">
+    <div>
+      <img src="/img/logo.png" alt />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -16,9 +18,31 @@ export default {
 
 <style scoped>
 .loading {
+  z-index: 9999;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -50px 0px 0px -50px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(000, 000, 000, 0.6);
+}
+
+.loading > div {
+  position: sticky;
+  top: 30vh;
+  text-align: center;
+}
+
+.loading img {
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    transform: scale(1, 0.5);
+  }
+  10%,
+  80% {
+    transform: scale(1, 1);
+  }
 }
 </style>
