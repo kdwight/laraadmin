@@ -2,47 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Http\Requests\UserRequest;
-use App\Http\Resources\UsersResource;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Hash;
+use App\User;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
 {
     public function index()
     {
-        if (request()->wantsJson()) {
-            $query = User::orderBy(request('column'), request('order'))
-                ->where('username', 'like', '%' . request('filter') . '%'); //you can chain these with searchable columns
-
-            return UsersResource::collection($query->paginate(request('per_page')));
-        }
-
         return view('admin.index');
     }
 
-    public function store(UserRequest $request, User $model)
+    public function store(UserRequest $request)
     {
-        event(new Registered($model->create($request->merge(['password' => Hash::make($request->get('password'))])->except('password_confirmation'))));
+        User::create($request->merge([
+            'email_verified_at' => NOW(),
+            'password' => bcrypt($request->get('password'))
+        ])->all());
 
-        return response(['success' => 'User successfully created.'], 200);
-    }
-
-    public function edit(User $user)
-    {
-        if (request()->wantsJson()) {
-            return response($user);
-        }
-
-        return view('admin.index');
+        return response(["success" => "User successfully created."], 200);
     }
 
     public function update(UserRequest $request, User $user)
     {
+        if (auth()->id() !== 1) {
+            return response([
+                'message' => 'oof..',
+                'errors' => ['unauthorized' => ['Sorry, You\'re not allowed to modify this user.']]
+            ], 403);
+        }
+
         $user->update(
-            $request->merge(['password' => Hash::make($request->get('password'))])
-                ->except([$request->get('password') ? '' : 'password', 'password_confirmation'])
+            $request->merge(['password' => bcrypt($request->get('password'))])
+                ->except([$request->get('password') ?: 'password', 'password_confirmation'])
         );
 
         return response(['success' => 'User successfully updated.'], 200);
@@ -52,15 +44,29 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response(['success' => 'User successfully deleted.'], 200);
+        return response(['success' => 'User has been deleted.'], 200);
     }
 
-    public function status(User $user)
+    public function details(User $user)
     {
-        $user->update([
-            'status' => request('status')
-        ]);
+        return response()->json($user, 200);
+    }
 
-        return response(['success' => 'Status has been updated'], 200);
+    public function records()
+    {
+        $column = request('column');
+        $order = request('order') === 'true' ? 'desc' : 'asc';
+
+        $query = User::with('role')
+            ->when($column !== 'undefined', function ($q) use ($column, $order) {
+                return $q->orderBy($column, $order);
+            })
+            ->where('email', 'like', '%' . request('filter') . '%')
+            ->orWhere('name', 'like', '%' . request('filter') . '%')
+            ->orWhereHas('role', function ($query) { // where query for foreign table
+                $query->where('name', 'like', '%' . request('filter') . '%');
+            }); //you can chain these with searchable columns
+
+        return JsonResource::collection($query->paginate(request('per_page')));
     }
 }

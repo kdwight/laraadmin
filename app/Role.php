@@ -7,21 +7,13 @@ use Illuminate\Support\Str;
 
 class Role extends Model
 {
-    protected $guarded = ['id', 'created_at', 'updated_at'];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'access' => 'array',
+    protected $fillable = [
+        'name', 'modules', 'description',
     ];
 
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
+    protected $casts = [
+        'modules' => 'array',
+    ];
 
     public function setNameAttribute($value)
     {

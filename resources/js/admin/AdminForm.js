@@ -36,47 +36,6 @@ class AdminForm {
             .then(this.onSuccess.bind(this));
     }
 
-    submitNoReset(endpoint, requestType = 'post') {
-        this.submitted = true;
-
-        return axios[requestType](endpoint, this.data())
-            .catch(this.onFail.bind(this))
-            .then(this.onSuccessTwo.bind(this));
-    }
-
-    submitFormData(endpoint, requestType = 'post') {
-        this.submitted = true;
-
-        const formData = new FormData();
-
-        const form = Object.keys(this.originalData).reduce((data, attribute) => {
-            formData.append(attribute, this[attribute]);
-            if (Array.isArray(this[attribute])) {
-                formData.append(attribute, JSON.stringify(this[attribute]));
-            }
-
-            return formData;
-        }, {});
-
-        if (['PUT', 'PATCH', 'put', 'patch'].includes(requestType)) {
-            // laravel/php bug solution for put endpoint using FormData
-            formData.append("_method", "PUT");
-
-            requestType = "post";
-
-            // if banner state is not a File type
-            if (!(this.banner instanceof File)) {
-                formData.delete('banner');
-            }
-        }
-
-        return axios[requestType](endpoint, form, {
-            headers: { "Content-Type": "multipart/form-data" }
-        })
-            .catch(this.onFail.bind(this))
-            .then(this.onSuccess.bind(this));
-    }
-
     onSuccess(response) {
         this.submitted = false;
         this.reset();
@@ -85,12 +44,6 @@ class AdminForm {
         return response;
     }
 
-    onSuccessTwo(response) {
-        this.submitted = false;
-        this.errors = {};
-
-        return response;
-    }
 
     onFail(error) {
         this.errors = error.response.data.errors;

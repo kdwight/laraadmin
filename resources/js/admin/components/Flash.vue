@@ -1,67 +1,35 @@
 <template>
-  <transition name="slide-fade">
-    <div id="success" :class="`alert alert-${level} alert-flash`" role="alert" v-show="show">
-      <strong>{{level.charAt(0).toUpperCase() + level.slice(1)}}!</strong>
-      {{ body }}
-    </div>
-  </transition>
+  <v-snackbar :color="color" v-model="status" :timeout="timeout" top right>
+    {{ message }}
+    <template v-slot:action="{ attrs }">
+      <v-btn text v-bind="attrs" @click="status = false">Close</v-btn>
+    </template>
+  </v-snackbar>
 </template>
 
 <script>
 export default {
-  props: ["message", "status"],
-
   data() {
     return {
-      body: "",
-      level: "success",
-      show: false
+      status: false,
+      color: "success",
+      message: "",
+      timeout: 3000
     };
   },
 
   created() {
-    if (this.message) {
-      this.flash(this.message, this.status);
-    }
-
     window.events.$on("flash", data => {
-      this.flash(data.message, data.level);
+      this.flash(data.message, data.color);
     });
   },
 
   methods: {
-    flash(message, level) {
-      this.body = message;
-      this.level = level;
-      this.show = true;
-
-      this.hide();
-    },
-
-    hide() {
-      setTimeout(() => {
-        this.show = false;
-      }, 3000);
+    flash(message, color) {
+      this.message = message;
+      this.color = color;
+      this.status = true;
     }
   }
 };
 </script>
-
-<style>
-.alert-flash {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-}
-.slide-fade-enter-active {
-  transition: all 0.3s ease;
-}
-.slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translateX(10px);
-  opacity: 0;
-}
-</style>

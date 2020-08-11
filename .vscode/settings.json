@@ -1,8 +1,8 @@
 {
-  "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#2bb97c",
-    "titleBar.inactiveBackground": "#2bb97cCC"
-  },
-  "editor.insertSpaces": true,
-  "editor.tabSize": 4
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#0F4C81",
+        "titleBar.inactiveBackground": "#0F4C81CC"
+    },
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
 }

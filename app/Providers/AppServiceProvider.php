@@ -23,18 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // view()->composer(['admin.users.create', 'admin.users.edit'], function ($view) {
-        //     $view->with('roles', \App\Role::all());
-        // });
-
-        view()->composer('admin.layouts.navbars.sidebar', function ($view) {
-            if (auth()->check()) {
-                $view->with('sidebar', auth()->user()->hasAccess()->access);
-            }
-        });
-
-        view()->composer('*', function ($view) {
-            // $view->with('content', Contents::first());
-        });
+        //
     }
 }

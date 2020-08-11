@@ -15,7 +15,7 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        return true;
     }
 
     /**
@@ -26,21 +26,23 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => [
-                'required', 'min:3', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
-            ],
             'role_id' => [
-                'required'
+                'required', 'exists:roles,id'
             ],
             'name' => [
                 'required', 'min:3'
             ],
             'email' => [
-                'required', 'email', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
+                'required', 'email', Rule::unique('users')->ignore($this->route()->user->id ?? null)
             ],
-            'password' => [
-                $this->route()->user ? 'nullable' : 'required', 'confirmed', 'min:6'
-            ]
+            'password' => $this->route()->user ? ['nullable', 'confirmed', 'min: 6'] : ['required', 'min:6']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'role_id.required' => 'Please select a designated role for the user.'
         ];
     }
 }

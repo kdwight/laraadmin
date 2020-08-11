@@ -3,19 +3,17 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use Notifiable;
-    use SoftDeletes;
 
     const ADMIN_ROLE = 1;
 
     /**
-     * The attributes that aren't not mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
@@ -29,7 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'last_login',
+        'password', 'remember_token',
     ];
 
     /**
@@ -39,34 +37,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'last_login' => 'array',
         'status' => 'boolean'
     ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
-
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            // $model->created_by = auth()->id();
-        });
-
-        static::updating(function ($model) {
-            $model->updated_by = auth()->id();
-        });
-    }
 
     /**
      * Get the user's assigned role
@@ -78,32 +50,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin()
     {
-        return $this->role_id === self::ADMIN_ROLE;
+        return $this->role_id == self::ADMIN_ROLE;
     }
 
-    public function hasAccess()
+    public function path()
     {
-        return Role::find($this->role_id);
-    }
-
-    public function userAgent()
-    {
-        $agent = new \Jenssegers\Agent\Agent();
-
-        $agent->setUserAgent($this->last_login['user_agent']);
-
-        return $agent;
-    }
-
-    public function lastSession()
-    {
-        return $this->update([
-            'last_login' => [
-                'at' => \Carbon\Carbon::now()->toDateTimeString(),
-                'ip' => request()->getClientIp(),
-                'user_agent' => request()->header('User-Agent'),
-                'online' => !$this->last_login['online']
-            ]
-        ]);
+        return "/admin/users/{$this->id}";
     }
 }

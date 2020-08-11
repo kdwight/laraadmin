@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\RolesResource;
 use App\Role;
 
 class RoleController extends Controller
 {
-    public function index()
+    public function roles()
     {
-        if (request()->wantsJson()) {
-            return response(Role::all());
-        }
-        return view('admin.index');
+        return response()->json(Role::all(), 200);
     }
 
     public function store()
@@ -20,38 +16,31 @@ class RoleController extends Controller
         $attr = request()->validate([
             'name' => 'required',
             'description' => 'required',
-            'access' => 'required|array'
+            'modules' => 'required|array'
         ]);
 
         Role::create(request()->all());
 
-        return response(['success' => 'Role successfully created.'], 200);
+        return response(['success' => 'Role successfully created.'], 201);
     }
+
     public function update(Role $role)
     {
         $attr = request()->validate([
             'name' => 'required',
             'description' => 'required',
-            'access' => 'required|array'
+            'modules' => 'required|array'
         ]);
 
         $role->update($attr);
 
-
         return response(['success' => 'Role successfully updated.'], 200);
     }
+
     public function destroy(Role $role)
     {
         $role->delete();
 
         return response(['success' => 'Role successfully deleted.'], 200);
-    }
-
-    public function rolesList()
-    {
-        $query = Role::orderBy(request('column'), request('order'))
-            ->where('description', 'like', '%' . request('filter') . '%'); //you can chain these with searchable columns
-
-        return RolesResource::collection($query->paginate(request('per_page')));
     }
 }

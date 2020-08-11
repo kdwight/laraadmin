@@ -1,132 +1,159 @@
 <template>
-  <div class="row">
-    <div class="col-md-4 mb-5 mb-md-0">
-      <div class="card bg-secondary shadow sticky-top">
-        <div class="card-header bg-white border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Add Role</h3>
-            </div>
-          </div>
-        </div>
+  <div id="roles">
+    <v-row justify="center">
+      <v-col cols="12" md="4">
+        <v-card>
+          <v-card-title>
+            <span class="headline" v-if="roleId">Edit role</span>
+            <span class="headline" v-else>New Role</span>
+          </v-card-title>
 
-        <div class="card-body">
-          <form autocomplete="off">
-            <div :class="`form-group`">
-              <label class="form-control-label">
-                <span class="text-danger">*</span> Role
-              </label>
-
-              <input
-                type="text"
-                name="name"
-                :class="`form-control ${ form.errors.name ? ' is-invalid' : '' }`"
-                placeholder="Role"
+          <v-card-text>
+            <v-form ref="form">
+              <v-text-field
                 v-model="form.name"
-              />
+                label="Name"
+                outlined
+                :error="form.errors.hasOwnProperty('name')"
+                :error-messages="form.errors.name"
+              ></v-text-field>
 
-              <span class="invalid-feedback" role="alert" v-if="form.errors.name">
-                <strong>{{ form.errors.name[0] }}</strong>
-              </span>
-            </div>
-
-            <div :class="`form-group`">
-              <label class="form-control-label">
-                <span class="text-danger">*</span> Description
-              </label>
-
-              <input
-                type="text"
-                name="description"
-                :class="`form-control ${ form.errors.description ? ' is-invalid' : '' }`"
-                placeholder="Description"
+              <v-text-field
                 v-model="form.description"
-              />
+                label="Description"
+                outlined
+                :error="form.errors.hasOwnProperty('description')"
+                :error-messages="form.errors.description"
+              ></v-text-field>
 
-              <span class="invalid-feedback" role="alert" v-if="form.errors.name">
-                <strong>{{ form.errors.name[0] }}</strong>
-              </span>
+              <v-select
+                v-model="form.modules"
+                chips
+                label="Modules"
+                multiple
+                outlined
+                :items="modules"
+                item-text="name"
+                item-value="name"
+                :error="form.errors.hasOwnProperty('modules')"
+                :error-messages="form.errors.modules"
+                return-object
+              ></v-select>
+            </v-form>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn @click.prevent="resetForm">Cancel</v-btn>
+            <v-btn color="primary" @click.prevent="submit" :disabled="form.submitted">Submit</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="8">
+        <v-data-table
+          :headers="headers"
+          :items="storedRoles"
+          :items-per-page="5"
+          class="elevation-1"
+        >
+          <template v-slot:item.actions="{ item }">
+            <div v-show="item.id !== 1">
+              <v-btn x-small fab color="info" @click.prevent="editRole(item)">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+
+              <v-btn x-small fab color="error" @click.prevent="destroy(item)">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
             </div>
-
-            <div class="form-group">
-              <label class="form-control-label">
-                <span class="text-danger">*</span> Allowed Access
-              </label>
-
-              <p class="text-warning" v-if="form.errors.access">
-                <small>{{ form.errors.access[0] }}</small>
-              </p>
-
-              <div class="justify-content-around">
-                <div class="custom-control custom-checkbox">
-                  <input
-                    id="articles"
-                    class="custom-control-input"
-                    type="checkbox"
-                    name="access[]"
-                    value="articles"
-                    v-model="form.access"
-                  />
-
-                  <label for="articles" class="custom-control-label">Articles</label>
-                </div>
-
-                <div class="custom-control custom-checkbox">
-                  <input
-                    id="pages"
-                    class="custom-control-input"
-                    type="checkbox"
-                    name="access[]"
-                    value="pages"
-                    v-model="form.access"
-                  />
-
-                  <label for="pages" class="custom-control-label">Pages</label>
-                </div>
-              </div>
-            </div>
-
-            <button
-              class="btn btn-sm btn-success mr-2"
-              @click.prevent="submit"
-              :disabled="form.submitted"
-            >Submit</button>
-
-            <button class="btn btn-sm btn-light" @click.prevent="resetForm">Cancel</button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <roles-table
-      ref="roleTableComponent"
-      fetch-url="/admin/roles-list"
-      :columns="['description']"
-      :sortables="['description']"
-    ></roles-table>
+          </template>
+        </v-data-table>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
 import AdminForm from "../AdminForm";
-import RolesTable from "../components/RolesTable";
+import { mapGetters } from "vuex";
 
 export default {
-  components: { RolesTable },
-
   data() {
     return {
       form: new AdminForm({
         name: "",
         description: "",
-        access: []
+        modules: [],
       }),
+      headers: [
+        { text: "Role", value: "description" },
+        { text: "Actions", value: "actions", align: "center", sortable: false },
+      ],
+      modules: [
+        {
+          name: "articles",
+          path: "/admin/articles",
+          icon: "mdi-format-float-left",
+        },
+        {
+          name: "pages",
+          path: "/admin/pages",
+          icon: "mdi-newspaper-variant-multiple",
+        },
+        {
+          name: "foo nak",
+          path: "/admin/foo",
+          icon: "mdi-puzzle-edit-outline",
+        },
+        {
+          name: "bar",
+          path: "/admin/bar",
+          icon: "mdi-puzzle-edit-outline",
+        },
+        {
+          name: "baz",
+          path: "/admin/baz",
+          icon: "mdi-puzzle-edit-outline",
+        },
+      ],
 
-      roleId: 0
+      roleId: 0,
     };
   },
 
+  created() {
+    if (this.$store.getters.authenticated.role_id === 1) {
+      this.$store.commit("storeBreadcrumbs", [
+        {
+          text: "Users",
+          to: { name: "Users" },
+        },
+        {
+          text: "Roles",
+          to: { name: "Roles" },
+        },
+      ]);
+    } else {
+      alert("Access Forbidden | 403");
+
+      this.$router.push({
+        name: "Dashboard",
+      });
+    }
+  },
+
+  computed: {
+    ...mapGetters(["storedRoles"]),
+  },
+
   methods: {
+    resetForm() {
+      this.form.reset();
+      this.form.errors = {};
+      this.roleId = 0;
+    },
+
     editRole(role) {
       for (let prop in role) {
         if (this.form.hasOwnProperty(prop)) {
@@ -138,61 +165,51 @@ export default {
     },
 
     submit() {
-      !this.roleId ? this.createRole() : this.updateRole();
+      !this.roleId ? this.create() : this.update();
     },
 
-    createRole() {
+    create() {
       this.form.post("/admin/roles").then(({ data }) => {
-        fetchData();
+        this.$store.dispatch("fetchRoles");
 
         flash(data.success);
       });
     },
 
-    updateRole() {
+    update() {
       this.form.put(`/admin/roles/${this.roleId}`).then(({ data }) => {
-        fetchData();
+        this.$store.dispatch("fetchRoles");
 
         flash(data.success);
         this.roleId = 0;
       });
     },
 
-    resetForm() {
-      this.form.reset();
-      this.roleId = 0;
+    destroy(role) {
+      confirm("Are you sure you want to delete this role?") &&
+        axios
+          .delete(`/admin/roles/${role.id}`)
+          .then(({ data }) => {
+            this.$store.dispatch("fetchRoles");
+
+            flash(data.success, "warning");
+          })
+          .catch((error) => {
+            flash(error.response.data.message, "danger");
+          });
     },
+  },
 
-    deleteRole(role) {
-      this.$bvModal
-        .msgBoxConfirm("Are you sure that you want to delete this item.", {
-          title: "Please Confirm",
-          size: "sm",
-          buttonSize: "sm",
-          okVariant: "danger",
-          okTitle: "YES",
-          cancelTitle: "NO",
-          footerClass: "p-2",
-          hideHeaderClose: false,
-          centered: true
-        })
-        .then(value => {
-          if (value) {
-            axios
-              .delete(`/admin/roles/${role.id}`)
-              .then(({ data }) => {
-                this.$refs.roleTableComponent.search = "";
-                fetchData();
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit("storeBreadcrumbs", [
+      {
+        text: "Users",
+        disabled: true,
+      },
+    ]);
 
-                flash(data.success, "success");
-              })
-              .catch(error => {
-                flash(error.response.data.message, "danger");
-              });
-          }
-        });
-    }
-  }
+    next();
+  },
 };
 </script>
 

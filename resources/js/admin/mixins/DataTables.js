@@ -1,152 +1,45 @@
 export default {
-    props: {
-        fetchUrl: { type: String, required: true },
-        columns: { type: Array, required: true },
-        sortables: { type: Array, required: true }
-    },
-
     data() {
         return {
-            tableData: [],
-            url: "",
-            pagination: {
-                meta: { to: 1, from: 1 }
-            },
-            offset: 2,
-            currentPage: 1,
-            perPage: 10,
-            sortedColumn: this.columns[0],
-            order: "asc",
-            search: "",
-            loading: false
+            items: [],
+            options: {},
+            totalItems: 0,
+            itemsPerPage: 5,
+            loading: false,
+            search: ""
         };
     },
 
     watch: {
-        fetchUrl: {
-            handler(fetchUrl) {
-                this.url = fetchUrl;
-            },
-            immediate: true
-        }
-    },
-
-    created() {
-        this.fetchData();
-
-        window.events.$on("fetchData", () => {
-            this.fetchData();
-        });
-    },
-
-    computed: {
-        /**
-         * Get the pages number array for displaying in the pagination.
-         * */
-        pagesNumber() {
-            if (!this.pagination.meta.to) {
-                return [];
-            }
-
-            let from = this.pagination.meta.current_page - this.offset;
-            if (from < 1) {
-                from = 1;
-            }
-
-            let to = from + this.offset * 2;
-            if (to >= this.pagination.meta.last_page) {
-                to = this.pagination.meta.last_page;
-            }
-
-            let pagesArray = [];
-            for (let page = from; page <= to; page++) {
-                pagesArray.push(page);
-            }
-
-            return pagesArray;
-        }
-    },
-
-    filters: {
-        columnHead(value) {
-            return value.split('_').join(' ').toUpperCase()
+        options() {
+            this.fetchItems();
+        },
+        search() {
+            this.fetchItems();
         }
     },
 
     methods: {
-        fetchData() {
-            let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${
-                this.sortedColumn
-                }&order=${this.order}&per_page=${this.perPage}&filter=${this.search}`;
+        async fetchItems() {
+            // destructure object
+            let { page, itemsPerPage: per_page, sortBy, sortDesc } = this.options;
+
+            // if selected rows per page is `All`
+            if (per_page == -1) {
+                per_page = this.totalItems;
+            }
 
             this.loading = true;
-
-            axios
-                .get(dataFetchUrl)
+            await axios
+                .get(
+                    `${this.path}/list?page=${page}&per_page=${per_page}&column=${sortBy[0]}&order=${sortDesc}&filter=${this.search}`
+                )
                 .then(({ data }) => {
-                    this.loading = false;
-                    this.pagination = data;
-                    this.tableData = data.data;
+                    this.items = data.data;
+                    this.totalItems = data.meta.total;
                 })
-                .catch(error => (this.tableData = []));
-        },
-
-        /**
-         * Change the page.
-         * @param pageNumber
-         */
-        changePage(pageNumber) {
-            this.currentPage = pageNumber;
-            this.fetchData();
-        },
-
-        /**
-         * Sort the data by column.
-         * */
-        sortByColumn(column) {
-            if (this.sortables.includes(column)) {
-
-                if (column === this.sortedColumn) {
-                    this.order = this.order === "asc" ? "desc" : "asc";
-                } else {
-                    this.sortedColumn = column;
-                    this.order = "asc";
-                }
-
-                this.fetchData();
-            }
-        },
-
-        deleteRow(item) {
-            const index = this.tableData.indexOf(item);
-
-            this.$bvModal
-                .msgBoxConfirm("Are you sure that you want to delete this item.", {
-                    title: "Please Confirm",
-                    size: "sm",
-                    buttonSize: "sm",
-                    okVariant: "danger",
-                    okTitle: "YES",
-                    cancelTitle: "NO",
-                    footerClass: "p-2",
-                    hideHeaderClose: false,
-                    centered: true
-                })
-                .then(value => {
-                    if (value) {
-                        axios
-                            .delete(`${this.$route.path}/${item.id}`)
-                            .then(({ data }) => {
-                                this.tableData.splice(index, 1);
-
-                                flash(data.success, "success");
-                                this.fetchData();
-                            })
-                            .catch(error => {
-                                flash(error.response.data.message, "danger");
-                            });
-                    }
-                });
+                .catch(({ response }) => console.log(response.data))
+                .finally(() => (this.loading = false));
         }
     }
 }

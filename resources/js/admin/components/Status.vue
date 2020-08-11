@@ -1,13 +1,7 @@
 <template>
-  <button
-    :class="classes"
-    data-toggle="tooltip"
-    data-placement="left"
-    title="Status"
-    @click="toggle"
-  >
-    <i :class="icon"></i>
-  </button>
+  <div>
+    <v-switch v-model="active" :color="color" @click.prevent="toggle"></v-switch>
+  </div>
 </template>
 
 <script>
@@ -15,20 +9,14 @@ export default {
   props: ["attributes", "endpoint"],
   data() {
     return {
-      active: this.attributes.status
+      active: this.attributes.status,
     };
   },
 
   computed: {
-    classes() {
-      return [
-        "btn btn-icon btn-sm",
-        this.active ? "btn-primary" : "btn-outline-primary"
-      ];
+    color() {
+      return this.active ? "green" : "red";
     },
-    icon() {
-      return ["fa", this.active ? "fa-check" : "fa-times"];
-    }
   },
 
   methods: {
@@ -39,24 +27,24 @@ export default {
     destroy() {
       axios
         .put(this.endpoint, {
-          status: false
+          status: false,
         })
         .then(({ data }) => {
           this.active = false;
-          flash(data.success);
+          flash(data.success, "warning");
         });
     },
 
     create() {
       axios
         .put(this.endpoint, {
-          status: true
+          status: true,
         })
         .then(({ data }) => {
           this.active = true;
-          flash(data.success);
+          flash(data.success, "warning");
         });
-    }
-  }
+    },
+  },
 };
 </script>

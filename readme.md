@@ -1,25 +1,17 @@
-[Documentation](https://laravel.com/docs) | [VueJS 2](https://vuejs.org/v2/guide/) | [Laracasts](https://laracasts.com) | [Image Intervention](http://image.intervention.io/) | [Laravel File Manager](https://github.com/alexusmai/laravel-file-manager) | [Laravel Excel](https://laravel-excel.maatwebsite.nl/)
+#### [Laravel 7](https://laravel.com/docs) ➡ [VueJS 2](https://vuejs.org/v2/guide/) ➡ [Vuetify](https://vuetifyjs.com/en/)
 
 # Specs
 
 > composer
-- laravel/framework: 6.2
+- laravel/framework: 7.0
 - php: 7.2,
-- intervention/image: 2.5
-- maatwebsite/excel: 3.1
-- alexusmai/laravel-file-manager: 2.4
-- darryldecode/cart: 4.1
-- pusher/pusher-php-server: 4.1
 
 > npm
 - axios: 0.19
 - vue: 2.5.17
-- vue-router: 3.1.5
-- @tinymce/tinymce-vue: 2.6.10
-- bootstrap-vue: 2.3.0
-- laravel-echo: 1.6.1
-- pusher-js: 5.0.3
-- moment: 2.24.0
+- vue-router: 3.3.4
+- vuex: 3.5.1
+- vuetify: 2.3.2
 
 # Setup
 ## terminal commands
@@ -30,7 +22,10 @@
 - `npm install & npm run dev`
 - update `APP_URL` from `.env` file
 
->after setting up `.env` file create a database then `php artisan migrate --seed` on terminal
+>after setting up `.env` file create a database then `php artisan migrate --seed` on terminal.
+<br>
+*(when seeding you should comment **`line:35 on Category.php`** and **`line:65 on User.php`**)*
+
 
 # Creating new role's access using middleware
 
@@ -47,3 +42,17 @@
 - `npm run prod`
 - change APP_ENV=`local` from `.env` file into ``staging`` or ``production``
 - change APP_DEBUG=`true` from `.env` file into ``false``
+- make .htaccess on root directory based on server config
+- storage link storage/app/public to public/storage
+
+### Files that needs extra URI when deploying to Beta
+- bootstrap.js (:10, :27)
+- AdminRoutes.js (prepend in all path URLs)
+- Notification.vue (:53)
+- OrdersIndex.vue (:92)
+- OrderTable.vue (:72)
+- Preloader.vue (:3)
+- PreviewImageInput.vue (:29)
+- UsersTable.vue (:91)
+- webpack.mix.js
+- .env (:5)
