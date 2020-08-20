@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    use RecordsActivity;
     use Notifiable;
 
     const ADMIN_ROLE = 1;
@@ -56,5 +57,10 @@ class User extends Authenticatable
     public function path()
     {
         return "/admin/users/{$this->id}";
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
     }
 }

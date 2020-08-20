@@ -30,7 +30,7 @@ Route::prefix('admin')->group(function () {
             return view('admin.index');
         })->name('dashboard');
 
-        Route::middleware(['admin'])->group(function () {
+        Route::middleware(['is_admin'])->group(function () {
             Route::get('roles/list', 'RoleController@roles');
             Route::get('roles', 'UserController@index');
             Route::resource('roles', 'RoleController')->only(['store', 'update', 'destroy']);

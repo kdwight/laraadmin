@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        if (auth()->id() !== 1) {
+        if (auth()->id() !== 1 && $user->id === 1) {
             return response([
                 'message' => 'oof..',
                 'errors' => ['unauthorized' => ['Sorry, You\'re not allowed to modify this user.']]

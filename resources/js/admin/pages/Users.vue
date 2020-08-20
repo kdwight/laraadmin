@@ -57,7 +57,7 @@
               <status
                 :attributes="item"
                 :endpoint="`/admin/users/${item.id}/status`"
-                v-show="item.id !== 1"
+                v-if="item.id !== 1"
               ></status>
             </template>
 
@@ -149,9 +149,14 @@ export default {
             this.fetchItems();
 
             flash(data.success, "warning");
+
+            if (this.$route.name === "UserEdit") {
+              this.$router.push({ name: "Users" });
+            }
           })
           .catch((error) => {
-            flash(error.response.data.message, "danger");
+            // flash(error.response.data.message, "danger");
+            location.reload();
           });
     },
   },

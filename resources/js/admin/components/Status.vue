@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-switch v-model="active" :color="color" @click.prevent="toggle"></v-switch>
+    <v-switch v-model="active" :color="color" :loading="loading"></v-switch>
   </div>
 </template>
 
@@ -10,40 +10,50 @@ export default {
   data() {
     return {
       active: this.attributes.status,
+      loading: false,
     };
   },
 
   computed: {
     color() {
-      return this.active ? "green" : "red";
+      return this.active ? "green" : "";
+    },
+  },
+
+  watch: {
+    active(value) {
+      this.loading = true;
+      value ? this.destroy(value) : this.create(value);
     },
   },
 
   methods: {
-    toggle() {
-      this.active ? this.destroy() : this.create();
-    },
-
-    destroy() {
+    destroy(status) {
       axios
         .put(this.endpoint, {
-          status: false,
+          status,
         })
         .then(({ data }) => {
-          this.active = false;
+          this.loading = false;
           flash(data.success, "warning");
-        });
+        })
+        .catch(({ response }) =>
+          flash("Something went wrong. Please try again.", "error")
+        );
     },
 
-    create() {
+    create(status) {
       axios
         .put(this.endpoint, {
-          status: true,
+          status,
         })
         .then(({ data }) => {
-          this.active = true;
+          this.loading = false;
           flash(data.success, "warning");
-        });
+        })
+        .catch(({ response }) =>
+          flash("Something went wrong. Please try again.", "error")
+        );
     },
   },
 };

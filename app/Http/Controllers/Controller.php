@@ -17,6 +17,8 @@ class Controller extends BaseController
      */
     protected function status($id)
     {
+        // dd((new \ReflectionClass($this))->getShortName());
+
         $model = str_replace('Controller', '', class_basename($this));
         $table = "App\\$model";
 

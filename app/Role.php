@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class Role extends Model
 {
+    use RecordsActivity;
+
     protected $fillable = [
         'name', 'modules', 'description',
     ];

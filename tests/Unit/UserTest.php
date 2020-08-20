@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\User;
 use Facades\Tests\Setup\UserSetup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 // use PHPUnit\Framework\TestCase;

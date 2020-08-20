@@ -19,6 +19,10 @@
                         value="password" dark>
                     </v-text-field>
 
+                    <div style="margin-left: 32px;">
+                    <input type="checkbox" name="remember"> <span style="color: white">Remember Me</span>
+                    </div>
+
                     <v-card-actions class="d-flex justify-end">
                         <v-btn type="submit" class="rounded-lg" color="info" :ripple="false" min-width="150" large>
                             Sign In
