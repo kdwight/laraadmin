@@ -41,6 +41,10 @@ class User extends Authenticatable
         'status' => 'boolean'
     ];
 
+    protected static $ignoredAttributes = [
+        'updated_at', 'password', 'remember_token'
+    ];
+
     /**
      * Get the user's assigned role
      */

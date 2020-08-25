@@ -18,6 +18,7 @@ trait RecordsActivity
      */
     public static function bootRecordsActivity()
     {
+        // if not logged in, don't record activity.
         if (auth()->guest()) return;
 
         foreach (self::recordableEvents() as $event) {
@@ -96,8 +97,8 @@ trait RecordsActivity
             }
 
             return [
-                'before' => Arr::except(array_diff($this->oldAttributes, $this->getAttributes()), ['updated_at', 'password', 'remember_token']),
-                'after' => Arr::except($this->getChanges(), ['updated_at', 'password', 'remember_token'])
+                'before' => Arr::except(array_diff($this->oldAttributes, $this->getAttributes()), static::$ignoredAttributes),
+                'after' => Arr::except($this->getChanges(), static::$ignoredAttributes)
             ];
         }
     }

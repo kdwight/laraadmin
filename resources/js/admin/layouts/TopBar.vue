@@ -20,8 +20,11 @@
       </template>
 
       <v-list>
-        <v-list-item v-for="n in 5" :key="n" @click="() => {}">
-          <v-list-item-title>Option {{ n }}</v-list-item-title>
+        <v-list-item @click>
+          <v-list-item-title>Profile</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click>
+          <v-list-item-title>Activities</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>

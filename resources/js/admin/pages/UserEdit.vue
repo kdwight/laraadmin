@@ -6,7 +6,7 @@
       </v-col>
 
       <v-col cols="12" md="8">
-        <activities-table></activities-table>
+        <activities-table :activities="details.activities"></activities-table>
       </v-col>
     </v-row>
   </div>

@@ -47,9 +47,10 @@ class UserController extends Controller
         return response(['success' => 'User has been deleted.'], 200);
     }
 
-    public function details(User $user)
+    public function details($user)
     {
-        return response()->json($user, 200);
+        // nested eagerloading of activities with its subject.
+        return response()->json(User::with('activities.subject')->findOrFail($user), 200);
     }
 
     public function records()
